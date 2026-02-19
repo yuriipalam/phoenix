@@ -81,8 +81,7 @@ export const documentationLinks: (LinkType | NestedLinkType)[] = [
   },
   {
     label: "Release Notes",
-    to: "https://issues.apache.org/jira/browse/HBASE?report=com.atlassian.jira.plugin.system.project:changelog-panel#selectedTab=com.atlassian.jira.plugin.system.project%3Achangelog-panel",
-    external: true
+    to: "/release-notes"
   },
   {
     label: "Issues Tracking",
