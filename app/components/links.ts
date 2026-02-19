@@ -40,7 +40,7 @@ export const projectLinks: LinkType[] = [
   },
   {
     label: "Mailing Lists",
-    to: "/mailing-lists"
+    to: "/mailing-list"
   },
   {
     label: "News",
@@ -51,24 +51,16 @@ export const projectLinks: LinkType[] = [
     to: "/team"
   },
   {
-    label: "Powered by HBase",
-    to: "/powered-by-hbase"
+    label: "Who is Using",
+    to: "/who-is-using"
   },
   {
-    label: "HBase Sponsors",
-    to: "/sponsors"
+    label: "Recent Improvements",
+    to: "/recent-improvements"
   },
   {
-    label: "Code of Conduct",
-    to: "/code-of-conduct"
-  },
-  {
-    label: "Export Control",
-    to: "/export-control"
-  },
-  {
-    label: "Other Resources",
-    to: "/other-resources"
+    label: "Roadmap",
+    to: "/roadmap"
   }
 ];
 
@@ -85,11 +77,6 @@ export const documentationLinks: (LinkType | NestedLinkType)[] = [
   {
     label: "Reference Guide (Dark PDF)",
     to: `/books/${fileNameVariants.dark}`,
-    external: true
-  },
-  {
-    label: "中文参考指南(单页)",
-    to: "https://abloz.com/hbase/book.html",
     external: true
   },
   {
@@ -161,60 +148,3 @@ export const asfLinks: LinkType[] = [
     external: true
   }
 ];
-
-type DocumentationOptions =
-  | "ref"
-  | "refPdf"
-  | "refPdfOld"
-  | "userApi"
-  | "userApiTest"
-  | "devApi"
-  | "devApiTest";
-
-const documentationOptionLabels: Record<DocumentationOptions, string> = {
-  ref: "Reference Guide",
-  refPdf: "Reference Guide (PDF)",
-  refPdfOld: "Reference Guide (PDF)",
-  userApi: "User API",
-  userApiTest: "User API (Test)",
-  devApi: "Developer API",
-  devApiTest: "Developer API (Test)"
-};
-
-function getDocsURL(version: string, option: DocumentationOptions): string {
-  const baseUrl = "https://hbase.apache.org/";
-  switch (option) {
-    case "ref":
-      return `${baseUrl}${version}/book.html`;
-    case "refPdf":
-      return `${baseUrl}${version}/apache_hbase_reference_guide.pdf`;
-    case "refPdfOld":
-      return `${baseUrl}${version}/book.pdf`;
-    case "userApi":
-      return `${baseUrl}${version}/apidocs/index.html`;
-    case "userApiTest":
-      return `${baseUrl}${version}/testapidocs/index.html`;
-    case "devApi":
-      return `${baseUrl}${version}/devapidocs/index.html`;
-    case "devApiTest":
-      return `${baseUrl}${version}/testdevapidocs/index.html`;
-  }
-}
-
-const docsItems: Record<string, DocumentationOptions[]> = {
-  "1.4": ["ref", "refPdfOld", "userApi", "devApi"],
-  "2.3": ["ref", "refPdf", "userApi", "userApiTest", "devApi", "devApiTest"],
-  "2.4": ["ref", "refPdf", "userApi", "userApiTest", "devApi", "devApiTest"],
-  "2.5": ["userApi", "userApiTest", "devApi", "devApiTest"],
-  "2.6": ["userApi", "userApiTest", "devApi", "devApiTest"]
-};
-
-export const docsLinks: NestedLinkType[] = Object.keys(docsItems).map(
-  (version) => ({
-    label: `${version} Documentation`,
-    links: docsItems[version].map((option) => ({
-      label: documentationOptionLabels[option],
-      to: getDocsURL(version, option)
-    }))
-  })
-);

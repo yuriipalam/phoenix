@@ -21,11 +21,11 @@ import { MailingListsPage } from "@/pages/_landing/mailing-lists";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Mailing Lists - Apache HBase" },
+    { title: "Mailing Lists - Apache Phoenix" },
     {
       name: "description",
       content:
-        "Subscribe to Apache HBase mailing lists including user, developer, commits, issues, and builds lists."
+        "Subscribe to Apache Phoenix mailing lists including user, developer, commits, issues, and builds lists."
     }
   ];
 }

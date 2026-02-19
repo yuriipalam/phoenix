@@ -27,17 +27,15 @@ export default [
   // Landing
   layout("./pages/_landing/landing-layout.tsx", [
     index("routes/_landing/home.tsx"),
-    route("code-of-conduct", "routes/_landing/code-of-conduct.tsx"),
     route("downloads", "routes/_landing/downloads.tsx"),
-    route("mailing-lists", "routes/_landing/mailing-lists.tsx"),
-    route("team", "routes/_landing/team.tsx"),
-    route("sponsors", "routes/_landing/sponsors.tsx"),
-    route("powered-by-hbase", "routes/_landing/powered-by-hbase.tsx"),
-    route("other-resources", "routes/_landing/other-resources.tsx"),
-    route("source-repository", "routes/_landing/source-repository.tsx"),
-    route("acid-semantics", "routes/_landing/acid-semantics.tsx"),
+    route("mailing-list", "routes/_landing/mailing-lists.tsx"),
     route("news", "routes/_landing/news.tsx"),
-    route("export-control", "routes/_landing/export-control.tsx")
+    route("team", "routes/_landing/team.tsx"),
+    route("who-is-using", "routes/_landing/who-is-using.tsx"),
+    route("recent-improvements", "routes/_landing/recent-improvements.tsx"),
+    route("roadmap", "routes/_landing/roadmap.tsx"),
+
+    route("source-repository", "routes/_landing/source-repository.tsx"),
   ]),
   // Docs
   layout("./pages/_docs/docs-layout.tsx", [

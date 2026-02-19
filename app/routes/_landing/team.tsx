@@ -21,11 +21,11 @@ import { TeamPage } from "@/pages/_landing/team";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Team - Apache HBase" },
+    { title: "Team - Apache Phoenix" },
     {
       name: "description",
       content:
-        "Meet the Apache HBase project team members and contributors who develop and maintain HBase."
+        "Meet the Apache Phoenix project team members and contributors who develop and maintain Phoenix."
     }
   ];
 }

@@ -21,10 +21,10 @@ import { NewsPage } from "@/pages/_landing/news";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "News - Apache HBase" },
+    { title: "News - Apache Phoenix" },
     {
       name: "description",
-      content: "Latest news, events, and releases for Apache HBase."
+      content: "Latest news, events, and releases for Apache Phoenix."
     }
   ];
 }

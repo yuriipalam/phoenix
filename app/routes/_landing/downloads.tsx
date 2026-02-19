@@ -21,11 +21,11 @@ import { DownloadsPage } from "@/pages/_landing/downloads";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Downloads - Apache HBase" },
+    { title: "Downloads - Apache Phoenix" },
     {
       name: "description",
       content:
-        "Download Apache HBase releases, connectors, and operator tools with verification hashes and signatures."
+        "Download Apache Phoenix releases, connectors, and operator tools with verification hashes and signatures."
     }
   ];
 }

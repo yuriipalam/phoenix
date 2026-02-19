@@ -17,10 +17,10 @@
 //
 
 interface Developer {
-  id: string;
   name: string;
+  company: string;
   email: string;
-  timezone: string;
+  role: string;
 }
 
 declare const developers: Developer[];

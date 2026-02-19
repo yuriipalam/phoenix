@@ -16,36 +16,56 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-# Overview
+# Source Repositories
 
-Apache HBase™ uses [Git](https://git-scm.com/) to manage its source code. Instructions on Git use can be found at [https://git-scm.com/documentation](https://git-scm.com/documentation).
+Apache Phoenix source is available on Apache Git server:
 
-### Web Browser Access
+#### Main repository
 
-The following is a link to a browsable version of the source repository:
+https://git-wip-us.apache.org/repos/asf/phoenix.git
 
-```
-https://gitbox.apache.org/repos/asf?p=hbase.git
-```
+#### Query server repository
 
-[Browse the repository](https://gitbox.apache.org/repos/asf?p=hbase.git)
+https://git-wip-us.apache.org/repos/asf/phoenix-queryserver.git
 
-### Anonymous Access
+#### Connectors repository
 
-The source can be checked out anonymously from Git with this command (See [https://git-scm.com/docs/git-clone](https://git-scm.com/docs/git-clone)):
+https://git-wip-us.apache.org/repos/asf/phoenix-connectors.git
+
+#### Omid repository
+
+https://git-wip-us.apache.org/repos/asf/phoenix-omid.git
+
+#### Tephra repository
+
+https://git-wip-us.apache.org/repos/asf/phoenix-tephra.git
+
+#### Thirdparty repository
+
+https://git-wip-us.apache.org/repos/asf/phoenix-thirdparty.git
+
+### Source access
+
+The source for each project can be checked out from GIT with this command
+(substitute the repo URL)
 
 ```bash
-$ git clone git://gitbox.apache.org/repos/asf/hbase.git
+$ git clone https://git-wip-us.apache.org/repos/asf/phoenix.git
 ```
 
-### Developer Access
+See http://git-scm.com/docs/git-clone
 
-Only project developers can access the Git tree via this method (See [https://git-scm.com/docs/git-clone](https://git-scm.com/docs/git-clone)).
+---
 
-```bash
-$ git clone https://gitbox.apache.org/repos/asf/hbase.git
-```
+Each repository is mirrored on GitHub under https://github.com/apache/ , i.e.
 
-### Access from Behind a Firewall
+https://git-wip-us.apache.org/repos/asf/phoenix.git is mirrored at https://github.com/apache/phoenix
+and so on.
 
-Refer to the documentation of the SCM used for more information about access behind a firewall.
+---
+
+Related: [Using > Building](building.html)
+
+### Site source access
+
+Source for the Apache Phoenix website is kept in ASF SVN in https://svn.apache.org/repos/asf/phoenix

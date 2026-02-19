@@ -21,10 +21,10 @@ import { SourceRepositoryPage } from "@/pages/_landing/source-repository";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Source Repository - Apache HBase" },
+    { title: "Source Repository - Apache Phoenix" },
     {
       name: "description",
-      content: "Access the Apache HBase source code repository."
+      content: "Access the Apache Phoenix source code repository."
     }
   ];
 }

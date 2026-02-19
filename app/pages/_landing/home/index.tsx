@@ -21,7 +21,6 @@ import { FeaturesSection } from "@/pages/_landing/home/features";
 import { SqlSupportSection } from "@/pages/_landing/home/sql-support";
 import { CommunitySection } from "@/pages/_landing/home/community";
 import { UseCasesSection } from "@/pages/_landing/home/use-cases";
-import { GettingStartedSection } from "@/components/getting-started";
 
 export function HomePage() {
   return (
@@ -31,7 +30,6 @@ export function HomePage() {
       <SqlSupportSection />
       <UseCasesSection />
       <CommunitySection />
-      <GettingStartedSection />
     </>
   );
 }
