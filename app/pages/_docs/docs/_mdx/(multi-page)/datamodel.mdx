@@ -59,9 +59,10 @@ Qualifiers of the `anchor` column family each contain the external site which li
 The `people` column family represents people associated with the site.
 
 <Callout type="info" title="Column Names">
-  By convention, a column name is made of its column family prefix and a _qualifier_. For example,
-  the column _contents:html_ is made up of the column family `contents` and the `html` qualifier.
-  The colon character (`:`) delimits the column family from the column family _qualifier_.
+  By convention, a column name is made of its column family prefix and a
+  _qualifier_. For example, the column _contents:html_ is made up of the column
+  family `contents` and the `html` qualifier. The colon character (`:`) delimits
+  the column family from the column family _qualifier_.
 </Callout>
 
 #### Table `webtable` [!toc]
@@ -472,9 +473,10 @@ If `hbase.hstore.time.to.purge.deletes` is not set, or set to 0, all delete mark
 Otherwise, a delete marker with a timestamp in the future is kept until the major compaction which occurs after the time represented by the marker's timestamp plus the value of `hbase.hstore.time.to.purge.deletes`, in milliseconds.
 
 <Callout type="info">
-  This behavior represents a fix for an unexpected change that was introduced in HBase 0.94, and was
-  fixed in [HBASE-10118](https://issues.apache.org/jira/browse/HBASE-10118). The change has been
-  backported to HBase 0.94 and newer branches.
+  This behavior represents a fix for an unexpected change that was introduced in
+  HBase 0.94, and was fixed in
+  [HBASE-10118](https://issues.apache.org/jira/browse/HBASE-10118). The change
+  has been backported to HBase 0.94 and newer branches.
 </Callout>
 
 ### Optional New Version and Delete behavior in HBase-2.0.0

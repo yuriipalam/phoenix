@@ -475,7 +475,8 @@ mvn failsafe:integration-test
 This actually runs ALL the integration tests.
 
 <Callout type="info">
-  This command will always output `BUILD SUCCESS` even if there are test failures.
+  This command will always output `BUILD SUCCESS` even if there are test
+  failures.
 </Callout>
 
 At this point, you could grep the output by hand looking for failed tests.
@@ -545,9 +546,10 @@ bin/hbase org.apache.hadoop.hbase.test.IntegrationTestBigLinkedList loop 2 1 100
 ```
 
 <Callout type="info">
-  The _hbase_ script assumes all integration tests with exposed _main_ methods to be run against a
-  distributed cluster will follow the **IntegrationTest** regex naming pattern mentioned above, in
-  order to proper set test dependencies into the classpath.
+  The _hbase_ script assumes all integration tests with exposed _main_ methods
+  to be run against a distributed cluster will follow the **IntegrationTest**
+  regex naming pattern mentioned above, in order to proper set test dependencies
+  into the classpath.
 </Callout>
 
 ### Destructive integration / system tests (ChaosMonkey)

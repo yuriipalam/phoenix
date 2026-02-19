@@ -36,9 +36,10 @@ We need to set up Java key store for the server. Key store is the list of privat
 Use `hbase.rpc.tls.keystore.password` alias to retrieve key store password from Hadoop credential provider.
 
 <Callout type="info">
-  The supported storefile formats are based on the registered security providers and the loader can
-  be autodetected from the file extension. If needed, the file format can be explicitly specified
-  with the `hbase.rpc.tls.keystore.type` property.
+  The supported storefile formats are based on the registered security providers
+  and the loader can be autodetected from the file extension. If needed, the
+  file format can be explicitly specified with the `hbase.rpc.tls.keystore.type`
+  property.
 </Callout>
 
 ## Client side configuration
@@ -59,9 +60,10 @@ We need to configure trust store for the client. Trust store contains the list o
 Use `hbase.rpc.tls.truststore.password` alias to retrieve trust store password from Hadoop credential provider.
 
 <Callout type="info">
-  The supported storefile formats are based on the registered security providers and the loader can
-  be autodetected from the file extension. If needed, the file format can be explicitly specified
-  with the `hbase.rpc.tls.truststore.type` property.
+  The supported storefile formats are based on the registered security providers
+  and the loader can be autodetected from the file extension. If needed, the
+  file format can be explicitly specified with the
+  `hbase.rpc.tls.truststore.type` property.
 </Callout>
 
 However, specifying a trust store is not always required. Standard JDK implementations are shipped with a standard list of trusted certificates (the certificates of Certificate Authorities) and if your private key is provided by one of them, you don't need to configure your clients to trust it. Similarly to an internet browser, you don't need to set up the certificates of every single website you're planning to visit. Later in this documentation we'll walk through the steps of creating self-signed certificates which requires a trust store setup.
@@ -219,9 +221,9 @@ Disable plaintext communication on the Region Servers
 Disable plaintext communication on the Region Servers by removing `supportplaintext` property. Restart RSs in rolling restart fashion.
 
 <Callout type="warn">
-  Once `hbase.client.netty.tls.enabled` is enabled on the server side, the cluster will only be able
-  to communicate with other clusters which have TLS enabled. For example, this would impact
-  inter-cluster replication.
+  Once `hbase.client.netty.tls.enabled` is enabled on the server side, the
+  cluster will only be able to communicate with other clusters which have TLS
+  enabled. For example, this would impact inter-cluster replication.
 </Callout>
 
 </Step>

@@ -4,7 +4,8 @@ description: "Complete guide to creating HBase release candidates including buil
 ---
 
 <Callout type="info" title="Building against HBase 1.x">
-  See old refguides for how to build HBase 1.x. The below is for building hbase2.
+  See old refguides for how to build HBase 1.x. The below is for building
+  hbase2.
 </Callout>
 
 ## Making a Release Candidate
@@ -59,8 +60,9 @@ _dev-support/create-release/README.txt_ for how to configure your
 environment and run the script.
 
 <Callout type="info">
-  _dev-support/create-release/do-release-docker.sh_ supercedes the previous _dev-support/make_rc.sh_
-  script. It is more comprehensive automating all steps, rather than a portion, building a RC.
+  _dev-support/create-release/do-release-docker.sh_ supercedes the previous
+  _dev-support/make_rc.sh_ script. It is more comprehensive automating all
+  steps, rather than a portion, building a RC.
 </Callout>
 
 ### Release Candidate Procedure
@@ -330,13 +332,14 @@ If it checks out, close the repo using the 'Close' button. The repository must b
 When the release vote concludes successfully, return here and click the 'Release' button to release the artifacts to central. The release process will automatically drop and delete the staging repository.
 
 <Callout type="info" title="hbase-downstreamer">
-  See the [hbase-downstreamer](https://github.com/saintstack/hbase-downstreamer) test for a simple
-  example of a project that is downstream of HBase an depends on it. Check it out and run its simple
-  test to make sure maven artifacts are properly deployed to the maven repository. Be sure to edit
-  the pom to point to the proper staging repository. Make sure you are pulling from the repository
-  when tests run and that you are not getting from your local repository, by either passing the `-U`
-  flag or deleting your local repo content and check maven is pulling from remote out of the staging
-  repository.
+  See the [hbase-downstreamer](https://github.com/saintstack/hbase-downstreamer)
+  test for a simple example of a project that is downstream of HBase an depends
+  on it. Check it out and run its simple test to make sure maven artifacts are
+  properly deployed to the maven repository. Be sure to edit the pom to point to
+  the proper staging repository. Make sure you are pulling from the repository
+  when tests run and that you are not getting from your local repository, by
+  either passing the `-U` flag or deleting your local repo content and check
+  maven is pulling from remote out of the staging repository.
 </Callout>
 
 See [Publishing Maven Artifacts](https://www.apache.org/dev/publishing-maven-artifacts.html) for some pointers on this maven staging process.

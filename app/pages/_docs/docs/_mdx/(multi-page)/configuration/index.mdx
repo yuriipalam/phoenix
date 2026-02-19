@@ -31,17 +31,20 @@ Configuration file for HBase logging via `log4j2`.
 A plain-text file containing a list of hosts which should run a RegionServer in your HBase cluster. By default, this file contains the single entry `localhost`. It should contain a list of hostnames or IP addresses, one per line, and should only contain `localhost` if each node in your cluster will run a RegionServer on its `localhost` interface.
 
 <Callout type="tip">
-  When you edit XML, it is a good idea to use an XML-aware editor to be sure that your syntax is
-  correct and your XML is well-formed. You can also use the `xmllint` utility to check that your XML
-  is well-formed. By default, `xmllint` re-flows and prints the XML to standard output. To check for
-  well-formedness and only print output if errors exist, use the command `xmllint -noout
+  When you edit XML, it is a good idea to use an XML-aware editor to be sure
+  that your syntax is correct and your XML is well-formed. You can also use the
+  `xmllint` utility to check that your XML is well-formed. By default, `xmllint`
+  re-flows and prints the XML to standard output. To check for well-formedness
+  and only print output if errors exist, use the command `xmllint -noout
   filename.xml`.
 </Callout>
 
 <Callout type="warn">
-  When running in distributed mode, after you make an edit to an HBase configuration, make sure you
-  copy the contents of the *conf/* directory to all nodes of the cluster. HBase will not do this for
-  you. Use a configuration management tool for managing and copying the configuration files to your
-  nodes. For most configurations, a restart is needed for servers to pick up changes. Dynamic
-  configuration is an exception to this, to be described later below.
+  When running in distributed mode, after you make an edit to an HBase
+  configuration, make sure you copy the contents of the *conf/* directory to all
+  nodes of the cluster. HBase will not do this for you. Use a configuration
+  management tool for managing and copying the configuration files to your
+  nodes. For most configurations, a restart is needed for servers to pick up
+  changes. Dynamic configuration is an exception to this, to be described later
+  below.
 </Callout>

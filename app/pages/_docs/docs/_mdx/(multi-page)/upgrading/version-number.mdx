@@ -68,12 +68,13 @@ In addition to the usual API versioning considerations HBase has other compatibi
 - Example: If your current version of HBase supported running on JDK 8, then an upgrade to a version that supports _Dependency Compatibility_ will also run on JDK 8.
 
 <Callout type="tip">
-  Previously, we tried to maintain dependency compatibility for the underly Hadoop service but over
-  the last few years this has proven untenable. While the HBase project attempts to maintain support
-  for older versions of Hadoop, we drop the "supported" designator for minor versions that fail to
-  continue to see releases. Additionally, the Hadoop project has its own set of compatibility
-  guidelines, which means in some cases having to update to a newer supported minor release might
-  break some of our compatibility promises.
+  Previously, we tried to maintain dependency compatibility for the underly
+  Hadoop service but over the last few years this has proven untenable. While
+  the HBase project attempts to maintain support for older versions of Hadoop,
+  we drop the "supported" designator for minor versions that fail to continue to
+  see releases. Additionally, the Hadoop project has its own set of
+  compatibility guidelines, which means in some cases having to update to a
+  newer supported minor release might break some of our compatibility promises.
 </Callout>
 
 #### Operational Compatibility [!toc]
@@ -105,9 +106,10 @@ In addition to the usual API versioning considerations HBase has other compatibi
 | Operational Compatibility                 |   N    |   N   |   Y   |
 
 <Callout type="warn">
-  HBase 1.7.0 release violated client-server wire compatibility guarantees and was subsequently
-  withdrawn after the incompatibilities were reported and fixed in 1.7.1. If you are considering an
-  upgrade to 1.7.x line, see [Upgrading to 1.7.1+](/docs/upgrading/paths#upgrading-to-171).
+  HBase 1.7.0 release violated client-server wire compatibility guarantees and
+  was subsequently withdrawn after the incompatibilities were reported and fixed
+  in 1.7.1. If you are considering an upgrade to 1.7.x line, see [Upgrading to
+  1.7.1+](/docs/upgrading/paths#upgrading-to-171).
 </Callout>
 
 ## HBase API Surface

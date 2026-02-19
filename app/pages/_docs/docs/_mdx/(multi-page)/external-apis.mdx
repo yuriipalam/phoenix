@@ -38,8 +38,8 @@ For information about configuring the REST server and client for SSL, as well as
 The following examples use the placeholder server http://example.com:8000, and the following commands can all be run using `curl` or `wget` commands. You can request plain text (the default), XML , or JSON output by adding no header for plain text, or the header "Accept: text/xml" for XML, "Accept: application/json" for JSON, or "Accept: application/x-protobuf" to for protocol buffers.
 
 <Callout type="info">
-  Unless specified, use `GET` requests for queries, `PUT` or `POST` requests for creation or
-  mutation, and `DELETE` for deletion.
+  Unless specified, use `GET` requests for queries, `PUT` or `POST` requests for
+  creation or mutation, and `DELETE` for deletion.
 </Callout>
 
 #### Cluster-Wide Endpoints
@@ -406,9 +406,9 @@ curl -vi -X GET \
 The [stateful scanner API](/docs/external-apis#stateful-endpoints-for-scan-operations) expects clients to restart scans if there is a REST server failure in the midst. The stateless does not store any state related to scan operation and all the parameters are specified as query parameters.
 
 <Callout type="info">
-  The stateless endpoints are optimized for small results, while the [stateful scanner
-  API](/docs/external-apis#stateful-endpoints-for-scan-operations) can also be used for large
-  results.
+  The stateless endpoints are optimized for small results, while the [stateful
+  scanner API](/docs/external-apis#stateful-endpoints-for-scan-operations) can
+  also be used for large results.
 </Callout>
 
 The following are the scan parameters:
@@ -499,8 +499,8 @@ Detailed Explanation:
   4.  `"/?check=put"` after the `"row key" in the request URL` is required for checkAndPut WebHBase operation to work
   5.  The `"row key" in the request URL` should be URL-encoded, e.g., `"david%20chen"` and `"row1"` are the URL-encoded formats of row keys `"david chen"` and `"row1"`, respectively
       <Callout type="info">
-        Note: "cfa" is the column family name and "alias" are the column (qualifier) name for the
-        non-Base64 encoded cell name.
+        Note: "cfa" is the column family name and "alias" are the column
+        (qualifier) name for the non-Base64 encoded cell name.
       </Callout>
 
 - Basically, the xml-format example is the same as the json-format example, and will not be explained here in detail.

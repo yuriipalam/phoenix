@@ -142,8 +142,8 @@ The Thrift gateway will authenticate with HBase using the supplied credential. N
 [Client-side Configuration for Secure Operation - Thrift Gateway](/docs/security/client-access#client-side-configuration-for-secure-operation---thrift-gateway) describes how to authenticate a Thrift client to HBase using a fixed user. As an alternative, you can configure the Thrift gateway to authenticate to HBase on the client's behalf, and to access HBase using a proxy user. This was implemented in [HBASE-11349](https://issues.apache.org/jira/browse/HBASE-11349) for Thrift 1, and [HBASE-11474](https://issues.apache.org/jira/browse/HBASE-11474) for Thrift 2.
 
 <Callout type="info">
-  If you use framed transport, you cannot yet take advantage of this feature, because SASL does not
-  work with Thrift framed transport at this time.
+  If you use framed transport, you cannot yet take advantage of this feature,
+  because SASL does not work with Thrift framed transport at this time.
 </Callout>
 
 To enable it, do the following.

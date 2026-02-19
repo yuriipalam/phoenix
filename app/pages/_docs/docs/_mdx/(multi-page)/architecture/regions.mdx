@@ -268,9 +268,10 @@ $ ${HBASE_HOME}/bin/hbase hfile -v -f hdfs://10.81.47.41:9000/hbase/default/TEST
 If you leave off the option -v to see just a summary on the HFile. See usage for other things to do with the `hfile` tool.
 
 <Callout type="info">
-  In the output of this tool, you might see 'seqid=0' for certain keys in places such as
-  'Mid-key'/'firstKey'/'lastKey'. These are 'KeyOnlyKeyValue' type instances - meaning their seqid
-  is irrelevant & we just need the keys of these Key-Value instances.
+  In the output of this tool, you might see 'seqid=0' for certain keys in places
+  such as 'Mid-key'/'firstKey'/'lastKey'. These are 'KeyOnlyKeyValue' type
+  instances - meaning their seqid is irrelevant & we just need the keys of these
+  Key-Value instances.
 </Callout>
 
 #### StoreFile Directory Structure on HDFS
@@ -364,10 +365,11 @@ When an explicit deletion occurs in HBase, the data is not actually deleted. Ins
 When you create a Column Family, you can specify the maximum number of versions to keep, by specifying `ColumnFamilyDescriptorBuilder.setMaxVersions(int versions)`. The default value is `1`. If more versions than the specified maximum exist, the excess versions are filtered out and not written back to the compacted StoreFile.
 
 <Callout type="info">
-  In some situations, older versions can be inadvertently resurrected if a newer version is
-  explicitly deleted. See [Major compactions change query
-  results](/docs/datamodel#major-compactions-change-query-results) for a more in-depth explanation.
-  This situation is only possible before the compaction finishes.
+  In some situations, older versions can be inadvertently resurrected if a newer
+  version is explicitly deleted. See [Major compactions change query
+  results](/docs/datamodel#major-compactions-change-query-results) for a more
+  in-depth explanation. This situation is only possible before the compaction
+  finishes.
 </Callout>
 
 In theory, major compactions improve performance. However, on a highly loaded system, major compactions can require an inappropriate number of resources and adversely affect performance. In a default configuration, major compactions are scheduled automatically to run once in a 7-day period. This is sometimes inappropriate for systems in production. You can manage major compactions manually. See [Managed Compactions](/docs/configuration/important#managed-compactions).
@@ -496,11 +498,12 @@ This table contains the main configuration parameters for compaction. This list 
 #### Compaction File Selection
 
 <Callout type="info" title="Legacy Information">
-  This section has been preserved for historical reasons and refers to the way compaction worked
-  prior to HBase 0.96.x. You can still use this behavior if you enable [RatioBasedCompactionPolicy
-  Algorithm](/docs/architecture/regions#ratiobasedcompactionpolicy-algorithm). For information on
-  the way that compactions work in HBase 0.96.x and later, see
-  [Compaction](/docs/architecture/regions#compaction).
+  This section has been preserved for historical reasons and refers to the way
+  compaction worked prior to HBase 0.96.x. You can still use this behavior if
+  you enable [RatioBasedCompactionPolicy
+  Algorithm](/docs/architecture/regions#ratiobasedcompactionpolicy-algorithm).
+  For information on the way that compactions work in HBase 0.96.x and later,
+  see [Compaction](/docs/architecture/regions#compaction).
 </Callout>
 
 To understand the core algorithm for StoreFile selection, there is some ASCII-art in the Store source code that will serve as useful reference.
@@ -593,8 +596,9 @@ Why?
 - 1 → No. Candidate because previous file was selected and 1 is less than the min-size, but max-number of files to compact has been reached.
 
 <Callout type="info" title="Impact of Key Configuration Options">
-  This information is now included in the configuration parameter table in [Parameters Used by
-  Compaction Algorithm](/docs/architecture/regions#parameters-used-by-compaction-algorithm).
+  This information is now included in the configuration parameter table in
+  [Parameters Used by Compaction
+  Algorithm](/docs/architecture/regions#parameters-used-by-compaction-algorithm).
 </Callout>
 
 #### Date Tiered Compaction
@@ -688,7 +692,8 @@ You can configure your date tiers by changing the settings for the following par
 With tiered compaction all servers in the cluster will promote windows to higher tier at the same time, so using a compaction throttle is recommended: Set `hbase.regionserver.throughput.controller` to `org.apache.hadoop.hbase.regionserver.compactions.PressureAwareCompactionThroughputController`.
 
 <Callout type="info">
-  For more information about date tiered compaction, please refer to the design specification at
+  For more information about date tiered compaction, please refer to the design
+  specification at
   [https://docs.google.com/document/d/1_AmlNb2N8Us1xICsTeGDLKIqL6T-oHoRLZ323MG_uy8](https://docs.google.com/document/d/1_AmlNb2N8Us1xICsTeGDLKIqL6T-oHoRLZ323MG_uy8)
 </Callout>
 

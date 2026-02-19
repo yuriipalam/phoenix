@@ -56,8 +56,8 @@ There are some common strategies which can be used to implement backup and resto
 shows how these strategies are implemented and identifies potential tradeoffs with each.
 
 <Callout type="warn">
-  This backup and restore tools has not been tested on Transparent Data Encryption (TDE) enabled
-  HDFS clusters. This is related to the open issue
+  This backup and restore tools has not been tested on Transparent Data
+  Encryption (TDE) enabled HDFS clusters. This is related to the open issue
   [HBASE-16178](https://issues.apache.org/jira/browse/HBASE-16178).
 </Callout>
 
@@ -87,8 +87,8 @@ a Hadoop-compatible file system, such as S3 and other HDFS-compatible destinatio
 ![Backup to Cloud or Vendor Storage Solutions](/docs-images/backup-cloud-appliance.png)
 
 <Callout type="info">
-  The HBase backup utility does not support backup to multiple destinations. A workaround is to
-  manually create copies of the backup files from HDFS or S3.
+  The HBase backup utility does not support backup to multiple destinations. A
+  workaround is to manually create copies of the backup files from HDFS or S3.
 </Callout>
 
 ## First-time configuration steps
@@ -103,7 +103,8 @@ The YARN _container-executor.cfg_ configuration file must have the following pro
 are allowed in entries of this configuration file.
 
 <Callout type="warn">
-  Skipping this step will result in runtime errors when executing the first backup tasks.
+  Skipping this step will result in runtime errors when executing the first
+  backup tasks.
 </Callout>
 
 **Example of a valid container-executor.cfg file for backup and restore:**
@@ -121,8 +122,8 @@ min.user.id=500
 Add the following properties to hbase-site.xml and restart HBase if it is already running.
 
 <Callout type="info">
-  The ",..." is an ellipsis meant to imply that this is a comma-separated list of values, not
-  literal text which should be added to hbase-site.xml.
+  The ",..." is an ellipsis meant to imply that this is a comma-separated list
+  of values, not literal text which should be added to hbase-site.xml.
 </Callout>
 
 ```xml

@@ -14,9 +14,10 @@ For HBase 0.95 and newer, HBase ships with a default metrics configuration, or *
 To change the sampling rate for the default sink, edit the line beginning with `*.period`. To filter which metrics are emitted or to extend the metrics framework, see [https://hadoop.apache.org/docs/current/api/org/apache/hadoop/metrics2/package-summary.html](https://hadoop.apache.org/docs/current/api/org/apache/hadoop/metrics2/package-summary.html)
 
 <Callout type="info" title="HBase Metrics and Ganglia">
-  By default, HBase emits a large number of metrics per region server. Ganglia may have difficulty
-  processing all these metrics. Consider increasing the capacity of the Ganglia server or reducing
-  the number of metrics emitted by HBase. See [Metrics
+  By default, HBase emits a large number of metrics per region server. Ganglia
+  may have difficulty processing all these metrics. Consider increasing the
+  capacity of the Ganglia server or reducing the number of metrics emitted by
+  HBase. See [Metrics
   Filtering](https://hadoop.apache.org/docs/current/api/org/apache/hadoop/metrics2/package-summary.html#filtering).
 </Callout>
 
@@ -230,11 +231,12 @@ HBase meta table metrics collection feature is available in HBase 1.4+ but it is
   This feature can help to identify hot spots in the meta table by showing the regions or tables where the meta info is modified (e.g. by create, drop, split or move tables) or retrieved most frequently. It can also help to find misbehaving client applications by showing which clients are using the meta table most heavily, which can for example suggest the lack of meta table buffering or the lack of re-using open client connections in the client application.
 
 <Callout type="warn" title="Possible side-effects of enabling this feature">
-  Having large number of clients and regions in the cluster can cause the registration and tracking
-  of a large amount of metrics, which can increase the memory and CPU footprint of the HBase region
-  server handling the `hbase:meta` table. It can also cause the significant increase of the JMX dump
-  size, which can affect the monitoring or log aggregation system you use beside HBase. It is
-  recommended to turn on this feature only during debugging.
+  Having large number of clients and regions in the cluster can cause the
+  registration and tracking of a large amount of metrics, which can increase the
+  memory and CPU footprint of the HBase region server handling the `hbase:meta`
+  table. It can also cause the significant increase of the JMX dump size, which
+  can affect the monitoring or log aggregation system you use beside HBase. It
+  is recommended to turn on this feature only during debugging.
 </Callout>
 
 **Where to find the metrics in JMX**  

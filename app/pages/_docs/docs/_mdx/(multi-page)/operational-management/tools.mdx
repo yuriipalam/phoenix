@@ -89,7 +89,8 @@ See http://hbase.apache.org/book.html#_canary for Canary documentation.
 ```
 
 <Callout type="info">
-  The `Sink` class is instantiated using the `hbase.canary.sink.class` configuration property.
+  The `Sink` class is instantiated using the `hbase.canary.sink.class`
+  configuration property.
 </Callout>
 
 This tool will return non zero error codes to user for collaborating with other monitoring tools, such as Nagios. The error code definitions are:
@@ -421,19 +422,19 @@ For performance consider the following general options:
 Starting from 3.0.0, we introduce a `peer.uri` option so the `peer.adr` option is deprecated. Please use connection URI for specifying HBase clusters. For all previous versions, you should still use the `peer.adr` option.
 
 <Callout type="info" title="Scanner Caching">
-  Caching for the input Scan is configured via `hbase.client.scanner.caching` in the job
-  configuration.
+  Caching for the input Scan is configured via `hbase.client.scanner.caching` in
+  the job configuration.
 </Callout>
 
 <Callout type="info" title="Versions">
-  By default, CopyTable utility only copies the latest version of row cells unless `--versions=n` is
-  explicitly specified in the command.
+  By default, CopyTable utility only copies the latest version of row cells
+  unless `--versions=n` is explicitly specified in the command.
 </Callout>
 
 <Callout type="info" title="Data Load">
-  CopyTable does not perform a diff, it copies all Cells in between the specified startrow/stoprow
-  starttime/endtime range. This means that already existing cells with same values will still be
-  copied.
+  CopyTable does not perform a diff, it copies all Cells in between the
+  specified startrow/stoprow starttime/endtime range. This means that already
+  existing cells with same values will still be copied.
 </Callout>
 
 See Jonathan Hsieh's [Online HBase Backups with CopyTable](https://blog.cloudera.com/blog/2012/06/online-hbase-backups-with-copytable-2/) blog post for more on `CopyTable`.
@@ -539,36 +540,46 @@ Setting doDeletes to false modifies default behaviour to not delete target cells
 
 <Callout type="info" title="Additional info on doDeletes/doPuts">
   "doDeletes/doPuts" were only added by
-  [HBASE-20305](https://issues.apache.org/jira/browse/HBASE-20305), so these may not be available on
-  all released versions. For major 1.x versions, minimum minor release including it is **1.4.10**.
-  For major 2.x versions, minimum minor release including it is **2.1.5**.
+  [HBASE-20305](https://issues.apache.org/jira/browse/HBASE-20305), so these may
+  not be available on all released versions. For major 1.x versions, minimum
+  minor release including it is **1.4.10**. For major 2.x versions, minimum
+  minor release including it is **2.1.5**.
 </Callout>
 
 <Callout type="info" title="Additional info on ignoreTimestamps">
   "ignoreTimestamps" was only added by
-  [HBASE-24302](https://issues.apache.org/jira/browse/HBASE-24302), so it may not be available on
-  all released versions. For major 1.x versions, minimum minor release including it is **1.4.14**.
-  For major 2.x versions, minimum minor release including it is **2.2.5**.
+  [HBASE-24302](https://issues.apache.org/jira/browse/HBASE-24302), so it may
+  not be available on all released versions. For major 1.x versions, minimum
+  minor release including it is **1.4.14**. For major 2.x versions, minimum
+  minor release including it is **2.2.5**.
 </Callout>
 
-<Callout type="info" title="Set doDeletes to false on Two-Way Replication scenarios">
-  On Two-Way Replication or other scenarios where both source and target clusters can have data
-  ingested, it's advisable to always set doDeletes option to false, as any additional cell inserted
-  on SyncTable target cluster and not yet replicated to source would be deleted, and potentially
-  lost permanently.
+<Callout
+  type="info"
+  title="Set doDeletes to false on Two-Way Replication scenarios"
+>
+  On Two-Way Replication or other scenarios where both source and target
+  clusters can have data ingested, it's advisable to always set doDeletes option
+  to false, as any additional cell inserted on SyncTable target cluster and not
+  yet replicated to source would be deleted, and potentially lost permanently.
 </Callout>
 
-<Callout type="info" title="Set sourcezkcluster to the actual source cluster ZK quorum">
-  Although not required, if sourcezkcluster is not set, SyncTable will connect to local HBase
-  cluster for both source and target, which does not give any meaningful result.
+<Callout
+  type="info"
+  title="Set sourcezkcluster to the actual source cluster ZK quorum"
+>
+  Although not required, if sourcezkcluster is not set, SyncTable will connect
+  to local HBase cluster for both source and target, which does not give any
+  meaningful result.
 </Callout>
 
 <Callout type="info" title="Remote Clusters on different Kerberos Realms">
   Often, remote clusters may be deployed on different Kerberos Realms.
-  [HBASE-20586](https://issues.apache.org/jira/browse/HBASE-20586) added SyncTable support for cross
-  realm authentication, allowing a SyncTable process running on target cluster to connect to source
-  cluster and read both HashTable output files and the given HBase table when performing the
-  required comparisons.
+  [HBASE-20586](https://issues.apache.org/jira/browse/HBASE-20586) added
+  SyncTable support for cross realm authentication, allowing a SyncTable process
+  running on target cluster to connect to source cluster and read both HashTable
+  output files and the given HBase table when performing the required
+  comparisons.
 </Callout>
 
 ## Export
@@ -584,8 +595,9 @@ $ bin/hbase org.apache.hadoop.hbase.mapreduce.Export TABLENAME OUTPUTDIR [VERSIO
 **endpoint-based Export**
 
 <Callout type="info">
-  Make sure the Export coprocessor is enabled by adding `org.apache.hadoop.hbase.coprocessor.Export`
-  to `hbase.coprocessor.region.classes`.
+  Make sure the Export coprocessor is enabled by adding
+  `org.apache.hadoop.hbase.coprocessor.Export` to
+  `hbase.coprocessor.region.classes`.
 </Callout>
 
 ```bash
@@ -608,8 +620,8 @@ The outputdir is a HDFS directory that does not exist prior to the export. When 
 | Fault tolerance           | no                                                              | depend on MapReduce                                              |
 
 <Callout type="info">
-  To see usage instructions, run the command with no options. Available options include specifying
-  column families and applying filters during the export.
+  To see usage instructions, run the command with no options. Available options
+  include specifying column families and applying filters during the export.
 </Callout>
 
 By default, the `Export` tool only exports the newest version of a given cell, regardless of the number of versions stored. To export more than one version, replace **_\<versions>_** with the desired number of versions.
@@ -626,7 +638,9 @@ Import is a utility that will load data that has been exported back into HBase. 
 $ bin/hbase -Dhbase.import.version=0.94 org.apache.hadoop.hbase.mapreduce.Import <tablename> <inputdir>
 ```
 
-<Callout type="info">To see usage instructions, run the command with no options.</Callout>
+<Callout type="info">
+  To see usage instructions, run the command with no options.
+</Callout>
 
 To import 0.94 exported files in a 0.96 cluster or onwards, you need to set system property "hbase.import.version" when running the import command as below:
 
@@ -758,8 +772,9 @@ WALPlayer can also generate HFiles for later bulk importing, in that case only a
 Finally, you can use WALPlayer to replay the content of a Regions `recovered.edits` directory (the files under `recovered.edits` directory have the same format as WAL files).
 
 <Callout type="info" title="WALPrettyPrinter">
-  To read or verify single WAL files or *recovered.edits* files, since they share the WAL format,
-  see [WAL Tools](/docs/operational-management/tools#wal-tools).
+  To read or verify single WAL files or *recovered.edits* files, since they
+  share the WAL format, see [WAL
+  Tools](/docs/operational-management/tools#wal-tools).
 </Callout>
 
 Invoke via:
@@ -887,12 +902,14 @@ Files targeted for compaction must be specified as parent hdfs dirs. It allows f
 Since these dirs are nested under **hbase** hdfs directory tree, **CompactionTool** requires hbase super user permissions in order to have access to required hfiles.
 
 <Callout type="info" title="Running in MapReduce mode">
-  MapReduce mode offers the ability to process each family dir in parallel, as a separate map task.
-  Generally, it would make sense to run in this mode when specifying one or more table dirs as
-  targets for compactions. The caveat, though, is that if number of families to be compacted become
-  too large, the related mapreduce job may have indirect impacts on **RegionServers** performance .
-  Since **NodeManagers** are normally co-located with RegionServers, such large jobs could compete
-  for IO/Bandwidth resources with the **RegionServers**.
+  MapReduce mode offers the ability to process each family dir in parallel, as a
+  separate map task. Generally, it would make sense to run in this mode when
+  specifying one or more table dirs as targets for compactions. The caveat,
+  though, is that if number of families to be compacted become too large, the
+  related mapreduce job may have indirect impacts on **RegionServers**
+  performance . Since **NodeManagers** are normally co-located with
+  RegionServers, such large jobs could compete for IO/Bandwidth resources with
+  the **RegionServers**.
 </Callout>
 
 <Callout
@@ -900,10 +917,11 @@ Since these dirs are nested under **hbase** hdfs directory tree, **CompactionToo
   title="MajorCompaction completely disabled on RegionServers due performance impacts"
 >
   **Major compactions** can be a costly operation (see
-  [compaction](/docs/architecture/regions#compaction)), and can indeed impact performance on
-  RegionServers, leading operators to completely disable it for critical low latency application.
-  **CompactionTool** could be used as an alternative in such scenarios, although, additional custom
-  application logic would need to be implemented, such as deciding scheduling and selection of
+  [compaction](/docs/architecture/regions#compaction)), and can indeed impact
+  performance on RegionServers, leading operators to completely disable it for
+  critical low latency application. **CompactionTool** could be used as an
+  alternative in such scenarios, although, additional custom application logic
+  would need to be implemented, such as deciding scheduling and selection of
   tables/regions/families target for a given compaction run.
 </Callout>
 

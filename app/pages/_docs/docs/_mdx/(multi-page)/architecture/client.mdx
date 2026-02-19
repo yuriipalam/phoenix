@@ -54,10 +54,10 @@ try (Connection connection = ConnectionFactory.createConnection(conf);
 ```
 
 <Callout type="warn" title="HTablePool is Deprecated">
-  Previous versions of this guide discussed `HTablePool`, which was deprecated in HBase 0.94, 0.95,
-  and 0.96, and removed in 0.98.1, by
-  [HBASE-6580](https://issues.apache.org/jira/browse/HBASE-6580), or `HConnection`, which is
-  deprecated in HBase 1.0 by `Connection`. Please use
+  Previous versions of this guide discussed `HTablePool`, which was deprecated
+  in HBase 0.94, 0.95, and 0.96, and removed in 0.98.1, by
+  [HBASE-6580](https://issues.apache.org/jira/browse/HBASE-6580), or
+  `HConnection`, which is deprecated in HBase 1.0 by `Connection`. Please use
   [Connection](https://hbase.apache.org/devapidocs/org/apache/hadoop/hbase/client/Connection.html)
   instead.
 </Callout>
@@ -209,8 +209,9 @@ There are basically two reasons for us to refresh the bootstrap nodes
 - When there is a connection error while requesting the nodes, we will refresh immediately, to remove the dead nodes. To avoid putting too much pressure to the cluster, there is a configuration _hbase.client.bootstrap.min_secs_between_refreshes_, to control the minimum interval between two refreshings. The default value is 60, but notice that, if you change _hbase.client.bootstrap.refresh_interval_secs_ to a small value, you need to make sure to also change _hbase.client.bootstrap.min_secs_between_refreshes_ to a value smaller than _hbase.client.bootstrap.refresh_interval_secs_, otherwise an IllegalArgumentException will be thrown.
 
 <Callout type="info">
-  (Advanced) In case of any issues with the rpc/master based registry, use the following
-  configuration to fallback to the ZooKeeper based connection registry implementation.
+  (Advanced) In case of any issues with the rpc/master based registry, use the
+  following configuration to fallback to the ZooKeeper based connection registry
+  implementation.
 </Callout>
 
 ```xml

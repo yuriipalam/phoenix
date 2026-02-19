@@ -15,20 +15,26 @@ $ ./bin/hbase-daemon.sh stop regionserver
 
 The RegionServer will first close all regions and then shut itself down. On shutdown, the RegionServer's ephemeral node in ZooKeeper will expire. The master will notice the RegionServer gone and will treat it as a 'crashed' server; it will reassign the nodes the RegionServer was carrying.
 
-<Callout type="info" title="Disable the Load Balancer before Decommissioning a node">
-  If the load balancer runs while a node is shutting down, then there could be contention between
-  the Load Balancer and the Master's recovery of the just decommissioned RegionServer. Avoid any
-  problems by disabling the balancer first. See the "Load Balancer" info section below.
+<Callout
+  type="info"
+  title="Disable the Load Balancer before Decommissioning a node"
+>
+  If the load balancer runs while a node is shutting down, then there could be
+  contention between the Load Balancer and the Master's recovery of the just
+  decommissioned RegionServer. Avoid any problems by disabling the balancer
+  first. See the "Load Balancer" info section below.
 </Callout>
 
 <Callout type="info" title="Kill Node Tool">
-  In hbase-2.0, in the bin directory, we added a script named *considerAsDead.sh* that can be used
-  to kill a regionserver. Hardware issues could be detected by specialized monitoring tools before
-  the zookeeper timeout has expired. *considerAsDead.sh* is a simple function to mark a RegionServer
-  as dead. It deletes all the znodes of the server, starting the recovery process. Plug in the
-  script into your monitoring/fault detection tools to initiate faster failover. Be careful how you
-  use this disruptive tool. Copy the script if you need to make use of it in a version of hbase
-  previous to hbase-2.0.
+  In hbase-2.0, in the bin directory, we added a script named
+  *considerAsDead.sh* that can be used to kill a regionserver. Hardware issues
+  could be detected by specialized monitoring tools before the zookeeper timeout
+  has expired. *considerAsDead.sh* is a simple function to mark a RegionServer
+  as dead. It deletes all the znodes of the server, starting the recovery
+  process. Plug in the script into your monitoring/fault detection tools to
+  initiate faster failover. Be careful how you use this disruptive tool. Copy
+  the script if you need to make use of it in a version of hbase previous to
+  hbase-2.0.
 </Callout>
 
 A downside to the above stop of a RegionServer is that regions could be offline for a good period of time. Regions are closed in order. If many regions on the server, the first region to close may not be back online until all regions close and after the master notices the RegionServer's znode gone. A node can be asked to gradually shed its load and then shutdown itself using the _graceful_stop.sh_ script. Here is its usage:
@@ -53,12 +59,14 @@ Usage: graceful_stop.sh [--config <conf-dir>] [-e] [--restart [--reload]] [--thr
 To decommission a loaded RegionServer, run the following: \$ ./bin/graceful_stop.sh HOSTNAME where `HOSTNAME` is the host carrying the RegionServer you would decommission.
 
 <Callout type="info" title="On HOSTNAME">
-  The `HOSTNAME` passed to *graceful_stop.sh* must match the hostname that hbase is using to
-  identify RegionServers. HBase uses fully-qualified domain names usually. Check the list of
-  RegionServers in the master UI for how HBase is referring to servers. Whatever HBase is using,
-  this is what you should pass the *graceful_stop.sh* decommission script. If you pass IPs, the
-  script is not yet smart enough to make a hostname (or FQDN) of it and so it will fail when it
-  checks if server is currently running; the graceful unloading of regions will not run.
+  The `HOSTNAME` passed to *graceful_stop.sh* must match the hostname that hbase
+  is using to identify RegionServers. HBase uses fully-qualified domain names
+  usually. Check the list of RegionServers in the master UI for how HBase is
+  referring to servers. Whatever HBase is using, this is what you should pass
+  the *graceful_stop.sh* decommission script. If you pass IPs, the script is not
+  yet smart enough to make a hostname (or FQDN) of it and so it will fail when
+  it checks if server is currently running; the graceful unloading of regions
+  will not run.
 </Callout>
 
 The _graceful_stop.sh_ script will move the regions off the decommissioned RegionServer one at a time to minimize region churn. It will verify the region deployed in the new location before it will moves the next region and so on until the decommissioned server is carrying zero regions. At this point, the _graceful_stop.sh_ tells the RegionServer `stop`. The master will at this point notice the RegionServer gone but all regions will have already been redeployed and because the RegionServer went down cleanly, there will be no WAL logs to split.
@@ -95,11 +103,12 @@ Without this facility, decommissioning multiple nodes may be non-optimal because
 It is good having [dfs.datanode.failed.volumes.tolerated](/docs/configuration/important#dfsdatanodefailedvolumestolerated) set if you have a decent number of disks per machine for the case where a disk plain dies. But usually disks do the "John Wayne" — i.e. take a while to go down spewing errors in _dmesg_ — or for some reason, run much slower than their companions. In this case you want to decommission the disk. You have two options. You can [decommission the datanode](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HdfsDataNodeAdminGuide.html) or, less disruptive in that only the bad disks data will be rereplicated, can stop the datanode, unmount the bad volume (You can't umount a volume while the datanode is using it), and then restart the datanode (presuming you have set dfs.datanode.failed.volumes.tolerated > 0). The regionserver will throw some errors in its logs as it recalibrates where to get its data from — it will likely roll its WAL log too — but in general but for some latency spikes, it should keep on chugging.
 
 <Callout type="info" title="Short Circuit Reads">
-  If you are doing short-circuit reads, you will have to move the regions off the regionserver
-  before you stop the datanode; when short-circuiting reading, though chmod'd so regionserver cannot
-  have access, because it already has the files open, it will be able to keep reading the file
-  blocks from the bad disk even though the datanode is down. Move the regions back after you restart
-  the datanode.
+  If you are doing short-circuit reads, you will have to move the regions off
+  the regionserver before you stop the datanode; when short-circuiting reading,
+  though chmod'd so regionserver cannot have access, because it already has the
+  files open, it will be able to keep reading the file blocks from the bad disk
+  even though the datanode is down. Move the regions back after you restart the
+  datanode.
 </Callout>
 
 ### Rolling Restart

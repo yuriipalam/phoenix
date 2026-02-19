@@ -77,7 +77,8 @@ Additional configurations are required too:
 For example: If source cluster FS client configurations are copied to the destination cluster under directory `/home/user/dc1/`, then `hbase.replication.cluster.id` should be configured as `dc1` and `hbase.replication.conf.dir` as `/home/user`.
 
 <Callout type="info">
-  `DefaultSourceFSConfigurationProvider` supports only `xml` type files. It loads source cluster FS
-  client configuration only once, so if source cluster FS client configuration files are updated,
-  every peer(s) cluster RS must be restarted to reload the configuration.
+  `DefaultSourceFSConfigurationProvider` supports only `xml` type files. It
+  loads source cluster FS client configuration only once, so if source cluster
+  FS client configuration files are updated, every peer(s) cluster RS must be
+  restarted to reload the configuration.
 </Callout>

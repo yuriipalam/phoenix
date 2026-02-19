@@ -34,15 +34,17 @@ export function TeamPage() {
         </h1>
 
         <p className="mb-4 text-base leading-7">
-          A successful project requires many people to play many roles. Some members write code or
-          documentation, while others are valuable as testers, submitting patches and suggestions.
+          A successful project requires many people to play many roles. Some
+          members write code or documentation, while others are valuable as
+          testers, submitting patches and suggestions.
         </p>
 
         <p className="mb-4 text-base leading-7">
-          The team is comprised of Members and Contributors. Members have direct access to the
-          source of a project and actively evolve the code-base. Contributors improve the project
-          through submission of patches and suggestions to the Members. The number of Contributors
-          to the project is unbounded. Get involved today. All contributions to the project are
+          The team is comprised of Members and Contributors. Members have direct
+          access to the source of a project and actively evolve the code-base.
+          Contributors improve the project through submission of patches and
+          suggestions to the Members. The number of Contributors to the project
+          is unbounded. Get involved today. All contributions to the project are
           greatly appreciated.
         </p>
 
@@ -51,8 +53,8 @@ export function TeamPage() {
         </h2>
 
         <p className="mb-4 text-base leading-7">
-          These are the developers with commit privileges that have directly contributed to the
-          project in one way or another.
+          These are the developers with commit privileges that have directly
+          contributed to the project in one way or another.
         </p>
 
         <div className="border-border my-8 w-full overflow-x-auto rounded-lg border">
@@ -72,9 +74,14 @@ export function TeamPage() {
                   className="border-border hover:bg-muted/50 border-b transition-colors"
                 >
                   <td className="px-4 py-3 align-top">{developer.id}</td>
-                  <td className="px-4 py-3 align-top">{developer.name || "-"}</td>
                   <td className="px-4 py-3 align-top">
-                    <a href={`mailto:${developer.email}`} className="text-primary hover:underline">
+                    {developer.name || "-"}
+                  </td>
+                  <td className="px-4 py-3 align-top">
+                    <a
+                      href={`mailto:${developer.email}`}
+                      className="text-primary hover:underline"
+                    >
                       {developer.email}
                     </a>
                   </td>

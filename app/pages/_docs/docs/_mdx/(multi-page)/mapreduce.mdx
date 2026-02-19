@@ -12,12 +12,14 @@ This chapter discusses specific configuration steps you need to take to use MapR
 In addition, it discusses other interactions and issues between HBase and MapReduce jobs.
 
 <Callout type="info" title="mapred and mapreduce">
-  There are two mapreduce packages in HBase as in MapReduce itself: _org.apache.hadoop.hbase.mapred_
-  and _org.apache.hadoop.hbase.mapreduce_. The former does old-style API and the latter the new
-  mode. The latter has more facility though you can usually find an equivalent in the older package.
-  Pick the package that goes with your MapReduce deploy. When in doubt or starting over, pick
-  _org.apache.hadoop.hbase.mapreduce_. In the notes below, we refer to _o.a.h.h.mapreduce_ but
-  replace with _o.a.h.h.mapred_ if that is what you are using.
+  There are two mapreduce packages in HBase as in MapReduce itself:
+  _org.apache.hadoop.hbase.mapred_ and _org.apache.hadoop.hbase.mapreduce_. The
+  former does old-style API and the latter the new mode. The latter has more
+  facility though you can usually find an equivalent in the older package. Pick
+  the package that goes with your MapReduce deploy. When in doubt or starting
+  over, pick _org.apache.hadoop.hbase.mapreduce_. In the notes below, we refer
+  to _o.a.h.h.mapreduce_ but replace with _o.a.h.h.mapred_ if that is what you
+  are using.
 </Callout>
 
 ## HBase, MapReduce, and the CLASSPATH

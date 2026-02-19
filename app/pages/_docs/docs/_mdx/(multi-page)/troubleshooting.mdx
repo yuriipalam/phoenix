@@ -58,8 +58,9 @@ The same log settings also work on Master and for the client.
 ## JVM Garbage Collection Logs
 
 <Callout type="info">
-  All example Garbage Collection logs in this section are based on Java 8 output. The introduction
-  of Unified Logging in Java 9 and newer will result in very different looking logs.
+  All example Garbage Collection logs in this section are based on Java 8
+  output. The introduction of Unified Logging in Java 9 and newer will result in
+  very different looking logs.
 </Callout>
 
 HBase is memory intensive, and using the default GC you can see long pauses in all threads including the _Juliet Pause_ aka "GC of Death". To help debug this or confirm this is happening GC logging can be turned on in the Java virtual machine.
@@ -675,8 +676,8 @@ If you see an unexpected spike in filesystem usage by HBase, two possible culpri
 When you create a snapshot, HBase retains everything it needs to recreate the table's state at that time of the snapshot. This includes deleted cells or expired versions. For this reason, your snapshot usage pattern should be well-planned, and you should prune snapshots that you no longer need. Snapshots are stored in `/hbase/.hbase-snapshot`, and archives needed to restore snapshots are stored in `/hbase/archive/<tablename>/<region>/<column_family>/`.
 
 <Callout type="warn">
-  **Do not** manage snapshots or archives manually via HDFS. HBase provides APIs and HBase Shell
-  commands for managing them. For more information, see
+  **Do not** manage snapshots or archives manually via HDFS. HBase provides APIs
+  and HBase Shell commands for managing them. For more information, see
   [ops.snapshots](/docs/operational-management/backup-and-snapshots#hbase-snapshots).
 </Callout>
 
@@ -1088,8 +1089,9 @@ In the past, the generally accepted advice was to turn off the HDFS load balance
 HBase can be enabled to use the HDFS favored-nodes feature by switching the HBase balancer class (conf: `hbase.master.loadbalancer.class`) to `org.apache.hadoop.hbase.favored.FavoredNodeLoadBalancer` which is documented [here](https://hbase.apache.org/devapidocs/org/apache/hadoop/hbase/favored/FavoredNodeLoadBalancer.html).
 
 <Callout type="info">
-  HDFS-6133 is available in HDFS 2.7.0 and higher, but HBase does not support running on HDFS 2.7.0,
-  so you must be using HDFS 2.7.1 or higher to use this feature with HBase.
+  HDFS-6133 is available in HDFS 2.7.0 and higher, but HBase does not support
+  running on HDFS 2.7.0, so you must be using HDFS 2.7.1 or higher to use this
+  feature with HBase.
 </Callout>
 
 ### Connection Timeouts
@@ -1173,8 +1175,8 @@ Then renumber the remaining providers accordingly.
 ### Page Allocation Failure [!toc]
 
 <Callout type="info">
-  This issue is known to affect CentOS 6.2 and possibly CentOS 6.5. It may also affect some versions
-  of Red Hat Enterprise Linux, according to
+  This issue is known to affect CentOS 6.2 and possibly CentOS 6.5. It may also
+  affect some versions of Red Hat Enterprise Linux, according to
   [https://bugzilla.redhat.com/show_bug.cgi?id=770545](https://bugzilla.redhat.com/show_bug.cgi?id=770545).
 </Callout>
 

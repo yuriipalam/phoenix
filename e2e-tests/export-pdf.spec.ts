@@ -34,7 +34,10 @@ const variants = [
 ];
 
 async function loadHBaseVersion() {
-  const versionUrl = new URL("../app/lib/export-pdf/hbase-version.json", import.meta.url);
+  const versionUrl = new URL(
+    "../app/lib/export-pdf/hbase-version.json",
+    import.meta.url
+  );
   try {
     const raw = await fs.readFile(versionUrl, "utf-8");
     const parsed = JSON.parse(raw);
@@ -132,7 +135,10 @@ async function postProcess(pdfPath: string, darkMode?: boolean) {
 }
 
 test("export documentation pdfs", async ({ browser, browserName }) => {
-  test.skip(browserName !== "chromium", "PDF export only supported in Chromium.");
+  test.skip(
+    browserName !== "chromium",
+    "PDF export only supported in Chromium."
+  );
   test.setTimeout(3 * 60 * 1000);
 
   await fs.mkdir(outDir, { recursive: true });
@@ -167,7 +173,9 @@ test("export documentation pdfs", async ({ browser, browserName }) => {
     );
 
     await expect(
-      page.locator("section.print-only").filter({ hasText: `Version ${hbaseVersion}` })
+      page
+        .locator("section.print-only")
+        .filter({ hasText: `Version ${hbaseVersion}` })
     ).toBeAttached();
 
     const errorBoundaryVisible = await page

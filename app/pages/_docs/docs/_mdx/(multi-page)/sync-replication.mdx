@@ -31,9 +31,10 @@ hbase> add_peer  '1', CLUSTER_KEY => 'lg-hadoop-tst-st01.bj:10010,lg-hadoop-tst-
 ```
 
 <Callout type="info">
-  For synchronous replication, the current implementation require that we have the same peer id for
-  both source and peer cluster. Another thing that need attention is: the peer does not support
-  cluster-level, namespace-level, or cf-level replication, only support table-level replication now.
+  For synchronous replication, the current implementation require that we have
+  the same peer id for both source and peer cluster. Another thing that need
+  attention is: the peer does not support cluster-level, namespace-level, or
+  cf-level replication, only support table-level replication now.
 </Callout>
 
 - Transit the peer cluster to be STANDBY state

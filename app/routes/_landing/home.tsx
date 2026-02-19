@@ -24,7 +24,8 @@ export function meta({}: Route.MetaArgs) {
     { title: "Apache HBase" },
     {
       name: "description",
-      content: "Apache HBase® is the Hadoop database, a distributed, scalable, big data store."
+      content:
+        "Apache HBase® is the Hadoop database, a distributed, scalable, big data store."
     }
   ];
 }

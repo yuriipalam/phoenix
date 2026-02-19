@@ -259,9 +259,9 @@ The above has shown you how to start and stop a standalone instance of HBase. In
 After working your way through [quickstart](/docs/getting-started#quick-start---standalone-hbase) standalone mode, you can re-configure HBase to run in pseudo-distributed mode. Pseudo-distributed mode means that HBase still runs completely on a single host, but each HBase daemon (HMaster, HRegionServer, and ZooKeeper) runs as a separate process: in standalone mode all daemons ran in one jvm process/instance. By default, unless you configure the `hbase.rootdir` property as described in [quickstart](/docs/getting-started#quick-start---standalone-hbase), your data is still stored in _/tmp/_. In this walk-through, we store your data in HDFS instead, assuming you have HDFS available. You can skip the HDFS configuration to continue storing your data in the local filesystem.
 
 <Callout type="info">
-  This procedure assumes that you have configured Hadoop and HDFS on your local system and/or a
-  remote system, and that they are running and available. It also assumes you are using Hadoop 2.
-  The guide on [Setting up a Single Node
+  This procedure assumes that you have configured Hadoop and HDFS on your local
+  system and/or a remote system, and that they are running and available. It
+  also assumes you are using Hadoop 2. The guide on [Setting up a Single Node
   Cluster](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html)
   in the Hadoop documentation is a good starting point.
 </Callout>
@@ -345,9 +345,10 @@ You can use the HBase Shell to create a table, populate it with data, scan and g
 #### Start and stop a backup HBase Master (HMaster) server
 
 <Callout type="info">
-  Running multiple HMaster instances on the same hardware does not make sense in a production
-  environment, in the same way that running a pseudo-distributed cluster does not make sense for
-  production. This step is offered for testing and learning purposes only.
+  Running multiple HMaster instances on the same hardware does not make sense in
+  a production environment, in the same way that running a pseudo-distributed
+  cluster does not make sense for production. This step is offered for testing
+  and learning purposes only.
 </Callout>
 
 The HMaster server controls the HBase cluster. You can start up to 9 backup HMaster servers, which makes 10 total HMasters, counting the primary. To start a backup HMaster, use the `local-master-backup.sh`. For each backup master you want to start, add a parameter representing the port offset for that master. Each HMaster uses two ports (16000 and 16010 by default). The port offset is added to these ports, so using an offset of 2, the backup HMaster would use ports 16002 and 16012. The following command starts 3 backup servers using ports 16002/16012, 16003/16013, and 16005/16015.
@@ -409,9 +410,9 @@ Distributed Cluster Demo Architecture
 This quickstart assumes that each node is a virtual machine and that they are all on the same network. It builds upon the previous quickstart, [Pseudo-Distributed for Local Testing](/docs/getting-started#pseudo-distributed-for-local-testing), assuming that the system you configured in that procedure is now `node-a`. Stop HBase on `node-a` before continuing.
 
 <Callout type="info">
-  Be sure that all the nodes have full access to communicate, and that no firewall rules are in
-  place which could prevent them from talking to each other. If you see any errors like `no route to
-  host`, check your firewall.
+  Be sure that all the nodes have full access to communicate, and that no
+  firewall rules are in place which could prevent them from talking to each
+  other. If you see any errors like `no route to host`, check your firewall.
 </Callout>
 
 ### Procedure: Configure Passwordless SSH Access
@@ -613,10 +614,11 @@ $ jps
 ```
 
 <Callout type="info">
-  The `HQuorumPeer` process is a ZooKeeper instance which is controlled and started by HBase. If you
-  use ZooKeeper this way, it is limited to one instance per cluster node and is appropriate for
-  testing only. If ZooKeeper is run outside of HBase, the process is called `QuorumPeer`. For more
-  about ZooKeeper configuration, including using an external ZooKeeper instance with HBase, see
+  The `HQuorumPeer` process is a ZooKeeper instance which is controlled and
+  started by HBase. If you use ZooKeeper this way, it is limited to one instance
+  per cluster node and is appropriate for testing only. If ZooKeeper is run
+  outside of HBase, the process is called `QuorumPeer`. For more about ZooKeeper
+  configuration, including using an external ZooKeeper instance with HBase, see
   [zookeeper](/docs/zookeeper) section.
 </Callout>
 

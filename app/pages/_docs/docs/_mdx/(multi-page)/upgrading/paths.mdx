@@ -63,8 +63,8 @@ As of HBase 2.0, HBCK (A.K.A _HBCK1_ or _hbck1_) is a read-only tool that can re
 To read about HBCK's replacement, see [Operations and Management](/docs/operational-management) documentation.
 
 <Callout type="warn">
-  Related, before you upgrade, ensure that *hbck1* reports no `INCONSISTENCIES`. Fixing hbase1-type
-  inconsistencies post-upgrade is an involved process.
+  Related, before you upgrade, ensure that *hbck1* reports no `INCONSISTENCIES`.
+  Fixing hbase1-type inconsistencies post-upgrade is an involved process.
 </Callout>
 
 #### Configuration settings no longer in HBase 2.0+ [!toc]
@@ -360,16 +360,17 @@ That said, the below is a prescription for a rolling upgrade of a 1.4 cluster.
 It is OK that during the rolling upgrading there are region server crashes. The 1.x master can assign regions to both 1.x and 2.x region servers, and [HBASE-19166](https://issues.apache.org/jira/browse/HBASE-19166) fixed a problem so that 1.x region server can also read the WALs written by 2.x region server and split them.
 
 <Callout type="info">
-  Please read the [Changes of Note!](/docs/upgrading/paths#changes-of-note) section carefully before
-  rolling upgrading. Make sure that you do not use the removed features in 2.0, for example, the
-  prefix-tree encoding, the old hfile format, etc. They could both fail the upgrading and leave the
-  cluster in an intermediate state and hard to recover.
+  Please read the [Changes of Note!](/docs/upgrading/paths#changes-of-note)
+  section carefully before rolling upgrading. Make sure that you do not use the
+  removed features in 2.0, for example, the prefix-tree encoding, the old hfile
+  format, etc. They could both fail the upgrading and leave the cluster in an
+  intermediate state and hard to recover.
 </Callout>
 
 <Callout type="info">
-  If you have success running this prescription, please notify the dev list with a note on your
-  experience and/or update the above with any deviations you may have taken so others going this
-  route can benefit from your efforts.
+  If you have success running this prescription, please notify the dev list with
+  a note on your experience and/or update the above with any deviations you may
+  have taken so others going this route can benefit from your efforts.
 </Callout>
 
 ### Upgrade process from 1.x to 2.x

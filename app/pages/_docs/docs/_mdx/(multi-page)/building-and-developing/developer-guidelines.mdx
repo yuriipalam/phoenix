@@ -49,10 +49,14 @@ APIs for HBase coprocessor writers.
 Packages without an `@InterfaceAudience` label are considered private.
 Mark your new packages if publicly accessible.
 
-<Callout type="info" title="Excluding Non-Public Interfaces from API Documentation">
-  Only interfaces classified `@InterfaceAudience.Public` should be included in API documentation
-  (Javadoc). Committers must add new package excludes `ExcludePackageNames` section of the _pom.xml_
-  for new packages which do not contain public classes.
+<Callout
+  type="info"
+  title="Excluding Non-Public Interfaces from API Documentation"
+>
+  Only interfaces classified `@InterfaceAudience.Public` should be included in
+  API documentation (Javadoc). Committers must add new package excludes
+  `ExcludePackageNames` section of the _pom.xml_ for new packages which do not
+  contain public classes.
 </Callout>
 
 #### @InterfaceStability
@@ -230,8 +234,9 @@ ZooKeeper state should transient (treat it like memory). If ZooKeeper state is d
   Do not delete the replication tree, _/hbase/replication/_.
 
 <Callout type="warning">
-  Replication may be disrupted and data loss may occur if you delete the replication tree
-  (_/hbase/replication/_) from ZooKeeper. Follow progress on this issue at
+  Replication may be disrupted and data loss may occur if you delete the
+  replication tree (_/hbase/replication/_) from ZooKeeper. Follow progress on
+  this issue at
   [HBASE-10295](https://issues.apache.org/jira/browse/HBASE-10295).
 </Callout>
 
@@ -434,7 +439,9 @@ jira item.
 ```js
 location.href =
   "https://issues.apache.org/jira/browse/" +
-  document.getElementsByClassName("js-issue-title")[0].innerHTML.match(/HBASE-\d+/)[0];
+  document
+    .getElementsByClassName("js-issue-title")[0]
+    .innerHTML.match(/HBASE-\d+/)[0];
 ```
 
 ### Guide for HBase Committers
@@ -536,9 +543,10 @@ new patch should be attached by the committer for further review.
 Committers commit patches to the Apache HBase GIT repository.
 
 <Callout type="warn" title="Before you commit!!!!">
-  Make sure your local configuration is correct, especially your identity and email. Examine the
-  output of the `$ git config --list` command and be sure it is correct. See [Set Up
-  Git](https://help.github.com/articles/set-up-git) if you need pointers.
+  Make sure your local configuration is correct, especially your identity and
+  email. Examine the output of the `$ git config --list` command and be sure it
+  is correct. See [Set Up Git](https://help.github.com/articles/set-up-git) if
+  you need pointers.
 </Callout>
 
 When you commit a patch:
@@ -558,8 +566,9 @@ When you commit a patch:
    a command such as `git push <remote-server> <remote-branch>`.
 
    <Callout type="warning">
-     If you do not have all remote changes, the push will fail. If the push fails for any reason,
-     fix the problem or ask for help. Do not do a `git push --force`.
+     If you do not have all remote changes, the push will fail. If the push
+     fails for any reason, fix the problem or ask for help. Do not do a `git
+     push --force`.
    </Callout>
 
    Before you can commit a patch, you need to determine how the patch was created.

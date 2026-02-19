@@ -169,9 +169,10 @@ Here is example using a few of the rsgroup commands. To add a group, do as follo
 ```
 
 <Callout type="info" title="RegionServer Groups must be Enabled">
-  If you have not enabled the rsgroup feature and you call any of the rsgroup admin methods or shell
-  commands the call will fail with a `DoNotRetryIOException` with a detail message that says the
-  rsgroup feature is disabled.
+  If you have not enabled the rsgroup feature and you call any of the rsgroup
+  admin methods or shell commands the call will fail with a
+  `DoNotRetryIOException` with a detail message that says the rsgroup feature is
+  disabled.
 </Callout>
 
 Add a server (specified by hostname + port) to the just-made group using the _move_servers_rsgroup_ command as follows:
@@ -181,11 +182,12 @@ Add a server (specified by hostname + port) to the just-made group using the _mo
 ```
 
 <Callout type="info" title="Hostname and Port vs ServerName">
-  The rsgroup feature refers to servers in a cluster with hostname and port only. It does not make
-  use of the HBase ServerName type identifying RegionServers; i.e. hostname + port + starttime to
-  distinguish RegionServer instances. The rsgroup feature keeps working across RegionServer restarts
-  so the starttime of ServerName — and hence the ServerName type — is not appropriate.
-  Administration
+  The rsgroup feature refers to servers in a cluster with hostname and port
+  only. It does not make use of the HBase ServerName type identifying
+  RegionServers; i.e. hostname + port + starttime to distinguish RegionServer
+  instances. The rsgroup feature keeps working across RegionServer restarts so
+  the starttime of ServerName — and hence the ServerName type — is not
+  appropriate. Administration
 </Callout>
 
 Servers come and go over the lifetime of a Cluster. Currently, you must manually align the servers referenced in rsgroups with the actual state of nodes in the running cluster. What we mean by this is that if you decommission a server, then you must update rsgroups as part of your server decommission process removing references. Notice that, by calling `clearDeadServers` manually will also remove the dead servers from any rsgroups, but the problem is that we will lost track of the dead servers after master restarts, which means you still need to update the rsgroup by your own.

@@ -12,16 +12,18 @@ After you have configured secure authentication between HBase client and server 
 Server-side configuration, administration, and implementation details of each of these features are discussed below, along with any performance trade-offs. An example security configuration is given at the end, to show these features all used together, as they might be in a real-world scenario.
 
 <Callout type="error">
-  All aspects of security in HBase are in active development and evolving rapidly. Any strategy you
-  employ for security of your data should be thoroughly tested. In addition, some of these features
-  are still in the experimental stage of development. To take advantage of many of these features,
-  you must be running HBase 0.98+ and using the HFile v3 file format.
+  All aspects of security in HBase are in active development and evolving
+  rapidly. Any strategy you employ for security of your data should be
+  thoroughly tested. In addition, some of these features are still in the
+  experimental stage of development. To take advantage of many of these
+  features, you must be running HBase 0.98+ and using the HFile v3 file format.
 </Callout>
 
 <Callout type="warn">
-  Several procedures in this section require you to copy files between cluster nodes. When copying
-  keys, configuration files, or other files containing sensitive strings, use a secure method, such
-  as `ssh`, to avoid leaking sensitive data.
+  Several procedures in this section require you to copy files between cluster
+  nodes. When copying keys, configuration files, or other files containing
+  sensitive strings, use a secure method, such as `ssh`, to avoid leaking
+  sensitive data.
 </Callout>
 
 #### Procedure: Basic Server-Side Configuration
@@ -66,8 +68,9 @@ ACLs in HBase are based upon a user's membership in or exclusion from groups, an
 HBase does not maintain a private group mapping, but relies on a **_Hadoop group mapper_**, which maps between entities in a directory such as LDAP or Active Directory, and HBase users. Any supported Hadoop group mapper will work. Users are then granted specific permissions (Read, Write, Execute, Create, Admin) against resources (global, namespaces, tables, cells, or endpoints).
 
 <Callout type="info">
-  With Kerberos and Access Control enabled, client access to HBase is authenticated and user data is
-  private unless access has been explicitly granted.
+  With Kerberos and Access Control enabled, client access to HBase is
+  authenticated and user data is private unless access has been explicitly
+  granted.
 </Callout>
 
 HBase has a simpler security model than relational databases, especially in terms of client operations. No distinction is made between an insert (new record) and update (of existing record), for example, as both collapse down into a Put.
@@ -102,12 +105,14 @@ The combination of access levels and scopes creates a matrix of possible access 
 - A global admin with Create permissions can create or drop any table within HBase. This is more of a DBA-type role.
   In a production environment, it is likely that different users will have only one of Admin and Create permissions.
   <Callout type="warn">
-    In the current implementation, a Global Admin with `Admin` permission can grant himself `Read`
-    and `Write` permissions on a table and gain access to that table's data. For this reason, only
-    grant `Global Admin` permissions to trusted user who actually need them. Also be aware that a
-    `Global Admin` with `Create` permission can perform a `Put` operation on the ACL table,
-    simulating a `grant` or `revoke` and circumventing the authorization check for `Global Admin`
-    permissions. Due to these issues, be cautious with granting `Global Admin` privileges.
+    In the current implementation, a Global Admin with `Admin` permission can
+    grant himself `Read` and `Write` permissions on a table and gain access to
+    that table's data. For this reason, only grant `Global Admin` permissions to
+    trusted user who actually need them. Also be aware that a `Global Admin`
+    with `Create` permission can perform a `Put` operation on the ACL table,
+    simulating a `grant` or `revoke` and circumventing the authorization check
+    for `Global Admin` permissions. Due to these issues, be cautious with
+    granting `Global Admin` privileges.
   </Callout>
 - _Namespace Admins_ - a namespace admin with `Create` permissions can create or drop tables within that namespace, and take and restore snapshots. A namespace admin with `Admin` permissions can perform operations such as splits or major compactions on tables within that namespace.
 - _Table Admins_ - A table admin can perform administrative operations only on that table. A table admin with `Create` permissions can create snapshots from that table or restore that table from a snapshot. A table admin with `Admin` permissions can perform operations such as splits or major compactions on that table.
@@ -149,10 +154,11 @@ As a prerequisite, perform the steps in [Procedure: Basic Server-Side Configurat
 Install and configure the AccessController coprocessor, by setting the following properties in _hbase-site.xml_. These properties take a list of classes.
 
 <Callout type="info">
-  If you use the AccessController along with the VisibilityController, the AccessController must
-  come first in the list, because with both components active, the VisibilityController will
-  delegate access control on its system tables to the AccessController. For an example of using both
-  together, see [Security Configuration Example](/docs/security/example).
+  If you use the AccessController along with the VisibilityController, the
+  AccessController must come first in the list, because with both components
+  active, the VisibilityController will delegate access control on its system
+  tables to the AccessController. For an example of using both together, see
+  [Security Configuration Example](/docs/security/example).
 </Callout>
 
 ```xml
@@ -289,10 +295,11 @@ As a prerequisite, perform the steps in [Procedure: Basic Server-Side Configurat
 Install and configure the AccessController coprocessor, by setting the following properties in _hbase-site.xml_. These properties take a list of classes.
 
 <Callout type="info">
-  If you use the AccessController along with the VisibilityController, the AccessController must
-  come first in the list, because with both components active, the VisibilityController will
-  delegate access control on its system tables to the AccessController. For an example of using both
-  together, see [Security Configuration Example](/docs/security/example).
+  If you use the AccessController along with the VisibilityController, the
+  AccessController must come first in the list, because with both components
+  active, the VisibilityController will delegate access control on its system
+  tables to the AccessController. For an example of using both together, see
+  [Security Configuration Example](/docs/security/example).
 </Callout>
 
 ```xml
@@ -445,16 +452,19 @@ Visibility label access checking is performed by the VisibilityController coproc
 Visibility labels can be used in conjunction with ACLs.
 
 <Callout type="info">
-  The labels have to be explicitly defined before they can be used in visibility labels. See below
-  for an example of how this can be done.
+  The labels have to be explicitly defined before they can be used in visibility
+  labels. See below for an example of how this can be done.
 </Callout>
 
 <Callout type="info">
-  There is currently no way to determine which labels have been applied to a cell. See
-  [HBASE-12470](https://issues.apache.org/jira/browse/HBASE-12470) for details.
+  There is currently no way to determine which labels have been applied to a
+  cell. See [HBASE-12470](https://issues.apache.org/jira/browse/HBASE-12470) for
+  details.
 </Callout>
 
-<Callout type="info">Visibility labels are not currently applied for superusers.</Callout>
+<Callout type="info">
+  Visibility labels are not currently applied for superusers.
+</Callout>
 
 ### Examples of Visibility Expressions
 
@@ -494,9 +504,10 @@ Install and configure the VisibilityController coprocessor by setting the follow
 ```
 
 <Callout type="info">
-  If you use the AccessController and VisibilityController coprocessors together, the
-  AccessController must come first in the list, because with both components active, the
-  VisibilityController will delegate access control on its system tables to the AccessController.
+  If you use the AccessController and VisibilityController coprocessors
+  together, the AccessController must come first in the list, because with both
+  components active, the VisibilityController will delegate access control on
+  its system tables to the AccessController.
 </Callout>
 
 </Step>
@@ -638,10 +649,11 @@ hbase> set_visibility 'user', 'test', { COLUMNS => [ 'i', 'pii' ], FILTER => "(P
 ```
 
 <Callout type="info">
-  HBase Shell support for applying labels or permissions to cells is for testing and verification
-  support, and should not be employed for production use because it won't apply the labels to cells
-  that don't exist yet. The correct way to apply cell level labels is to do so in the application
-  code when storing the values.
+  HBase Shell support for applying labels or permissions to cells is for testing
+  and verification support, and should not be employed for production use
+  because it won't apply the labels to cells that don't exist yet. The correct
+  way to apply cell level labels is to do so in the application code when
+  storing the values.
 </Callout>
 
 **Java API example:**
@@ -860,8 +872,9 @@ Configure WAL encryption in every RegionServer's _hbase-site.xml_, by setting th
 
 <Callout type="info">
   Starting from 2.6.0, the hbase.regionserver.hlog.reader.impl and
-  hbase.regionserver.hlog.writer.impl configurations are removed, you do not need to specify them
-  any more. Just set hbase.regionserver.wal.encryption to true is enough to enable WAL encryption.
+  hbase.regionserver.hlog.writer.impl configurations are removed, you do not
+  need to specify them any more. Just set hbase.regionserver.wal.encryption to
+  true is enough to enable WAL encryption.
 </Callout>
 
 </Step>

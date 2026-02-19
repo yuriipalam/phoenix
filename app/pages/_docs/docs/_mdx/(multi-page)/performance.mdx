@@ -355,7 +355,8 @@ Deferred log flush can be configured on tables via [TableDescriptorBuilder](http
 A frequent request is to disable the WAL to increase performance of Puts. This is only appropriate for bulk loads, as it puts your data at risk by removing the protection of the WAL in the event of a region server crash. Bulk loads can be re-run in the event of a crash, with little risk of data loss.
 
 <Callout type="warn">
-  If you disable the WAL for anything other than bulk loads, your data is at risk.
+  If you disable the WAL for anything other than bulk loads, your data is at
+  risk.
 </Callout>
 
 In general, it is best to use WAL for Puts, and where loading throughput is a concern to use bulk loading techniques instead. For normal Puts, you are not likely to see a performance improvement which would outweigh the risk. To disable the WAL, see [Disabling the WAL](/docs/architecture/regionserver#disabling-the-wal).
@@ -573,12 +574,14 @@ If you are running on an old Hadoop, one that is without [HDFS-347](https://issu
 Services — at least the HBase RegionServers — will need to be restarted in order to pick up the new configurations.
 
 <Callout type="info" title="dfs.client.read.shortcircuit.buffer.size">
-  The default for this value is too high when running on a highly trafficked HBase. In HBase, if
-  this value has not been set, we set it down from the default of 1M to 128k (Since HBase 0.98.0 and
-  0.96.1). See [HBASE-8143 HBase on Hadoop 2 with local short circuit reads (ssr) causes
-  OOM](https://issues.apache.org/jira/browse/HBASE-8143). The Hadoop DFSClient in HBase will
-  allocate a direct byte buffer of this size for *each* block it has open; given HBase keeps its
-  HDFS files open all the time, this can add up quickly.
+  The default for this value is too high when running on a highly trafficked
+  HBase. In HBase, if this value has not been set, we set it down from the
+  default of 1M to 128k (Since HBase 0.98.0 and 0.96.1). See [HBASE-8143 HBase
+  on Hadoop 2 with local short circuit reads (ssr) causes
+  OOM](https://issues.apache.org/jira/browse/HBASE-8143). The Hadoop DFSClient
+  in HBase will allocate a direct byte buffer of this size for *each* block it
+  has open; given HBase keeps its HDFS files open all the time, this can add up
+  quickly.
 </Callout>
 
 ### Performance Comparisons of HBase vs. HDFS

@@ -41,8 +41,9 @@ Coprocessors were added in 0.92. There is a thorough [Blog Overview of CoProcess
 HBase provides two different BlockCache implementations to cache data read from HDFS: the default on-heap `LruBlockCache` and the `BucketCache`, which is (usually) off-heap. This section discusses benefits and drawbacks of each implementation, how to choose the appropriate option, and configuration options for each.
 
 <Callout type="info" title="Block Cache Reporting: UI">
-  See the RegionServer UI for detail on caching deploy. See configurations, sizings, current usage,
-  time-in-the-cache, and even detail on block counts and types.
+  See the RegionServer UI for detail on caching deploy. See configurations,
+  sizings, current usage, time-in-the-cache, and even detail on block counts and
+  types.
 </Callout>
 
 ### Cache Choices
@@ -96,7 +97,8 @@ Your data is not the only resident of the block cache. Here are others that you 
   The `hbase:meta` table is forced into the block cache and have the in-memory priority which means that they are harder to evict.
 
   <Callout type="info">
-    The hbase:meta tables can occupy a few MBs depending on the number of regions.
+    The hbase:meta tables can occupy a few MBs depending on the number of
+    regions.
   </Callout>
 
 - **HFiles Indexes**  
@@ -303,9 +305,13 @@ hbase(main):003:0> alter 'orders', {NAME => 'cf1',
 }
 ```
 
-<Callout type="info" title="Time Based Priority x Compaction Age Threshold Configurations">
-  Note that there are two different configurations for defining the hot age threshold. This is
-  because the Time Based Priority enforcer operates independently of the compaction implementation.
+<Callout
+  type="info"
+  title="Time Based Priority x Compaction Age Threshold Configurations"
+>
+  Note that there are two different configurations for defining the hot age
+  threshold. This is because the Time Based Priority enforcer operates
+  independently of the compaction implementation.
 </Callout>
 
 #### Using a Custom value provider for Time Based Priority
@@ -350,10 +356,11 @@ hbase(main):003:0> alter 'orders', {NAME => 'cf1',
 ```
 
 <Callout type="info">
-  Upon enabling Custom Time Based Priority (either the custom qualifier or custom value provider) in
-  the column family configuration, it is imperative that major compaction be executed twice on the
-  specified tables to ensure the effective application of the newly configured priorities within the
-  bucket cache.
+  Upon enabling Custom Time Based Priority (either the custom qualifier or
+  custom value provider) in the column family configuration, it is imperative
+  that major compaction be executed twice on the specified tables to ensure the
+  effective application of the newly configured priorities within the bucket
+  cache.
 </Callout>
 
 <Callout type="info">
@@ -437,9 +444,9 @@ The _Write Ahead Log (WAL)_ records all changes to data in HBase, to file-based 
 HBase uses an implementation of the [WAL](https://hbase.apache.org/devapidocs/org/apache/hadoop/hbase/wal/WAL.html) interface. Usually, there is only one instance of a WAL per RegionServer. An exception is the RegionServer that is carrying _hbase:meta_; the _meta_ table gets its own dedicated WAL. The RegionServer records Puts and Deletes to its WAL, before recording them these Mutations [MemStore](/docs/architecture/regions#memstore) for the affected [Store](/docs/architecture/regions#store).
 
 <Callout type="info" title="The HLog">
-  Prior to 2.0, the interface for WALs in HBase was named `HLog`. In 0.94, HLog was the name of the
-  implementation of the WAL. You will likely find references to the HLog in documentation tailored
-  to these older versions.
+  Prior to 2.0, the interface for WALs in HBase was named `HLog`. In 0.94, HLog
+  was the name of the implementation of the WAL. You will likely find references
+  to the HLog in documentation tailored to these older versions.
 </Callout>
 
 The WAL resides in HDFS in the _/hbase/WALs/_ directory, with subdirectories per RegionServer.
@@ -461,20 +468,22 @@ Look for the lines like the below in the RegionServer log to see which provider 
 ```
 
 <Callout type="info">
-  As the *AsyncFSWAL* hacks into the internal of DFSClient implementation, it will be easily broken
-  by upgrading the hadoop dependencies, even for a simple patch release. So if you do not specify
-  the wal provider explicitly, we will first try to use the *asyncfs*, if failed, we will fall back
-  to use *filesystem*. And notice that this may not always work, so if you still have problem
-  starting HBase due to the problem of starting *AsyncFSWAL*, please specify *filesystem* explicitly
-  in the config file.
+  As the *AsyncFSWAL* hacks into the internal of DFSClient implementation, it
+  will be easily broken by upgrading the hadoop dependencies, even for a simple
+  patch release. So if you do not specify the wal provider explicitly, we will
+  first try to use the *asyncfs*, if failed, we will fall back to use
+  *filesystem*. And notice that this may not always work, so if you still have
+  problem starting HBase due to the problem of starting *AsyncFSWAL*, please
+  specify *filesystem* explicitly in the config file.
 </Callout>
 
 <Callout type="info">
-  EC support has been added to hadoop-3.x, and it is incompatible with WAL as the EC output stream
-  does not support hflush/hsync. In order to create a non-EC file in an EC directory, we need to use
-  the new builder-based create API for *FileSystem*, but it is only introduced in hadoop-2.9+ and
-  for HBase we still need to support hadoop-2.7.x. So please do not enable EC for the WAL directory
-  until we find a way to deal with it.
+  EC support has been added to hadoop-3.x, and it is incompatible with WAL as
+  the EC output stream does not support hflush/hsync. In order to create a
+  non-EC file in an EC directory, we need to use the new builder-based create
+  API for *FileSystem*, but it is only introduced in hadoop-2.9+ and for HBase
+  we still need to support hadoop-2.7.x. So please do not enable EC for the WAL
+  directory until we find a way to deal with it.
 </Callout>
 
 ### MultiWAL
@@ -646,9 +655,10 @@ Following configurations are added to accomplish this:
     Configures FileSystem permissions to set on the WAL directory FileSystem. This is '700' by default.
 
 <Callout type="info">
-  While migrating to custom WAL dir (outside the HBase root directory or a different FileSystem)
-  existing WAL files must be copied manually to new WAL dir, otherwise it may lead to data
-  loss/inconsistency as HMaster has no information about previous WAL directory.
+  While migrating to custom WAL dir (outside the HBase root directory or a
+  different FileSystem) existing WAL files must be copied manually to new WAL
+  dir, otherwise it may lead to data loss/inconsistency as HMaster has no
+  information about previous WAL directory.
 </Callout>
 
 ### Disabling the WAL
@@ -658,5 +668,6 @@ It is possible to disable the WAL, to improve performance in certain specific si
 The WAL is disabled by calling the HBase client field `Mutation.writeToWAL(false)`. Use the `Mutation.setDurability(Durability.SKIP_WAL)` and Mutation.getDurability() methods to set and get the field's value. There is no way to disable the WAL for only a specific table.
 
 <Callout type="warn">
-  If you disable the WAL for anything other than bulk loads, your data is at risk.
+  If you disable the WAL for anything other than bulk loads, your data is at
+  risk.
 </Callout>

@@ -76,12 +76,13 @@ hbase> snapshot 'mytable', 'snapshot123', {SKIP_FLUSH => true}
 ```
 
 <Callout type="warn">
-  There is no way to determine or predict whether a very concurrent insert or update will be
-  included in a given snapshot, whether flushing is enabled or disabled. A snapshot is only a
-  representation of a table during a window of time. The amount of time the snapshot operation will
-  take to reach each Region Server may vary from a few seconds to a minute, depending on the
-  resource load and speed of the hardware or network, among other factors. There is also no way to
-  know whether a given insert or update is in memory or has been flushed.
+  There is no way to determine or predict whether a very concurrent insert or
+  update will be included in a given snapshot, whether flushing is enabled or
+  disabled. A snapshot is only a representation of a table during a window of
+  time. The amount of time the snapshot operation will take to reach each Region
+  Server may vary from a few seconds to a minute, depending on the resource load
+  and speed of the hardware or network, among other factors. There is also no
+  way to know whether a given insert or update is in memory or has been flushed.
 </Callout>
 
 #### Take a Snapshot With TTL
@@ -190,9 +191,9 @@ hbase> restore_snapshot 'myTableSnapshot-122112'
 ```
 
 <Callout type="info">
-  Since Replication works at log level and snapshots at file-system level, after a restore, the
-  replicas will be in a different state from the master. If you want to use restore, you need to
-  stop replication and redo the bootstrap.
+  Since Replication works at log level and snapshots at file-system level, after
+  a restore, the replicas will be in a different state from the master. If you
+  want to use restore, you need to stop replication and redo the bootstrap.
 </Callout>
 
 In case of partial data-loss due to misbehaving client, instead of a full restore that requires the table to be disabled, you can clone the table from the snapshot and use a Map-Reduce job to copy the data that you need, from the clone to the main one.
@@ -224,8 +225,8 @@ $ bin/hbase org.apache.hadoop.hbase.snapshot.ExportSnapshot -snapshot MySnapshot
 You can store and retrieve snapshots from Amazon S3, using the following procedure.
 
 <Callout type="info">
-  You can also store snapshots in Microsoft Azure Blob Storage. See [Storing Snapshots in Microsoft
-  Azure Blob
+  You can also store snapshots in Microsoft Azure Blob Storage. See [Storing
+  Snapshots in Microsoft Azure Blob
   Storage](/docs/operational-management/backup-and-snapshots#storing-snapshots-in-microsoft-azure-blob-storage).
 </Callout>
 

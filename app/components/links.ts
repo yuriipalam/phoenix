@@ -209,10 +209,12 @@ const docsItems: Record<string, DocumentationOptions[]> = {
   "2.6": ["userApi", "userApiTest", "devApi", "devApiTest"]
 };
 
-export const docsLinks: NestedLinkType[] = Object.keys(docsItems).map((version) => ({
-  label: `${version} Documentation`,
-  links: docsItems[version].map((option) => ({
-    label: documentationOptionLabels[option],
-    to: getDocsURL(version, option)
-  }))
-}));
+export const docsLinks: NestedLinkType[] = Object.keys(docsItems).map(
+  (version) => ({
+    label: `${version} Documentation`,
+    links: docsItems[version].map((option) => ({
+      label: documentationOptionLabels[option],
+      to: getDocsURL(version, option)
+    }))
+  })
+);

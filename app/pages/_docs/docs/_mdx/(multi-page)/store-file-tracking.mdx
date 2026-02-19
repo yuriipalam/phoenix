@@ -18,9 +18,10 @@ The implementation can be set at the HBase service leve in **hbase-site.xml** or
 Table or Column Family via the TableDescriptor configuration.
 
 <Callout type="info">
-  When the store file tracking implementation is specified in **hbase_site.xml**, this configuration
-  is also propagated into a tables configuration at table creation time. This is to avoid dangerous
-  configuration mismatches between processes, which could potentially lead to data loss.
+  When the store file tracking implementation is specified in
+  **hbase_site.xml**, this configuration is also propagated into a tables
+  configuration at table creation time. This is to avoid dangerous configuration
+  mismatches between processes, which could potentially lead to data loss.
 </Callout>
 
 ## Available Implementations
@@ -63,8 +64,9 @@ implementation, so that the _new tracker_ can safely build its list of tracked f
 list of the _current tracker_.
 
 <Callout type="info">
-  MIGRATION tracker should NOT be set at global configuration. To use it, follow below section about
-  setting Store File Tacking at Table or Column Family configuration.
+  MIGRATION tracker should NOT be set at global configuration. To use it, follow
+  below section about setting Store File Tacking at Table or Column Family
+  configuration.
 </Callout>
 
 ### Configuring for Table or Column Family
@@ -134,6 +136,7 @@ clone_snapshot 'snapshotName', 'namespace:tableName', {CLONE_SFT=>'FILE'}
 ```
 
 <Callout type="info">
-  The option to specify the tracker during snapshot recovery is only available for the
-  _clone_snapshot_ command. The _restore_snapshot_ command does not support this parameter.
+  The option to specify the tracker during snapshot recovery is only available
+  for the _clone_snapshot_ command. The _restore_snapshot_ command does not
+  support this parameter.
 </Callout>

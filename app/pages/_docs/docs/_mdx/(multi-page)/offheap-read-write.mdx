@@ -54,10 +54,11 @@ If this pool is turned off, the server will create temp buffers onheap to accumu
 make a result cell block. This can impact the GC on a highly read loaded server.
 
 <Callout type="info">
-  The config keys which start with prefix `hbase.ipc.server.reservoir` are deprecated in hbase-3.x
-  (the internal pool implementation changed). If you are still in hbase-2.2.x or older, then just
-  use the old config keys. Otherwise if in hbase-3.x or hbase-2.3.x+, please use the new config keys
-  (See [deprecated and new configs in
+  The config keys which start with prefix `hbase.ipc.server.reservoir` are
+  deprecated in hbase-3.x (the internal pool implementation changed). If you are
+  still in hbase-2.2.x or older, then just use the old config keys. Otherwise if
+  in hbase-3.x or hbase-2.3.x+, please use the new config keys (See [deprecated
+  and new configs in
   HBase3.x](/docs/offheap-read-write#read-block-from-hdfs-to-offheap-directly))
 </Callout>
 

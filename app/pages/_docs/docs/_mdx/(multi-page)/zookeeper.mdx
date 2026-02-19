@@ -74,11 +74,12 @@ In the example below we have ZooKeeper persist to _/user/local/zookeeper_.
 
 <Callout type="warn" title="ZooKeeper Maintenance">
   Be sure to set up the data dir cleaner described under [ZooKeeper
-  Maintenance](https://zookeeper.apache.org/doc/r3.1.2/zookeeperAdmin.html#sc_maintenance) else you
-  could have 'interesting' problems a couple of months in; i.e. zookeeper could start dropping
-  sessions if it has to run through a directory of hundreds of thousands of logs which is wont to do
-  around leader reelection time — a process rare but run on occasion whether because a machine is
-  dropped or happens to hiccup.
+  Maintenance](https://zookeeper.apache.org/doc/r3.1.2/zookeeperAdmin.html#sc_maintenance)
+  else you could have 'interesting' problems a couple of months in; i.e.
+  zookeeper could start dropping sessions if it has to run through a directory
+  of hundreds of thousands of logs which is wont to do around leader reelection
+  time — a process rare but run on occasion whether because a machine is dropped
+  or happens to hiccup.
 </Callout>
 
 ## Using existing ZooKeeper ensemble
@@ -405,14 +406,15 @@ Setting up KeyStore is optional and only required if ZooKeeper server requests f
 Find more detailed information in the [ZooKeeper SSL User Guide](https://cwiki.apache.org/confluence/display/ZOOKEEPER/ZooKeeper+SSL+User+Guide).
 
 <Callout type="warn">
-  These're standard Java properties which should be set in the HBase command line and are effective
-  in the entire Java process. All ZooKeeper clients running in the same process will pick them up
-  including co-processors.
+  These're standard Java properties which should be set in the HBase command
+  line and are effective in the entire Java process. All ZooKeeper clients
+  running in the same process will pick them up including co-processors.
 </Callout>
 
 <Callout type="info">
-  Since ZooKeeper version 3.8 the following two properties are useful to store the keystore and
-  truststore passwords in protected text files rather than exposing them in the command line.
+  Since ZooKeeper version 3.8 the following two properties are useful to store
+  the keystore and truststore passwords in protected text files rather than
+  exposing them in the command line.
 </Callout>
 
 ```properties
@@ -445,6 +447,7 @@ to Java system properties this could be more convenient under some circumstances
 ```
 
 <Callout type="info">
-  These settings are eventually transformed into Java system properties, it's just a convenience
-  feature. So, the same rules that mentioned in the previous point, applies to them as well.
+  These settings are eventually transformed into Java system properties, it's
+  just a convenience feature. So, the same rules that mentioned in the previous
+  point, applies to them as well.
 </Callout>

@@ -57,7 +57,9 @@ describe("MDX Heading ID Uniqueness Validation", () => {
 
         // Convert ReactNode title to string
         const titleString =
-          typeof heading.title === "string" ? heading.title : String(heading.title);
+          typeof heading.title === "string"
+            ? heading.title
+            : String(heading.title);
 
         idToPages.get(id)!.push({
           url: page.url,
@@ -77,7 +79,9 @@ describe("MDX Heading ID Uniqueness Validation", () => {
 
     // Report duplicates with improved logging
     if (duplicates.length > 0) {
-      console.error("\n❌ Duplicate heading IDs found across different pages:\n");
+      console.error(
+        "\n❌ Duplicate heading IDs found across different pages:\n"
+      );
 
       duplicates.forEach(({ id, occurrences }) => {
         console.error(`\n  Heading ID: "${id}"`);
@@ -97,7 +101,9 @@ describe("MDX Heading ID Uniqueness Validation", () => {
         });
       });
 
-      console.error(`\n💡 To fix: Rename these headings to be unique across all pages\n`);
+      console.error(
+        `\n💡 To fix: Rename these headings to be unique across all pages\n`
+      );
     }
 
     expect(duplicates.length).toBe(0);

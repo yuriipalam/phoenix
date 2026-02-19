@@ -10,16 +10,18 @@ HBase runs on the Java Virtual Machine, thus all HBase deployments require a JVM
 The following table summarizes the recommendations of the HBase community with respect to running on various Java versions. The ✅ symbol indicates a base level of testing and willingness to help diagnose and address issues you might run into; these are the expected deployment combinations. An entry of ⚠️ means that there may be challenges with this combination, and you should look for more information before deciding to pursue this as your deployment strategy. The ❌ means this combination does not work; either an older Java version is considered deprecated by the HBase community, or this combination is known to not work. For combinations of newer JDK with older HBase releases, it's likely there are known compatibility issues that cannot be addressed under our compatibility guarantees, making the combination impossible. In some cases, specific guidance on limitations (e.g. whether compiling / unit tests work, specific operational issues, etc) are also noted. Assume any combination not listed here is considered ❌.
 
 <Callout type="warn">
-  HBase recommends downstream users rely only on JDK releases that are marked as Long-Term Supported
-  (LTS), either from the OpenJDK project or vendors. At the time of this writing, the following JDK
-  releases are NOT LTS releases and are NOT tested or advocated for use by the Apache HBase
-  community: JDK9, JDK10, JDK12, JDK13, and JDK14. Community discussion around this decision is
-  recorded on [HBASE-20264](https://issues.apache.org/jira/browse/HBASE-20264).
+  HBase recommends downstream users rely only on JDK releases that are marked as
+  Long-Term Supported (LTS), either from the OpenJDK project or vendors. At the
+  time of this writing, the following JDK releases are NOT LTS releases and are
+  NOT tested or advocated for use by the Apache HBase community: JDK9, JDK10,
+  JDK12, JDK13, and JDK14. Community discussion around this decision is recorded
+  on [HBASE-20264](https://issues.apache.org/jira/browse/HBASE-20264).
 </Callout>
 
 <Callout type="tip">
-  At this time, all testing performed by the Apache HBase project runs on the HotSpot variant of the
-  JVM. When selecting your JDK distribution, please take this into consideration.
+  At this time, all testing performed by the Apache HBase project runs on the
+  HotSpot variant of the JVM. When selecting your JDK distribution, please take
+  this into consideration.
 </Callout>
 
 **Java support by release line**
@@ -46,8 +48,8 @@ For JDK11/JDK17 support in Hadoop, which may also affect HBase, please refer to 
 </Callout>
 
 <Callout type="info">
-  You must set `JAVA_HOME` on each node of your cluster. *hbase-env.sh* provides a handy mechanism
-  to do this.
+  You must set `JAVA_HOME` on each node of your cluster. *hbase-env.sh* provides
+  a handy mechanism to do this.
 </Callout>
 
 ### Operating System Utilities
@@ -210,11 +212,12 @@ Use the following legend to interpret these tables:
 ### Hadoop version support matrix for EOM pre-1.0 release lines
 
 <Callout type="idea">
-  Starting around the time of Hadoop version 2.7.0, the Hadoop PMC got into the habit of calling out
-  new minor releases on their major version 2 release line as not stable / production ready. As
-  such, HBase expressly advises downstream users to avoid running on top of these releases. Note
-  that additionally the 2.8.1 release was given the same caveat by the Hadoop PMC. For reference,
-  see the release announcements for [Apache Hadoop
+  Starting around the time of Hadoop version 2.7.0, the Hadoop PMC got into the
+  habit of calling out new minor releases on their major version 2 release line
+  as not stable / production ready. As such, HBase expressly advises downstream
+  users to avoid running on top of these releases. Note that additionally the
+  2.8.1 release was given the same caveat by the Hadoop PMC. For reference, see
+  the release announcements for [Apache Hadoop
   2.7.0](https://s.apache.org/hadoop-2.7.0-announcement), [Apache Hadoop
   2.8.0](https://s.apache.org/hadoop-2.8.0-announcement), [Apache Hadoop
   2.8.1](https://s.apache.org/hadoop-2.8.1-announcement), and [Apache Hadoop
@@ -222,19 +225,22 @@ Use the following legend to interpret these tables:
 </Callout>
 
 <Callout type="idea">
-  The Hadoop PMC called out the 3.1.0 release as not stable / production ready. As such, HBase
-  expressly advises downstream users to avoid running on top of this release. For reference, see the
-  [release announcement for Hadoop 3.1.0](https://s.apache.org/hadoop-3.1.0-announcement).
+  The Hadoop PMC called out the 3.1.0 release as not stable / production ready.
+  As such, HBase expressly advises downstream users to avoid running on top of
+  this release. For reference, see the [release announcement for Hadoop
+  3.1.0](https://s.apache.org/hadoop-3.1.0-announcement).
 </Callout>
 
 <Callout type="info">
-  Because HBase depends on Hadoop, it bundles Hadoop jars under its *lib* directory. The bundled
-  jars are ONLY for use in stand-alone mode. In distributed mode, it is *critical* that the version
-  of Hadoop that is out on your cluster match what is under HBase. Replace the hadoop jars found in
-  the HBase lib directory with the equivalent hadoop jars from the version you are running on your
-  cluster to avoid version mismatch issues. Make sure you replace the jars under HBase across your
-  whole cluster. Hadoop version mismatch issues have various manifestations. Check for mismatch if
-  HBase appears hung.
+  Because HBase depends on Hadoop, it bundles Hadoop jars under its *lib*
+  directory. The bundled jars are ONLY for use in stand-alone mode. In
+  distributed mode, it is *critical* that the version of Hadoop that is out on
+  your cluster match what is under HBase. Replace the hadoop jars found in the
+  HBase lib directory with the equivalent hadoop jars from the version you are
+  running on your cluster to avoid version mismatch issues. Make sure you
+  replace the jars under HBase across your whole cluster. Hadoop version
+  mismatch issues have various manifestations. Check for mismatch if HBase
+  appears hung.
 </Callout>
 
 ### Hadoop 3 Support for the HBase Binary Releases and Maven Artifacts
