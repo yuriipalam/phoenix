@@ -34,8 +34,9 @@ export default [
     route("who-is-using", "routes/_landing/who-is-using.tsx"),
     route("recent-improvements", "routes/_landing/recent-improvements.tsx"),
     route("roadmap", "routes/_landing/roadmap.tsx"),
+    route("resources/tech-talks", "routes/_landing/tech-talks.tsx"),
 
-    route("source-repository", "routes/_landing/source-repository.tsx"),
+    route("source-repository", "routes/_landing/source-repository.tsx")
   ]),
   // Docs
   layout("./pages/_docs/docs-layout.tsx", [

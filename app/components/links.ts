@@ -97,20 +97,12 @@ export const documentationLinks: (LinkType | NestedLinkType)[] = [
     label: "Resources",
     links: [
       {
-        label: "Video/Presentations",
-        to: "/docs/other-info"
+        label: "Tech Talks",
+        to: "/resources/tech-talks"
       },
       {
-        label: "ACID Semantics",
-        to: "/acid-semantics"
-      },
-      {
-        label: "Bulk Loads",
-        to: "/docs/architecture/bulk-loading"
-      },
-      {
-        label: "Metrics",
-        to: "/docs/operational-management/metrics-and-monitoring"
+        label: "Presentations",
+        to: "/resources/presentations"
       }
     ]
   }
