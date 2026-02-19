@@ -74,10 +74,10 @@ export function SiteNavbar() {
         <Link
           to="/"
           className="relative z-50 flex items-center gap-3"
-          aria-label="HBase Home"
+          aria-label="Phoenix Home"
         >
-          <img src="/images/logo.svg" alt="Apache HBase logo" width={120} />
-          <span className="sr-only">Apache HBase</span>
+          <img src="/images/logo.svg" alt="Apache Phoenix logo" width={120} />
+          <span className="sr-only">Apache Phoenix</span>
         </Link>
 
         {/* Desktop menus */}
@@ -133,7 +133,7 @@ function ProjectMenu() {
         <button
           className={`${navLinkClass} inline-flex cursor-pointer items-center`}
         >
-          Apache HBase Project <ChevronDown className="ml-1 h-4 w-4" />
+          Apache Phoenix Project <ChevronDown className="ml-1 h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
@@ -157,7 +157,7 @@ function DocsMenu() {
         <button
           className={`${navLinkClass} inline-flex cursor-pointer items-center`}
         >
-          Documentation and API <ChevronDown className="ml-1 h-4 w-4" />
+          Documentation <ChevronDown className="ml-1 h-4 w-4" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
@@ -310,7 +310,7 @@ function MobileMenu() {
             <div className="px-6 pt-24 pb-8">
               <nav className="space-y-4">
                 <MobileMenuSection
-                  title="Apache HBase Project"
+                  title="Apache Phoenix Project"
                   links={projectLinks}
                   onLinkClick={() => setIsOpen(false)}
                 />
@@ -424,7 +424,7 @@ function NoJSProjectMenu() {
       <summary
         className={`${navLinkClass} inline-flex cursor-pointer list-none items-center`}
       >
-        Apache HBase Project <ChevronDown className="ml-1 h-4 w-4" />
+        Apache Phoenix Project <ChevronDown className="ml-1 h-4 w-4" />
       </summary>
       <div className="bg-popover text-popover-foreground absolute top-full left-1/2 z-50 mt-1.5 min-w-[12rem] -translate-x-1/2 rounded-md border p-1 shadow-md">
         {projectLinks.map((item) => (
@@ -531,7 +531,7 @@ function NoJSMobileMenu() {
       <div className="bg-background fixed inset-x-0 top-16 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto border-t p-6">
         <nav className="space-y-4">
           <NoJSMobileMenuSection
-            title="Apache HBase Project"
+            title="Apache Phoenix Project"
             links={projectLinks}
           />
           <NoJSMobileDocsSection />

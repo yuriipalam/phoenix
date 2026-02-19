@@ -36,6 +36,7 @@ export default [
     route("roadmap", "routes/_landing/roadmap.tsx"),
 
     route("source-repository", "routes/_landing/source-repository.tsx"),
+    route("issues-tracking", "routes/_landing/issues-tracking.tsx"),
     route("resources/tech-talks", "routes/_landing/tech-talks.tsx"),
     route("resources/presentations", "routes/_landing/presentations.tsx")
   ]),
