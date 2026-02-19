@@ -64,7 +64,7 @@ export const projectLinks: LinkType[] = [
   }
 ];
 
-export const documentationLinks: (LinkType | NestedLinkType)[] = [
+export const documentationLinks: LinkType[] = [
   {
     label: "Reference Guide",
     to: "/docs"
@@ -92,17 +92,12 @@ export const documentationLinks: (LinkType | NestedLinkType)[] = [
     to: "/source-repository"
   },
   {
-    label: "Resources",
-    links: [
-      {
-        label: "Tech Talks",
-        to: "/resources/tech-talks"
-      },
-      {
-        label: "Presentations",
-        to: "/resources/presentations"
-      }
-    ]
+    label: "Tech Talks",
+    to: "/tech-talks"
+  },
+  {
+    label: "Presentations",
+    to: "/presentations"
   }
 ];
 

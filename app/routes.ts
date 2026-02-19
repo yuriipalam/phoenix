@@ -38,8 +38,8 @@ export default [
     route("release-notes", "routes/_landing/release-notes.tsx"),
     route("issues-tracking", "routes/_landing/issues-tracking.tsx"),
     route("source-repository", "routes/_landing/source-repository.tsx"),
-    route("resources/tech-talks", "routes/_landing/tech-talks.tsx"),
-    route("resources/presentations", "routes/_landing/presentations.tsx")
+    route("tech-talks", "routes/_landing/tech-talks.tsx"),
+    route("presentations", "routes/_landing/presentations.tsx")
   ]),
   // Docs
   layout("./pages/_docs/docs-layout.tsx", [
