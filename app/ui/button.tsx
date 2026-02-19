@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 
 const variants = {
   default:
-    "bg-primary dark:bg-primary-strong dark:hover:bg-primary-strong/90 text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary/50 shadow-sm",
+    "bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary/50 shadow-sm",
   destructive:
     "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20",
   outline:
