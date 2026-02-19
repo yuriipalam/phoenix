@@ -26,10 +26,10 @@ export function SiteFooter() {
       <div className="border-border/60 text-muted-foreground px-4 pt-12 pb-8 text-sm md:pt-16 md:pb-10">
         <div className="grid gap-6 md:grid-cols-4">
           <div>
-            <p className="text-foreground font-medium">Apache HBase</p>
+            <p className="text-foreground font-medium">Apache Phoenix</p>
             <p className="mt-2">
-              Open-source, distributed, and scalable big data store modeled
-              after Google Bigtable.
+              Open-source SQL skin over Apache HBase for low-latency
+              transactional and analytical workloads at scale.
             </p>
           </div>
           <div>
@@ -111,11 +111,11 @@ export function SiteFooter() {
         <hr className="border-border/60 my-8" />
 
         <p className="text-xs leading-6">
-          Copyright ©2007–2026 The Apache Software Foundation. All rights
-          reserved. Apache HBase, HBase, Apache, the Apache HBase logo and the
-          ASF logo are either registered trademarks or trademarks of the Apache
-          Software Foundation. All other marks mentioned may be trademarks or
-          registered trademarks of their respective owners.
+          Copyright ©2007-2026 The Apache Software Foundation. All rights
+          reserved. Apache Phoenix, Phoenix, Apache, the Apache Phoenix logo and
+          the ASF logo are either registered trademarks or trademarks of the
+          Apache Software Foundation. All other marks mentioned may be
+          trademarks or registered trademarks of their respective owners.
         </p>
       </div>
     </footer>
