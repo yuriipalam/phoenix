@@ -85,9 +85,8 @@ export const documentationLinks: (LinkType | NestedLinkType)[] = [
     external: true
   },
   {
-    label: "Issue Tracking",
-    to: "https://issues.apache.org/jira/browse/HBASE",
-    external: true
+    label: "Issues Tracking",
+    to: "/issues-tracking"
   },
   {
     label: "Source Repository",

@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-# Issue Tracking
+# Issues Tracking
 
 This project uses JIRA issue tracking and project management application. Issues, bugs, and feature requests should be submitted to the following:
 

@@ -18,13 +18,6 @@
 
 import developers from "./developers.json";
 
-interface Developer {
-  name: string;
-  company: string;
-  email: string;
-  role: string;
-}
-
 export function TeamPage() {
   return (
     <div className="container mx-auto px-4 py-12">
