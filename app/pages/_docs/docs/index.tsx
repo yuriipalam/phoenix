@@ -36,7 +36,6 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Link } from "@/components/link";
 import type { MDXComponents } from "mdx/types";
 import type { TOCItemType } from "fumadocs-core/toc";
-import hbaseVersion from "@/lib/export-pdf/hbase-version.json";
 
 // Extend default MDX components to include Steps globally
 // Note: We'll override the 'a' component in the renderer to handle route-specific logic
@@ -53,12 +52,18 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <div className="flex items-center gap-2">
-          <img src="/favicon.ico" alt="HBase favicon" width={16} height={16} />
-          <p>Apache HBase</p>
+          <img
+            src="/favicon.ico"
+            alt="Phoenix favicon"
+            width={16}
+            height={16}
+          />
+          <p>Apache Phoenix</p>
         </div>
       )
     },
-    githubUrl: "https://github.com/apache/hbase/"
+    // TODO: Update it
+    githubUrl: "https://github.com/apache/phoenix/"
   };
 }
 
@@ -68,8 +73,8 @@ const renderer = toClientRenderer(
   docs.doc,
   ({ toc, default: Mdx, frontmatter }, { tree }: { tree: PageTree.Root }) => {
     const route = useParams()["*"];
-    const baseGithubPath =
-      "hbase-website/app/pages/_docs/docs/_mdx/(multi-page)/";
+    // TODO: Change it
+    const baseGithubPath = "/app/pages/_docs/docs/_mdx/(multi-page)/";
 
     // Filter TOC: only H1 (depth: 1) for single-page, all headings for other pages
     const isSinglePage = route?.startsWith("single-page");
@@ -114,15 +119,7 @@ const renderer = toClientRenderer(
       return () => observer.disconnect();
     }, [isSinglePage]);
 
-    const grouppedRoutes = [
-      "configuration",
-      "upgrading",
-      "security",
-      "architecture",
-      "backup-restore",
-      "operational-management",
-      "building-and-developing"
-    ];
+    const grouppedRoutes: string[] = [];
     const trimmedRoute = route?.endsWith("/") ? route?.slice(0, -1) : route;
     const mdxFileRoute = `${isSinglePage ? "" : `${trimmedRoute === "" ? "preface" : trimmedRoute}.mdx`}`;
     const isGrouppedRoute =
@@ -148,7 +145,7 @@ const renderer = toClientRenderer(
           }
           transformedHref = `#${anchor}`;
         } else if (href?.startsWith("/")) {
-          transformedHref = "https://hbase.apache.org" + href;
+          transformedHref = "https://phoenix.apache.org" + href;
         }
       }
 
@@ -214,22 +211,23 @@ const renderer = toClientRenderer(
             <div className="mt-40 flex break-after-page flex-col items-center justify-center gap-6 text-center">
               <img
                 src="/images/logo.svg"
-                alt="Apache HBase logo"
+                alt="Apache Phoenix logo"
                 className="mx-auto block h-24 w-auto dark:hidden"
               />
               <img
                 src="/images/dark-theme-logo.svg"
-                alt="Apache HBase logo"
+                alt="Apache Phoenix logo"
                 className="mx-auto hidden h-24 w-auto dark:block"
               />
               <h1 className="text-4xl font-semibold tracking-wide">
-                Apache HBase® Reference Guide
+                Apache Phoenix Reference Guide
               </h1>
-              <p className="text-fd-muted-foreground text-sm">
+              {/* TODO */}
+              {/* <p className="text-fd-muted-foreground text-sm">
                 Version {hbaseVersion.version}
-              </p>
+              </p> */}
               <p className="text-fd-muted-foreground text-base">
-                Apache HBase Team
+                Apache Phoenix Team
               </p>
             </div>
           </section>
@@ -268,7 +266,7 @@ const renderer = toClientRenderer(
 
         {route !== undefined && (
           <a
-            href={`https://github.com/apache/hbase/${baseGithubPath}${mdxFileRoute}`}
+            href={`https://github.com/apache/phoenix/${baseGithubPath}${mdxFileRoute}`}
             rel="noreferrer noopener"
             target="_blank"
             className="text-fd-secondary-foreground bg-fd-secondary hover:text-fd-accent-foreground hover:bg-fd-accent w-fit rounded-xl border p-2 text-sm font-medium transition-colors"
