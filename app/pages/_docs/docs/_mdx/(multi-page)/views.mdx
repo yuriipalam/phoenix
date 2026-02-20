@@ -1,24 +1,30 @@
 ---
 title: "Views"
-description: "Legacy documentation migrated from old docs."
+description: "Define updatable and read-only Phoenix views over shared HBase tables, including indexing behavior and limitations."
 ---
 
 The standard SQL view syntax (with some limitations) is now supported by Phoenix to enable multiple virtual tables to all share the same underlying physical HBase table. This is important in HBase as there are limits to the number of regions which HBase can manage. Limiting the number of tables can help limit the number of regions in a cluster.
 
 For example, given the following table definition that defines a base table to collect product metrics:
 
-    CREATE  TABLE product_metrics (
-        metric_type CHAR(1),
-        created_by VARCHAR, 
-        created_date DATE, 
-        metric_id INTEGER
-        CONSTRAINT pk PRIMARY KEY (metric_type, created_by, created_date, metric_id));
+```sql
+CREATE TABLE product_metrics (
+    metric_type CHAR(1),
+    created_by VARCHAR,
+    created_date DATE,
+    metric_id INTEGER,
+    CONSTRAINT pk PRIMARY KEY (metric_type, created_by, created_date, metric_id)
+);
+```
 
 You may define the following view:
 
-    CREATE VIEW mobile_product_metrics (carrier VARCHAR, dropped_calls BIGINT) AS
-    SELECT * FROM product_metrics
-    WHERE metric_type = 'm';
+```sql
+CREATE VIEW mobile_product_metrics (carrier VARCHAR, dropped_calls BIGINT) AS
+SELECT * FROM product_metrics
+WHERE metric_type = 'm';
+```
+
 In this case, the same underlying physical HBase table (i.e. PRODUCT_METRICS) stores all of the data.
 Notice that unlike with standard SQL views, you may define additional columns for your view. The view inherits all of the columns from its base table, in addition to being able to optionally add new KeyValue columns. You may also add these columns after-the-fact with an ALTER VIEW statement. 
 
@@ -27,14 +33,18 @@ Notice that unlike with standard SQL views, you may define additional columns fo
 ## Updatable Views
 If your view uses only simple equality expressions in the WHERE clause, you are also allowed to issue DML against the view. These views are termed *updatable views*. For example, in this case you could issue the following UPSERT statement:
 
-    UPSERT INTO mobile_product_metrics(created_by, create_date, metric_id, carrier, dropped_calls)
-    VALUES('John Doe', CURRENT_DATE(), NEXT VALUE FOR metric_seq, 'Verizon', 20);
+```sql
+UPSERT INTO mobile_product_metrics(created_by, created_date, metric_id, carrier, dropped_calls)
+VALUES('John Doe', CURRENT_DATE(), NEXT VALUE FOR metric_seq, 'Verizon', 20);
+```
 
 In this case, the row will be stored in the PRODUCT_METRICS HBase table and the metric_type column value will be inferred to be 'm' since the VIEW defines it as such.
 
 Also, queries done through the view will automatically apply the WHERE clause filter. For example:
 
-    SELECT sum(dropped_calls) FROM mobile_product_metrics WHERE carrier='Verizon'
+```sql
+SELECT SUM(dropped_calls) FROM mobile_product_metrics WHERE carrier = 'Verizon';
+```
 
 This would sum all the dropped_calls across all product_metrics with a metric_type of 'm' and a carrier of 'Verizon'.
 
@@ -52,7 +62,7 @@ In addition, you may create an INDEX over a VIEW, just as with a TABLE. This is 
 Views have the following restrictions:
 
 1. An INDEX over a VIEW is only maintained if the updates are made through the VIEW. Updates made through the underlying TABLE or the parent VIEW will not be reflected in the index ([PHOENIX-1499](https://issues.apache.org/jira/browse/PHOENIX-1499)).
-3. A primary key column may not be added to a VIEW when its base table has a primary key constraint that ends with a variable length column ([PHOENIX-2157](https://issues.apache.org/jira/browse/PHOENIX-2157)).
-4. A VIEW may be defined over only a single table through a simple SELECT * query. You may not create a VIEW over multiple, joined tables nor over aggregations ([PHOENIX-1505](https://issues.apache.org/jira/browse/PHOENIX-1505), [PHOENIX-1506](https://issues.apache.org/jira/browse/PHOENIX-1506)). 
-5. When a column is added to a VIEW, the new column will not be automatically added to any child VIEWs ([PHOENIX-2054](https://issues.apache.org/jira/browse/PHOENIX-2054)). The workaround is to manually add the column to the child VIEWs.
-6. All columns must be projected into a VIEW when it's created (i.e. only CREATE VIEW ... AS SELECT * is supported). Note, however, you may drop non primary key columns inherited from the base table in a VIEW after it is created through the ALTER VIEW command. Providing a subset of columns and or expressions in the SELECT clause will be supported in a future release ([PHOENIX-1507](https://issues.apache.org/jira/browse/PHOENIX-1507)).
+2. A primary key column may not be added to a VIEW when its base table has a primary key constraint that ends with a variable-length column ([PHOENIX-2157](https://issues.apache.org/jira/browse/PHOENIX-2157)).
+3. A VIEW may be defined over only a single table through a simple `SELECT *` query. You may not create a VIEW over multiple joined tables or over aggregations ([PHOENIX-1505](https://issues.apache.org/jira/browse/PHOENIX-1505), [PHOENIX-1506](https://issues.apache.org/jira/browse/PHOENIX-1506)).
+4. When a column is added to a VIEW, the new column is not automatically added to child VIEWs ([PHOENIX-2054](https://issues.apache.org/jira/browse/PHOENIX-2054)). The workaround is to manually add the column to child VIEWs.
+5. All columns must be projected into a VIEW when it is created (that is, only `CREATE VIEW ... AS SELECT *` is supported). You may drop non-primary-key columns inherited from the base table after creation using `ALTER VIEW`. Providing a subset of columns or expressions in the `SELECT` clause is planned for a future release ([PHOENIX-1507](https://issues.apache.org/jira/browse/PHOENIX-1507)).

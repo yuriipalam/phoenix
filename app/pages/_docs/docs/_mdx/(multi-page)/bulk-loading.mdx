@@ -1,140 +1,170 @@
 ---
 title: "Bulk Loading"
-description: "Legacy documentation migrated from old docs."
+description: "Load Phoenix tables with PSQL and MapReduce-based CSV/JSON bulk loaders, including options, permissions, and tuning notes."
 ---
-
-# Bulk Data Loading
 
 Phoenix provides two methods for bulk loading data into Phoenix tables:
 
-* Single-threaded client loading tool for CSV formatted data via the [psql](/docs/download#Loading-Data) command
-* MapReduce-based bulk load tool for CSV and JSON formatted data
+* Single-threaded client loading tool for CSV-formatted data via the [psql](/docs/download#Loading-Data) command
+* MapReduce-based bulk load tool for CSV and JSON-formatted data
 
-The psql tool is typically appropriate for tens of megabytes, while the MapReduce-based loader is typically better for larger load volumes.
-
-Use of both loaders is described below.
+The `psql` tool is typically appropriate for tens of megabytes, while the MapReduce-based loader is typically better for larger load volumes.
 
 ## Sample data
 
-For the following examples, we will assume that we have a CSV file named "data.csv" with the following content:
+For the following examples, assume we have a CSV file named `data.csv` with this content:
 
-    12345,John,Doe
-    67890,Mary,Poppins
+```csv
+12345,John,Doe
+67890,Mary,Poppins
+```
 
 We will use a table with the following structure:
 
-     CREATE TABLE example (
-        my_pk bigint not null,
-        m.first_name varchar(50),
-        m.last_name varchar(50) 
-        CONSTRAINT pk PRIMARY KEY (my_pk))
+```sql
+CREATE TABLE example (
+    my_pk BIGINT NOT NULL,
+    m.first_name VARCHAR(50),
+    m.last_name VARCHAR(50),
+    CONSTRAINT pk PRIMARY KEY (my_pk)
+);
+```
 
 ## Loading via PSQL
 
-The psql command is invoked via `psql.py` in the Phoenix bin directory. In order to use it to load CSV data, it is invoked by providing the connection information for your HBase cluster, the name of the table to load data into, and the path to the CSV file or files. Note that all CSV files to be loaded must have the '.csv' file extension (this is because arbitrary SQL scripts with the '.sql' file extension can also be supplied on the PSQL command line).
+The `psql` command is invoked via `psql.py` in the Phoenix `bin` directory. To load CSV data, provide connection information for your HBase cluster, the target table name, and one or more CSV file paths. All CSV files must use the `.csv` extension (because arbitrary SQL scripts with the `.sql` extension can also be supplied on the `psql` command line).
 
-To load the example data outlined above into HBase running on the local machine, run the following command:
+To load the example data above into HBase running locally:
 
-    bin/psql.py -t EXAMPLE localhost data.csv
+```shell
+bin/psql.py -t EXAMPLE localhost data.csv
+```
 
-The following parameters can be used for loading data with PSQL:
+The following parameters can be used for loading data with `psql`:
 
-| *Parameter* | *Description* |
-|-------------|---------------|
-| -t          | Provide the name of the table in which to load data. By default, the name of the table is taken from the name of the CSV file. This parameter is case-sensitive |
-| -h          | Overrides the column names to which the CSV data maps and is case sensitive. A special value of in-line indicating that the first line of the CSV file determines the column to which the data maps. |
-| -s          | Run in strict mode, throwing an error on CSV parsing errors |
-| -d          | Supply a custom delimiter or delimiters for CSV parsing |
-| -q          | Supply a custom phrase delimiter, defaults to double quote character |
-| -e          | Supply a custom escape character, default is a backslash |
-| -a          | Supply an array delimiter (explained in more detail below) |
+| Parameter | Description |
+| --- | --- |
+| `-t` | Provide the target table name. By default, the table name is taken from the CSV file name. This parameter is case-sensitive. |
+| `-h` | Override the column names to which CSV data maps (case-sensitive). A special value of `in-line` indicates that the first line of the CSV file determines column mapping. |
+| `-s` | Run in strict mode, throwing an error on CSV parsing errors. |
+| `-d` | Supply one or more custom delimiters for CSV parsing. |
+| `-q` | Supply a custom phrase delimiter (defaults to the double quote character). |
+| `-e` | Supply a custom escape character (default is backslash). |
+| `-a` | Supply an array delimiter (explained in more detail below). |
 
 ## Loading via MapReduce
 
-For higher-throughput loading distributed over the cluster, the MapReduce loader can be used. This loader first converts all data into HFiles, and then provides the created HFiles to HBase after the HFile creation is complete. 
+For higher-throughput loading distributed across the cluster, the MapReduce loader can be used. This loader first converts data into HFiles, then provides the created HFiles to HBase after HFile creation completes.
 
-The CSV MapReduce loader is launched using the `hadoop` command with the Phoenix client jar, as follows:
+The CSV MapReduce loader is launched using the `hadoop` command with the Phoenix client JAR:
 
-    hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```shell
+hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```
 
-When using Phoenix 4.0 and above, there is a known HBase issue( "Notice to Mapreduce users of HBase 0.96.1 and above" https://hbase.apache.org/book.html ), you should use following command:
+When using Phoenix 4.0 and above, there is a known HBase issue ("Notice to MapReduce users of HBase 0.96.1 and above" in the HBase Reference Guide). You should use:
 
-    HADOOP_CLASSPATH=$(hbase mapredcp):/path/to/hbase/conf hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```shell
+HADOOP_CLASSPATH=$(hbase mapredcp):/path/to/hbase/conf hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```
 
-OR
+Or:
 
-    HADOOP_CLASSPATH=/path/to/hbase-protocol.jar:/path/to/hbase/conf hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```shell
+HADOOP_CLASSPATH=/path/to/hbase-protocol.jar:/path/to/hbase/conf hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```
 
-The JSON MapReduce loader is launched using the `hadoop` command with the Phoenix client jar, as follows:
+The JSON MapReduce loader is launched similarly:
 
-    hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.JsonBulkLoadTool --table EXAMPLE --input /data/example.json
+```shell
+hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.JsonBulkLoadTool --table EXAMPLE --input /data/example.json
+```
 
-The input file must be present on HDFS (not the local filesystem where the command is being run). 
+The input file must be present on HDFS (not the local filesystem where the command is run).
 
-The following parameters can be used with the MapReduce loader.
+The following parameters can be used with the MapReduce loader:
 
-| *Parameter*                | *Description*                                 |
-|----------------------------|-----------------------------------------------|
-|-i,--input                  |Input CSV path (mandatory)                     |
-|-t,--table                  |Phoenix table name (mandatory)                 |
-|-a,--array-delimiter        |Array element delimiter (optional)             |
-|-c,--import-columns         |Comma-separated list of columns to be imported |
-|-d,--delimiter              |Input delimiter, defaults to comma             |
-|-g,--ignore-errors          |Ignore input errors                            |
-|-o,--output                 |Output path for temporary HFiles (optional)    |
-|-s,--schema                 |Phoenix schema name (optional)                 |
-|-z,--zookeeper              |Zookeeper quorum to connect to (optional)      |
-|-it,--index-table           |Index table name to load (optional)
+| Parameter | Description |
+| --- | --- |
+| `-i,--input` | Input CSV path (mandatory) |
+| `-t,--table` | Phoenix table name (mandatory) |
+| `-a,--array-delimiter` | Array element delimiter (optional) |
+| `-c,--import-columns` | Comma-separated list of columns to import |
+| `-d,--delimiter` | Input delimiter (defaults to comma) |
+| `-g,--ignore-errors` | Ignore input errors |
+| `-o,--output` | Output path for temporary HFiles (optional) |
+| `-s,--schema` | Phoenix schema name (optional) |
+| `-z,--zookeeper` | ZooKeeper quorum to connect to (optional) |
+| `-it,--index-table` | Index table name to load (optional) |
 
 ### Notes on the MapReduce importer
-The current MR-based bulk loader will run one MR job to load your data table and one MR per index table to populate your indexes. Use the -it option to only load one of your index tables.
 
-#### Permissions issues when uploading HFiles
+The current MR-based bulk loader runs one MR job to load your data table and one MR job per index table to populate indexes. Use `-it` to load only one index table.
 
-There can be issues due to file permissions on the created HFiles in the final stage of a bulk load, when the created HFiles are handed over to HBase. HBase needs to be able to move the created HFiles, which means that it needs to have write access to the directories where the files have been written. If this is not the case, the uploading of HFiles will hang for a very long time before finally failing.
+#### Permission issues when uploading HFiles
 
-There are two main workarounds for this issue: running the bulk load process as the `hbase` user, or creating the output files with as readable for all users.
+There can be issues due to file permissions on created HFiles in the final stage of a bulk load, when HFiles are handed over to HBase. HBase must be able to move the created HFiles, which means it needs write access to the directories where files were written. If not, HFile upload may hang for a long time before failing.
 
-The first option can be done by simply starting the hadoop command with `sudo -u hbase`, i.e. 
+Two common workarounds are:
 
-    sudo -u hbase hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+* Run the bulk load process as the `hbase` user.
+* Create output files readable/writable for all users.
 
-Creating the output files as readable by all can be done by setting the `fs.permissions.umask-mode` configuration setting to "000". This can be set in the hadoop configuration on the machine being used to submit the job, or can be set for the job only during submission on the command line as follows:
+The first option can be done by running:
 
-    hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -Dfs.permissions.umask-mode=000 --table EXAMPLE --input /data/example.csv
+```shell
+sudo -u hbase hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table EXAMPLE --input /data/example.csv
+```
+
+Creating output files readable by all can be done by setting `fs.permissions.umask-mode` to `000`. This can be set in Hadoop config on the submit host, or only for job submission:
+
+```shell
+hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool -Dfs.permissions.umask-mode=000 --table EXAMPLE --input /data/example.csv
+```
 
 #### Loading array data
 
-Both the PSQL loader and MapReduce loader support loading array values with the `-a` flag. Arrays in a CSV file are represented by a field that uses a different delimiter than the main CSV delimiter. For example, the following file would represent an id field and an array of integers:
+Both PSQL and MapReduce loaders support array values with `-a`. Arrays in CSV are represented by a field that uses a different delimiter than the main CSV delimiter. For example, this file represents an `id` field and an array of integers:
 
-    1,2:3:4
-    2,3:4,5
+```csv
+1,2:3:4
+2,3:4:5
+```
 
-To load this file, the default delimiter (comma) would be used, and the array delimiter (colon) would be supplied with the parameter `-a ':'`.
+To load this file, use the default CSV delimiter (comma) and pass colon as the array delimiter via `-a ':'`.
 
 #### A note on separator characters
 
-The default separator character for both loaders is a comma (,). A common separator for input files is the tab character, 
-which can be tricky to supply on the command line. A common mistake is trying to supply a tab as the separator by typing the following
+The default separator for both loaders is comma (`,`). A common separator for input files is tab, which can be tricky to pass on the command line. A common mistake is:
 
-    -d '\t'
+```shell
+-d '\t'
+```
 
-This will not work, as the shell will supply this value as two characters (a backslash and a 't') to Phoenix.
+This does not work because the shell passes two characters (backslash and `t`) to Phoenix.
 
-Two ways in which you can supply a special character such as a tab on the command line are as follows:
+Two working approaches:
 
-1. By preceding the string representation of a tab with a dollar sign:
+1. Prefix the string representation of tab with `$`:
 
-    -d $'\\t'
+```shell
+-d $'\\t'
+```
 
-2. By entering the separator as Ctrl+v, and then pressing the tab key:
-    
-    -d '^v&lt;tab&gt;'
+2. Enter the separator as `Ctrl+v` and then press tab:
 
-#### A note on lower case table/schema name
+```text
+-d '^v<tab>'
+```
 
-Table names in Phoenix are case insensitive( generally uppercase). but sometimes user may require to do mapping of existing HBase table with lowercase name into Phoenix table, In this case, Double quotes around table name i.e "tablename" can be used to preserve case sensitivity. The same was extended to the bulkload options, but due to the way Apache Commons CLI library parse command line options(Ref CLI-275), we need to pass the argument as \\\"\\\"tablename\\\"\\\" instead of just "tablename" for CsvBulkLoadTool.
+#### A note on lowercase table/schema names
+
+Table names in Phoenix are case-insensitive (generally uppercase), but users may need to map an existing lowercase HBase table name into Phoenix. In this case, double quotes around the table name (for example, `"tablename"`) preserve case sensitivity.
+
+This support was extended to bulk load options. However, due to how Apache Commons CLI parses command-line options (CLI-275), pass the argument as `\"\"tablename\"\"` instead of just `"tablename"` for `CsvBulkLoadTool`.
 
 Example:
 
-    hadoop jar phoenix-\<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table \"\"t\"\" --input /data/example.csv
+```shell
+hadoop jar phoenix-<version>-client.jar org.apache.phoenix.mapreduce.CsvBulkLoadTool --table \"\"t\"\" --input /data/example.csv
+```

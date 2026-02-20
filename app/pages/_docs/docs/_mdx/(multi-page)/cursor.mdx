@@ -1,42 +1,46 @@
 ---
 title: "Cursor"
-description: "Legacy documentation migrated from old docs."
+description: "Use CURSOR statements in Phoenix to process query results in controlled row batches."
 ---
 
-Inorder to be able work on a subset of the rows in a query, Phoenix provides support for CURSOR control structure. The following sequence shows how to use cursor.  
+To work on a subset of rows from a query, Phoenix supports a `CURSOR` control structure. The sequence below shows how to use a cursor.
 
-1. Define cursor for a query using DECLARE statement 
+## Using a cursor
 
-    ```
-    PreparedStatement statement = conn.prepareStatement("DECLARE empCursor CURSOR FOR SELECT * FROM EMP_TABLE");
-    statement.execute(); 
-    ```
+1. Define a cursor for a query using the `DECLARE` statement.
 
-2. Open the cursor
+   ```java
+   PreparedStatement statement = conn.prepareStatement(
+       "DECLARE empCursor CURSOR FOR SELECT * FROM EMP_TABLE"
+   );
+   statement.execute();
+   ```
 
-    ```
-    statement = con.prepareStatement("OPEN empCursor");
-    statement.execute();
-    ```
+2. Open the cursor.
 
-3. Fetch subset of rows to work with
+   ```java
+   statement = conn.prepareStatement("OPEN empCursor");
+   statement.execute();
+   ```
 
-    ```
-    statement = con.prepareStatement("FETCH NEXT 10 ROWS FROM empCursor"); 
-    ResultSet rset = statement.execute();
-    ```
+3. Fetch a subset of rows to work with.
 
-4. Iterate through the subset of rows and process them as required
+   ```java
+   statement = conn.prepareStatement("FETCH NEXT 10 ROWS FROM empCursor");
+   ResultSet rset = statement.executeQuery();
+   ```
 
-    ```
-    while (rset.next != null){
-      ...
-    }
-    ``` 
+4. Iterate through the fetched rows and process them as required.
 
-5. Fetch additional set of rows to process and finally close the cursor when done
+   ```java
+   while (rset.next()) {
+       // ...
+   }
+   ```
 
-    ```
-    statement = con.prepareStatement(“CLOSE empCursor");
-    statement.execute();
-    ```
+5. Fetch additional sets of rows as needed, and close the cursor when done.
+
+   ```java
+   statement = conn.prepareStatement("CLOSE empCursor");
+   statement.execute();
+   ```

@@ -1,23 +1,29 @@
 ---
 title: "Skip Scan"
-description: "Legacy documentation migrated from old docs."
+description: "How Phoenix Skip Scan uses key-range hints to efficiently skip non-matching row-key regions."
 ---
 
 Phoenix uses Skip Scan for intra-row scanning which allows for [significant performance improvement](/docs/performance#Skip_Scan) over Range Scan when rows are retrieved based on a given set of keys.
 
-The Skip Scan leverages `SEEK_NEXT_USING_HINT` of HBase Filter. It stores information about what set of keys/ranges of keys are being searched for in each column. It then takes a key (passed to it during filter evaluation), and figures out if it's in one of the combinations or range or not. If not, it figures out to which next highest key to jump.
+Skip Scan leverages `SEEK_NEXT_USING_HINT` in HBase filters. It stores information about which key sets or key ranges are being searched for in each column. During filter evaluation, it checks whether a key is in one of the valid combinations or ranges. If not, it computes the next highest key to jump to.
 
-Input to the `SkipScanFilter` is a `List&lt;List&lt;KeyRange&gt;&gt;` where the top level list represents each column in the row key (i.e. each primary key part), and the inner list represents ORed together byte array boundaries.
+Input to `SkipScanFilter` is a `List<List<KeyRange>>` where the top-level list represents each row-key column (that is, each primary key part), and the inner list represents OR-ed byte-array boundaries.
 
 Consider the following query:
 
 ```sql
-SELECT * from T
+SELECT * FROM T
 WHERE ((KEY1 >='a' AND KEY1 <= 'b') OR (KEY1 > 'c' AND KEY1 <= 'e')) 
 AND KEY2 IN (1, 2)
 ```
 
-The `List&lt;List&lt;KeyRange&gt;&gt;` for `SkipScanFilter` for the above query would be [ [ [ a - b ], [ d - e ] ], [ 1, 2 ] ] where [ [ a - b ], [ d - e ] ] is the range for `KEY1` and [ 1, 2 ] keys for `KEY2`.
+For the query above, the `List<List<KeyRange>>` passed to `SkipScanFilter` would look like:
+
+```text
+[[[a - b], [d - e]], [1, 2]]
+```
+
+Here, `[[a - b], [d - e]]` represents ranges for `KEY1`, and `[1, 2]` represents the keys for `KEY2`.
 
 The following diagram illustrates graphically how the skip scan is able to jump around the key space:
 
