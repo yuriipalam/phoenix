@@ -22,7 +22,7 @@ import { Link as ReactRouterLink } from "react-router";
 export const Link = (
   props: ComponentPropsWithoutRef<typeof ReactRouterLink>
 ) => {
-  const BASE_URL = "https://hbase.phoenix.org";
+  const BASE_URL = "https://phoenix.apache.org";
   const href = typeof props.to === "string" ? props.to : props.to.pathname;
   const reloadDocument = href?.startsWith(BASE_URL);
 

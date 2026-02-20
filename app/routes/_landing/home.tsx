@@ -21,11 +21,11 @@ import { HomePage } from "@/pages/_landing/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Apache HBase" },
+    { title: "Apache Phoenix" },
     {
       name: "description",
       content:
-        "Apache HBase® is the Hadoop database, a distributed, scalable, big data store."
+        "Query HBase with standard SQL and JDBC. Low latency OLTP and operational analytics for Hadoop."
     }
   ];
 }

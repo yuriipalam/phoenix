@@ -17,7 +17,7 @@
 //
 
 // Generated filenames
-const baseFileName = "apache-hbase-reference-guide";
+const baseFileName = "apache-phoenix-reference-guide";
 const fileExtension = ".pdf";
 export const fileNameVariants = {
   light: `${baseFileName}${fileExtension}`,

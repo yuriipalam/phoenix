@@ -222,9 +222,9 @@ const renderer = toClientRenderer(
               <h1 className="text-4xl font-semibold tracking-wide">
                 Apache Phoenix Reference Guide
               </h1>
-              {/* TODO */}
+              {/* TODO: Decide whether we want to include the version in PDF */}
               {/* <p className="text-fd-muted-foreground text-sm">
-                Version {hbaseVersion.version}
+                Version {version}
               </p> */}
               <p className="text-fd-muted-foreground text-base">
                 Apache Phoenix Team
