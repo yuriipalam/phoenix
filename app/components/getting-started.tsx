@@ -29,12 +29,12 @@ export function GettingStartedSection() {
     {
       title: "2. Read the Guide",
       desc: "Walk through cluster setup, schema design, and operations.",
-      to: "/docs/getting-started#get-started-with-hbase"
+      to: "/docs"
     },
     {
       title: "3. Connect a Client",
-      desc: "Use the Java API, REST, or Thrift to start building.",
-      to: "/docs/hbase-apis"
+      desc: "Configure the JDBC client classpath and connection URL.",
+      to: "/docs/client-classpath-and-jdbc-url"
     }
   ];
   return (

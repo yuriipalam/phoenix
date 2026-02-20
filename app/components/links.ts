@@ -40,7 +40,7 @@ export const projectLinks: LinkType[] = [
   },
   {
     label: "Mailing Lists",
-    to: "/mailing-list"
+    to: "/mailing-lists"
   },
   {
     label: "News",

@@ -42,7 +42,7 @@ export function CommunitySection() {
                 <Link to="/source-repository">Contribute</Link>
               </Button>
               <Button asChild variant="ghost">
-                <Link to="/code-of-conduct">Code of Conduct</Link>
+                <Link to="/team">Team</Link>
               </Button>
             </div>
           </div>
@@ -63,7 +63,7 @@ export function CommunitySection() {
             </li>
             <li id="powered-by" className="relative p-0">
               <Link
-                to="/powered-by-hbase"
+                to="/who-is-using"
                 className="border-border/60 bg-background hover:border-primary focus-visible:ring-primary block rounded-lg border p-4 transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
                 <span className="text-foreground font-medium">
@@ -76,6 +76,7 @@ export function CommunitySection() {
               </Link>
             </li>
             <li id="language-reference" className="relative p-0">
+              {/* TODO: update this link once the page is done */}
               <Link
                 to="/docs"
                 className="border-border/60 bg-background hover:border-primary focus-visible:ring-primary block rounded-lg border p-4 transition-colors focus-visible:ring-2 focus-visible:outline-none"

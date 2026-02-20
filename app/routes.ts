@@ -28,7 +28,7 @@ export default [
   layout("./pages/_landing/landing-layout.tsx", [
     index("routes/_landing/home.tsx"),
     route("downloads", "routes/_landing/downloads.tsx"),
-    route("mailing-list", "routes/_landing/mailing-lists.tsx"),
+    route("mailing-lists", "routes/_landing/mailing-lists.tsx"),
     route("news", "routes/_landing/news.tsx"),
     route("team", "routes/_landing/team.tsx"),
     route("who-is-using", "routes/_landing/who-is-using.tsx"),
