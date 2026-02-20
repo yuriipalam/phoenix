@@ -1,34 +1,46 @@
 ---
 title: "Map Reduce Integration"
-description: "Legacy documentation migrated from old docs."
+description: "Read and write Phoenix tables from Hadoop MapReduce jobs."
 ---
-
-## Phoenix Map Reduce
 
 Phoenix provides support for retrieving and writing to Phoenix tables from within MapReduce jobs. The framework now provides custom [InputFormat](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapreduce/InputFormat.html) and [OutputFormat](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapreduce/OutputFormat.html) classes [PhoenixInputFormat](https://github.com/apache/phoenix/blob/f84e5da33c21a728e73924c07506dd63e4621872/phoenix-core/src/main/java/org/apache/phoenix/mapreduce/PhoenixInputFormat.java) , [PhoenixOutputFormat](https://github.com/apache/phoenix/blob/f84e5da33c21a728e73924c07506dd63e4621872/phoenix-core/src/main/java/org/apache/phoenix/mapreduce/PhoenixOutputFormat.java).
 
 [PhoenixMapReduceUtil](https://github.com/apache/phoenix/blob/f84e5da33c21a728e73924c07506dd63e4621872/phoenix-core/src/main/java/org/apache/phoenix/mapreduce/util/PhoenixMapReduceUtil.java "PhoenixMapReduceUtil") provides several utility methods to set the input and output configuration parameters to the job.
 
-When a Phoenix table is the source for the Map Reduce job, we can provide a SELECT query or pass a table name and specific columns to import data . To retrieve data from the table within the mapper class, we need to have a class that implements [DBWritable](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapred/lib/db/DBWritable.html "DBWritable") and pass it as an argument to PhoenixMapReduceUtil.**setInput** method. The custom DBWritable class provides implementation for [readFields(ResultSet rs)](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapreduce/lib/db/DBWritable.html#readFields%28java.sql.ResultSet%29 "readFields") that allows us to retrieve columns for each row. This custom DBWritable class will form the input value to the mapper class.
+When a Phoenix table is the source for the MapReduce job, we can provide a SELECT query or pass a table name and specific columns to import data. To retrieve data from the table within the mapper class, we need to have a class that implements [DBWritable](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapred/lib/db/DBWritable.html "DBWritable") and pass it as an argument to `PhoenixMapReduceUtil.setInput`. The custom DBWritable class provides an implementation for [readFields(ResultSet rs)](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapreduce/lib/db/DBWritable.html#readFields%28java.sql.ResultSet%29 "readFields") that allows us to retrieve columns for each row. This custom DBWritable class will form the input value to the mapper class.
 
 > Note: The SELECT query must not perform any aggregation or use DISTINCT as these are not supported by our map-reduce integration.
 
-Similarly, when writing to a Phoenix table, we use the PhoenixMapReduceUtil.**setOutput** method to set the output table and the columns.
+Similarly, when writing to a Phoenix table, we use `PhoenixMapReduceUtil.setOutput` to set the output table and columns.
 
 > Note: Phoenix internally builds the UPSERT query for you .
 
-The output key and value class for the job should always be NullWritable and the custom DBWritable class that implements the [write](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapreduce/lib/db/DBWritable.html#write%28java.sql.PreparedStatement%29 "write") method .
+The output key and value class for the job should always be `NullWritable` and the custom DBWritable class that implements the [write](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/mapreduce/lib/db/DBWritable.html#write%28java.sql.PreparedStatement%29 "write") method.
 
-Let's dive into an example where we have a table, **STOCK** , that holds the master data of quarterly recordings in a double array for each year and we would like to find out the max price of each stock across all years. Let's store the output to a **STOCK_STATS** table which is another Phoenix table.
+Let's dive into an example where we have a table, **STOCK**, that holds the master data of quarterly recordings in a double array for each year, and we want to find the max price of each stock across all years. Let's store the output in **STOCK_STATS**, which is another Phoenix table.
 
-> Note , you can definitely have a job configured to read from hdfs and load into a phoenix table.
+> Note: You can definitely configure a job to read from HDFS and load into a Phoenix table.
 
-a) _stock_
+### a) `stock`
 
-     CREATE TABLE IF NOT EXISTS STOCK (STOCK_NAME VARCHAR NOT NULL ,RECORDING_YEAR INTEGER NOT  NULL, RECORDINGS_QUARTER DOUBLE array[] CONSTRAINT pk PRIMARY KEY (STOCK_NAME , RECORDING_YEAR));
+```sql
+CREATE TABLE IF NOT EXISTS STOCK (
+  STOCK_NAME VARCHAR NOT NULL,
+  RECORDING_YEAR INTEGER NOT NULL,
+  RECORDINGS_QUARTER DOUBLE ARRAY[]
+  CONSTRAINT pk PRIMARY KEY (STOCK_NAME, RECORDING_YEAR)
+);
+```
 
-b) _stock_stats_
-CREATE TABLE IF NOT EXISTS STOCK_STATS (STOCK_NAME VARCHAR NOT NULL , MAX_RECORDING DOUBLE CONSTRAINT pk PRIMARY KEY (STOCK_NAME));
+### b) `stock_stats`
+
+```sql
+CREATE TABLE IF NOT EXISTS STOCK_STATS (
+  STOCK_NAME VARCHAR NOT NULL,
+  MAX_RECORDING DOUBLE
+  CONSTRAINT pk PRIMARY KEY (STOCK_NAME)
+);
+```
 
 _Sample Data_
 
@@ -56,7 +68,7 @@ UPSERT into STOCK values ('YHOO',2006,ARRAY[39.69,41.22,38.79,40.91]);
 
 ### Below is a simple job configuration
 
-**_Job Configuration_**
+#### Job Configuration
 
 ```java
     final Configuration configuration = HBaseConfiguration.create();
@@ -83,7 +95,7 @@ UPSERT into STOCK values ('YHOO',2006,ARRAY[39.69,41.22,38.79,40.91]);
     job.waitForCompletion(true);
 ```
 
-**_StockWritable_**
+#### StockWritable
 
 ```java
     public class StockWritable implements DBWritable,Writable {
@@ -125,7 +137,7 @@ UPSERT into STOCK values ('YHOO',2006,ARRAY[39.69,41.22,38.79,40.91]);
          ...
 ```
 
-**_Stock Mapper_**
+#### Stock Mapper
 
 ```java
      public static class StockMapper extends Mapper<NullWritable, StockWritable, Text , DoubleWritable> {
@@ -151,7 +163,7 @@ UPSERT into STOCK values ('YHOO',2006,ARRAY[39.69,41.22,38.79,40.91]);
     }
 ```
 
-**_Stock Reducer_**
+#### Stock Reducer
 
 ```java
      public static class StockReducer extends Reducer<Text, DoubleWritable, NullWritable , StockWritable> {
@@ -173,7 +185,7 @@ UPSERT into STOCK values ('YHOO',2006,ARRAY[39.69,41.22,38.79,40.91]);
     }
 ```
 
-**_Packaging & Running_**
+#### Packaging and Running
 
-1. Ensure phoenix-[version]-client.jar is in the classpath of your Map Reduce job jar.
+1. Ensure `phoenix-[version]-client.jar` is in the classpath of your MapReduce job JAR.
 2. To run the job, use the **hadoop jar** command with the necessary arguments.

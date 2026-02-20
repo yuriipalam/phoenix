@@ -1,12 +1,10 @@
 ---
 title: "Python Driver"
-description: "Legacy documentation migrated from old docs."
+description: "Use the Phoenix DB-API Python driver with Phoenix Query Server."
 ---
 
-# Python Driver for Phoenix
-
-The Python Driver for Apache Phoenix implements the [Python DB 2.0 API](https://www.python.org/dev/peps/pep-0249/) to access Phoenix via the Phoenix Query Server. 
-The driver is tested with Python 2.7 and 3.5-3.8. This code was originally called [Python Phoenixdb](https://code.oxygene.sk/lukas/python-phoenixdb) 
+The Python driver for Apache Phoenix implements the [Python DB 2.0 API](https://www.python.org/dev/peps/pep-0249/) to access Phoenix via Phoenix Query Server.
+The driver is tested with Python 2.7 and 3.5-3.8. This code was originally called [python-phoenixdb](https://code.oxygene.sk/lukas/python-phoenixdb)
 and was graciously donated by its authors to the Apache Phoenix project.
 
 All future development of the project is being done in Apache Phoenix.
@@ -16,21 +14,21 @@ All future development of the project is being done in Apache Phoenix.
 ### From PyPI
 
 The latest release is always available from PyPI, and can be installed by
-pip/pip3 as usual.
+`pip`/`pip3` as usual.
 
-```
+```shell
 pip3 install --user phoenixdb
 ```
 
 ### From source
 
-You can build phoenixdb from the official source [release](.html), 
-or you can use the latest development version from the soure
-[repository](/docs/source). The pythondb source
-lives in the `python-phoenixdb` direcory of the python-queryserver
+You can build `phoenixdb` from the official source release,
+or use the latest development version from the source
+[repository](/source-repository). The `python-phoenixdb` source
+lives in the `python-phoenixdb` directory of the `phoenix-queryserver`
 repository.
 
-```
+```shell
 $ cd python-phoenixdb # (Only when building from the git repo)
 $ pip install -r requirements.txt
 $ python setup.py install
@@ -38,7 +36,7 @@ $ python setup.py install
 
 ## Examples
 
-```
+```python
 import phoenixdb
 import phoenixdb.cursor
 
@@ -56,9 +54,11 @@ cursor.execute("SELECT * FROM users WHERE id=1")
 print(cursor.fetchone()['USERNAME'])
 ```
 
-## Limitations 
-* None presently known.
+## Limitations
 
-## Resources 
-* [PHOENIX-4636](https://issues.apache.org/jira/browse/PHOENIX-4636) : Initial landing of the driver into Apache Phoenix.
-* [PHOENIX-4688](https://issues.apache.org/jira/browse/PHOENIX-4688) : Implementation of Kerberos authentication via SPNEGO.
+- None presently known.
+
+## Resources
+
+- [PHOENIX-4636](https://issues.apache.org/jira/browse/PHOENIX-4636): Initial landing of the driver into Apache Phoenix.
+- [PHOENIX-4688](https://issues.apache.org/jira/browse/PHOENIX-4688): Implementation of Kerberos authentication via SPNEGO.
