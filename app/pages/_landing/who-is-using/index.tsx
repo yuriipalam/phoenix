@@ -20,5 +20,21 @@ import { MdLayout } from "@/components/mdx-components";
 import Content from "./content.md";
 
 export function WhoIsUsingPage() {
-  return <MdLayout Content={Content} className="mt-12" />;
+  return (
+    <MdLayout
+      Content={Content}
+      className="mt-12"
+      overrides={{
+        img: ({ src = "", alt = "", ...rest }) => (
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            className="my-6 h-auto max-w-[200px] rounded-lg"
+            {...rest}
+          />
+        )
+      }}
+    />
+  );
 }

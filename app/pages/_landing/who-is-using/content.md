@@ -32,7 +32,7 @@ Steven Tamm, CTO
 
 ---
 
-![Bloomberg logo](/images/using/bb.png)
+![Bloomberg logo](/images/using/bb.jpeg)
 
 At Bloomberg, patterns of access to financial datasets are diverse and complex. HBase provides the scalability and strong consistency that our use cases demand. However, we need more than a key-value store. We need ANSI SQL to reduce the barriers to adoption, we need features such as secondary indices to support lookups along multiple axes and cursors to handle UI pagination. Apache Phoenix provides a rich set of capabilities above HBase that makes it a critical piece of our data platform.
 
