@@ -1,49 +1,51 @@
 ---
 title: "Building"
-description: "Legacy documentation migrated from old docs."
+description: "Build Apache Phoenix and add it to Maven-based projects."
 ---
 
-# Building the Main Phoenix Project
+## Building the Main Phoenix Project
 
 Phoenix consists of several subprojects.
 
-The core of the project is the `phoenix` project, which depends on the `phoenix-thirdparty`, `phoenix-omid` and `phoenix-tephra` projects.
+The core project is `phoenix`, which depends on `phoenix-thirdparty`, `phoenix-omid`, and `phoenix-tephra`.
 
-`phoenix-queryserver` and `phoenix-connectors` are optional packages that depend on the `phoenix` project.
+`phoenix-queryserver` and `phoenix-connectors` are optional packages that also depend on `phoenix`.
 
-Check out the [source](/docs/source-repository) and follow the build instructions in BUILDING.md (or README.md) in the root directory.
+Check out the [source](/docs/source-repository) and follow the build instructions in `BUILDING.md` (or `README.md`) in the repository root.
 
-# Using Phoenix in a Maven Project #
+## Using Phoenix in a Maven Project
 
-Phoenix is also hosted at Apache Maven Repository and Maven Central. You can add it to your mavenized project by adding the following to your pom:
+Phoenix artifacts are published to Apache and Maven Central repositories. Add the dependency below to your `pom.xml`:
 
-```
-  <dependencies>
-    ...
-    <dependency>
-        <groupId>org.apache.phoenix</groupId>
-        <artifactId>phoenix-client-hbase-[hbase.profile]</artifactId>
-        <version>[phoenix.version]</version>
-    </dependency>
-    ...
-  </dependencies>
+```xml
+<dependencies>
+  <dependency>
+    <groupId>org.apache.phoenix</groupId>
+    <artifactId>phoenix-client-hbase-[hbase.profile]</artifactId>
+    <version>[phoenix.version]</version>
+  </dependency>
+</dependencies>
 ```
 
-Where [phoenix.version] is the phoenix release i.e 5.1.2 or 4.16.1, and [hbase.profile] is
-the supported HBase version, which you can see listed on the [download](/docs/download) page.
+Where:
 
-## Branches ##
+- `[phoenix.version]` is the Phoenix release version (for example, `5.1.2` or `4.16.1`)
+- `[hbase.profile]` is the compatible HBase profile
+
+See [Downloads](/downloads) for supported release/profile combinations.
+
+## Branches
 
 The main Phoenix project currently has two active branches.
 
-The 4.x branch works with HBase 1 and Hadoop 2, while the 5.x branch works with HBase 2 and Hadoop 3.
-See the [download](/docs/download) page and BUILDING.md for the HBase versions
-supported by each release.
+- `4.x` works with HBase 1 and Hadoop 2
+- `5.x` works with HBase 2 and Hadoop 3
+
+See [Downloads](/downloads) and `BUILDING.md` for exact version compatibility by release.
 
 ---
 
-See also: 
+See also:
 
-[Building Project Web Site](/docs/building-website)
-
-[How to do a release](/docs/release)
+- [Building Project Website](/docs/building-website)
+- [How to do a Release](/docs/release-notes)

@@ -1,36 +1,40 @@
 ---
 title: "Configuration"
-description: "Legacy documentation migrated from old docs."
+description: "Install and configure Apache Phoenix clients and server components."
 ---
 
 ## Installation
 
-To install a pre-built phoenix, use these directions:
+To install a pre-built Phoenix, use these directions:
 
-- [Download](/docs/download) and expand the latest phoenix-hbase-[hbase.version][phoenix.version]-bin.tar.gz for your HBase version.
-- Add the phoenix-server-hbase-[hbase.version]-[phoenix.version].jar to the classpath of all HBase region servers and masters and remove any previous version. An easy way to do this is to copy it into the HBase lib directory
+- [Download](/downloads) and expand the latest `phoenix-hbase-[hbase.version]-[phoenix.version]-bin.tar.gz` for your HBase version.
+- Add `phoenix-server-hbase-[hbase.version]-[phoenix.version].jar` to the classpath of all HBase region servers and masters, and remove any previous version. An easy way is to copy it into the HBase `lib` directory.
 - Restart HBase.
-- Add the phoenix-client-hbase-[hbase.version]-[phoenix.version].jar to the classpath of any JDBC client.
+- Add `phoenix-client-hbase-[hbase.version]-[phoenix.version].jar` to the classpath of any JDBC client.
 
 To install Phoenix from source:
 
-- [Download](/docs/download) and expand the latest phoenix-[phoenix.version]-src.tar.gz for your HBase version, or check it out from the main source [repository](/docs/source)
-- Follow the build instructions in BUILDING.md in the root directory of the source distribution/repository to build the binary assembly.
+- [Download](/downloads) and expand the latest `phoenix-[phoenix.version]-src.tar.gz` for your HBase version, or check it out from the main source [repository](/source-repository).
+- Follow the build instructions in `BUILDING.md` in the root directory of the source distribution/repository to build the binary assembly.
 - Follow the instructions above, but use the assembly built from source.
 
 ### Getting Started
 
-Wanted to get started quickly? Take a look at our [FAQs](/docs/faq) and take our quick start guide [here](/docs/phoenix-in-15-minutes-or-less).
+Want to get started quickly? Take a look at our [FAQs](/docs/faq) and quick start guide [here](/docs/quick-start).
 
 #### Command Line
 
 A terminal interface to execute SQL from the command line is now bundled with Phoenix. To start it, execute the following from the bin directory:
 
-    $ sqlline.py [zk quorum hosts]
+```shell
+$ sqlline.py [zk quorum hosts]
+```
 
 To execute SQL scripts from the command line, you can include a SQL file argument like this:
 
-    $ sqlline.py [zk quorum hosts] ../examples/stock_symbol.sql
+```shell
+$ sqlline.py [zk quorum hosts] ../examples/stock_symbol.sql
+```
 
 ![sqlline](/images/sqlline.png)
 
@@ -38,9 +42,11 @@ For more information, see the [manual](https://julianhyde.github.io/sqlline/manu
 
 ##### Loading Data
 
-In addition, you can use the bin/psql.py to load CSV data or execute SQL scripts. For example:
+In addition, you can use `bin/psql.py` to load CSV data or execute SQL scripts. For example:
 
-        $ psql.py localhost ../examples/web_stat.sql ../examples/web_stat.csv ../examples/web_stat_queries.sql
+```shell
+$ psql.py localhost ../examples/web_stat.sql ../examples/web_stat.csv ../examples/web_stat_queries.sql
+```
 
 Other alternatives include:
 
@@ -54,19 +60,50 @@ If you'd rather use a client GUI to interact with Phoenix, download and install 
 
 <Steps>
 
-1. Remove prior phoenix-[_oldversion_]-client.jar from the lib directory of SQuirrel, copy phoenix-[_newversion_]-client.jar to the lib directory (_newversion_ should be compatible with the version of the phoenix server jar used with your HBase installation)
-2. Start SQuirrel and add new driver to SQuirrel (Drivers -> New Driver)
-3. In Add Driver dialog box, set Name to Phoenix, and set the Example URL to jdbc:phoenix:localhost.
-4. Type "org.apache.phoenix.jdbc.PhoenixDriver" into the Class Name textbox and click OK to close this dialog.
-5. Switch to Alias tab and create the new Alias (Aliases -> New Aliases)
-6. In the dialog box, Name: _any name_, Driver: Phoenix, User Name: _anything_, Password: _anything_
-7. Construct URL as follows: jdbc:phoenix: _zookeeper quorum server_. For example, to connect to a local HBase use: jdbc:phoenix:localhost
-8. Press Test (which should succeed if everything is setup correctly) and press OK to close.
-9. Now double click on your newly created Phoenix alias and click Connect. Now you are ready to run SQL queries against Phoenix.
+<Step>
+  Remove prior `phoenix-[_oldversion_]-client.jar` from the SQuirreL `lib`
+  directory, then copy `phoenix-[_newversion_]-client.jar` there (`_newversion_`
+  should match the Phoenix server jar used with your HBase installation).
+</Step>
+
+<Step>Start SQuirreL and add a new driver (`Drivers -> New Driver`).</Step>
+
+<Step>
+  In Add Driver, set Name to `Phoenix`, and set the Example URL to
+  `jdbc:phoenix:localhost`.
+</Step>
+
+<Step>
+  Enter `org.apache.phoenix.jdbc.PhoenixDriver` into the Class Name field and
+  click OK.
+</Step>
+
+<Step>
+  Switch to Alias tab and create a new Alias (`Aliases -> New Alias`).
+</Step>
+
+<Step>
+  In the dialog, use Name: _any name_, Driver: `Phoenix`, User Name: _anything_,
+  Password: _anything_.
+</Step>
+
+<Step>
+Construct URL as follows: `jdbc:phoenix:[zookeeper quorum server]`. For example, to connect to local HBase use `jdbc:phoenix:localhost`.
+</Step>
+
+<Step>
+  Press Test (it should succeed if everything is set up correctly), then press
+  OK to close.
+</Step>
+
+<Step>
+  Double-click your newly created Phoenix alias and click Connect. You are now
+  ready to run SQL queries against Phoenix.
+</Step>
 
 </Steps>
 
-Through SQuirrel, you can issue SQL statements in the SQL tab (create tables, insert data, run queries), and inspect table metadata in the Object tab (i.e. list tables, their columns, primary keys, and types).
+Through SQuirreL, you can issue SQL statements in the SQL tab (create tables, insert data, run queries), and inspect table metadata in the Object tab (for example, list tables, columns, primary keys, and types).
 
 ![squirrel](/images/squirrel.png)
 

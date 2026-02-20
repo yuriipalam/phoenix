@@ -1,66 +1,70 @@
 ---
 title: "Performance Testing"
-description: "Legacy documentation migrated from old docs."
+description: "Use Pherf to generate data and run Phoenix performance tests."
 ---
 
-<p align="center">
-  <img src="images/logo/pherf.png" />
-</p>
+![pherf](/images/logo/pherf.png)
 
 ## Overview
 
-Pherf is a standalone tool that can perform performance and functional testing through Phoenix. Pherf can be used both generate highly customized data sets and to measure performance of SQL against that data.
+Pherf is a standalone tool for performance and functional testing through Phoenix. Pherf can be used both to generate highly customized datasets and to measure SQL performance against that data.
 
-### Build all of Phoenix. This includes Pherf's default profile
+### Build all of Phoenix (includes Pherf default profile)
 
-`mvn clean package -DskipTests`
+```shell
+mvn clean package -DskipTests
+```
 
 ## Running
 
-- Edit the config/env.sh to include the required property values.
+- Edit `config/env.sh` to include the required property values.
 - `bin/pherf-standalone.py -h`
 - Example: `bin/pherf-standalone.py -drop all -l -q -z [zookeeper] -schemaFile .*user_defined_schema.sql -scenarioFile .*user_defined_scenario.xml`
 
-## Example run commands.
+## Example run commands
 
 ### List all scenario files available to run.
 
-$./pherf-standalone.py -listFiles
+```shell
+./pherf-standalone.py -listFiles
+```
 
 ### Drop all existing tables, load and query data specified in all scenario files.
 
-$./pherf-standalone.py -drop all -l -q -z localhost
+```shell
+./pherf-standalone.py -drop all -l -q -z localhost
+```
 
 ## Pherf arguments:
 
-- -h _Help_
-- -l _Apply schema and load data_
-- -q _Executes Multi-threaded query sets and write results_
-- -z [quorum] _Zookeeper quorum_
-- -m _Enable monitor for statistics_
-- -monitorFrequency [frequency in Ms] \_Frequency at which the monitor will snopshot stats to log file.
-- -drop [pattern] _Regex drop all tables with schema name as PHERF. Example drop Event tables: -drop .*(EVENT).* Drop all: -drop .\* or -drop all_
-- -scenarioFile _Regex or file name of a specific scenario file to run._
-- -schemaFile _Regex or file name of a specific schema file to run._
-- -export Exports query results to CSV files in CSV_EXPORT directory
-- -diff Compares results with previously exported results
-- -hint _Executes all queries with specified hint. Example SMALL_
+- `-h` _Help_
+- `-l` _Apply schema and load data_
+- `-q` _Executes multi-threaded query sets and writes results_
+- `-z [quorum]` _ZooKeeper quorum_
+- `-m` _Enable monitor for statistics_
+- `-monitorFrequency [frequency in ms]` _Frequency at which the monitor will snapshot stats to log file_
+- `-drop [pattern]` _Regex drop all tables with schema name as PHERF. Example drop Event tables: `-drop .*(EVENT).*`. Drop all: `-drop .*` or `-drop all`_
+- `-scenarioFile` _Regex or file name of a specific scenario file to run_
+- `-schemaFile` _Regex or file name of a specific schema file to run_
+- `-export` _Exports query results to CSV files in `CSV_EXPORT` directory_
+- `-diff` _Compares results with previously exported results_
+- `-hint` _Executes all queries with specified hint. Example: `SMALL`_
 - -rowCountOverride
-- -rowCountOverride [number of rows] _Specify number of rows to be upserted rather than using row count specified in schema_
+- `-rowCountOverride [number of rows]` _Specify number of rows to be upserted rather than using row count specified in schema_
 
 ## Adding Rules for Data Creation
 
 Review [test_scenario.xml](https://git-wip-us.apache.org/repos/asf?p=phoenix.git;a=blob;f=phoenix-pherf/src/test/resources/scenario/test_scenario.xml)
 for syntax examples.
 
-- Rules are defined as `<columns />` and are applied in the order they appear in file.
-- Rules of the same type override the values of a prior rule of the same type. If `<userDefined>true</userDefined>` is
+- Rules are defined as `` `<columns />` `` and are applied in the order they appear in file.
+- Rules of the same type override the values of a prior rule of the same type. If `` `<userDefined>true</userDefined>` `` is
   set, rule will only
   apply override when type and name match the column name in Phoenix.
-- `<prefix>` tag is set at the column level. It can be used to define a constant string appended to the beginning of
+- `` `<prefix>` `` tag is set at the column level. It can be used to define a constant string appended to the beginning of
   CHAR and VARCHAR data type values.
 - **Required field** Supported Phoenix types: VARCHAR, CHAR, DATE, DECIMAL, INTEGER
-  - denoted by the `<type>` tag
+  - denoted by the `` `<type>` `` tag
 - User defined true changes rule matching to use both name and type fields to determine equivalence.
   - Default is false if not specified and equivalence will be determined by type only. **An important note here is that you can still override rules without the user defined flag, but they will change the rule globally and not just for a specified column.**
 - **Required field** Supported Data Sequences
@@ -69,34 +73,34 @@ for syntax examples.
     - Only supported on VARCHAR and CHAR types
   - LIST: Means pick values from predefined list of values
 - **Required field** Length defines boundary for random values for CHAR and VARCHAR types.
-  - denoted by the `<length>` tag
+  - denoted by the `` `<length>` `` tag
 - Column level Min/Max value defines boundaries for numerical values. For DATES, these values supply a range between
   which values are generated. At the column level the granularity is a year. At a specific data value level, the
   granularity is down to the Ms.
-  _ denoted by the `<minValue>` tag
-  _ denoted by the `<maxValue>` tag
+  - denoted by the `` `<minValue>` `` tag
+  - denoted by the `` `<maxValue>` `` tag
 - Null chance denotes the probability of generating a null value. From \[0-100\]. The higher the number, the more likely
-  the value will be null. \* denoted by `<nullChance>`
+  the value will be null. Denoted by `` `<nullChance>` ``.
 - Name can either be any text or the actual column name in the Phoenix table.
-  - denoted by the `<name>`
+  - denoted by the `` `<name>` ``
 - Value List is used in conjunction with LIST data sequences. Each entry is a DataValue with a specified value to be
   used when generating data.
-  _ Denoted by the `<valueList><datavalue><value/></datavalue></valueList>` tags
-  _ If the distribution attribute on the datavalue is set, values will be created according to
+  - Denoted by the `` `<valueList><datavalue><value/></datavalue></valueList>` `` tags
+  - If the distribution attribute on the datavalue is set, values will be created according to
   that probability.
-  _ When distribution is used, values must add up to 100%.
-  _ If distribution is not used, values will be randomly picked from the list with equal distribution.
+  - When distribution is used, values must add up to 100%.
+  - If distribution is not used, values will be randomly picked from the list with equal distribution.
 
 ## Defining Scenario
 
-Scenario can have multiple querySets. Consider following example, concurrency of 1-4 means that each query will be
+A scenario can have multiple querySets. Consider the following example: concurrency of 1-4 means that each query will be
 executed starting with concurrency level of 1 and reach up to maximum concurrency of 4. Per thread, query would be
-executed to a minimum of 10 times or 10 seconds (whichever comes first). QuerySet by defult is executed serially but you
+executed to a minimum of 10 times or 10 seconds (whichever comes first). QuerySet by default is executed serially but you
 can change executionType to PARALLEL so queries are executed concurrently. Each Query may have an optional timeoutDuration
 field that defines the amount of time (in milliseconds) before execution for that Query is cancelled. Scenarios are defined
-in the resource directory in XMLs stored in the resource directory..
+in XML files stored in the resource directory.
 
-```
+```xml
 
 <scenarios>
 
@@ -124,7 +128,7 @@ run.
 Pherf XML results have a similar format to the corresponding scenario.xml file used for the Pherf run, but also include
 additional information, such as the execution time of queries, whether queries timed out, and result row count.
 
-```
+```xml
  <queryResults expectedAggregateRowCount="100000" id="q1" statement="SELECT COUNT(*) FROM PHERF.USER_DEFINED_TEST" timeoutDuration="0">
     <threadTimes threadName="1,1">
         <runTimesInMs elapsedDurationInMs="1873" resultRowCount="100000" startTime="2020-04-09T11:28:12.623-07:00" timedOut="true"/>
@@ -143,7 +147,7 @@ runtime, timeout status, result row count, and more. The header file format can 
 
 Default quorum is localhost. If you want to override set the system variable.
 
-Run unit tests: `mvn test -DZK_QUORUM=localhost`
+Run unit tests: `mvn test -DZK_QUORUM=localhost`  
 Run a specific method: `mvn -Dtest=ClassName#methodName test`
 
 More to come...

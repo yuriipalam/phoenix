@@ -88,7 +88,7 @@ Phoenix creates a relational data model on top of HBase, enforcing a PRIMARY KEY
 
 ## Column Families
 
-If some columns are accessed more frequently than others, [create multiple column families](/docs/faq#Are_there_any_tips_for_optimizing_Phoenix) to separate the frequently-accessed columns from rarely-accessed columns. This improves performance because HBase reads only the column families specified in the query.
+If some columns are accessed more frequently than others, [create multiple column families](/docs/faq#are-there-any-tips-for-optimizing-phoenix) to separate the frequently-accessed columns from rarely-accessed columns. This improves performance because HBase reads only the column families specified in the query.
 
 ## Columns
 
@@ -172,7 +172,7 @@ See also: [Hint](language/#hint).
 
 ### Explain Plans
 
-An `EXPLAIN` plan tells you a lot about how a query will be run. To generate an explain plan run [this](/docs/language/index#explain) query and to interpret the plan, see [this](/docs/explainplan) reference.
+An `EXPLAIN` plan tells you a lot about how a query will be run. To generate an explain plan run [this](/docs/language/index#explain) query and to interpret the plan, see [this](/docs/explain-plan) reference.
 
 ### Parallelization
 
