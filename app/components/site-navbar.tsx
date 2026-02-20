@@ -76,7 +76,18 @@ export function SiteNavbar() {
           className="relative z-50 flex items-center gap-3"
           aria-label="Phoenix Home"
         >
-          <img src="/images/logo.svg" alt="Apache Phoenix logo" width={120} />
+          <img
+            src="/images/logo.svg"
+            alt="Apache Phoenix logo"
+            width={120}
+            className="dark:hidden"
+          />
+          <img
+            src="/images/dark-theme-logo.svg"
+            alt="Apache Phoenix logo"
+            width={120}
+            className="hidden dark:block"
+          />
           <span className="sr-only">Apache Phoenix</span>
         </Link>
 

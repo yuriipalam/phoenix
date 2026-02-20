@@ -33,7 +33,7 @@ export function Hero() {
           />
           {/* TODO: dark theme logo */}
           <img
-            src="/images/logo.svg"
+            src="/images/dark-theme-logo.svg"
             alt="Apache Phoenix logo"
             width={460}
             height={120.4}
