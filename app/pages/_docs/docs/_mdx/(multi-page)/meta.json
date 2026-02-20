@@ -3,10 +3,9 @@
   "description": "Split across multiple pages",
   "root": true,
   "pages": [
-    "index",
     "---Fundamentals---",
+    "index",
     "faq",
-    "quick-start",
     "building",
     "client-classpath-and-jdbc-url",
     "tuning",
