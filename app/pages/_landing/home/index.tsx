@@ -27,8 +27,8 @@ export function HomePage() {
     <>
       <Hero />
       <FeaturesSection />
-      <SqlSupportSection />
       <UseCasesSection />
+      <SqlSupportSection />
       <CommunitySection />
     </>
   );
