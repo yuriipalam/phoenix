@@ -1,0 +1,11 @@
+{
+  "title": "Addons",
+  "pages": [
+    "phoenix-on-amazon-emr",
+    "phoenix-adapter-for-python",
+    "phoenix-orm-library",
+    "phoenix-connector-for-trino",
+    "phoenix-omid-transaction-manager",
+    "phoenix-tephra-transaction-manager"
+  ]
+}
