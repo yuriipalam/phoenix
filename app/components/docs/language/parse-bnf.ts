@@ -121,10 +121,26 @@ function tokenise(input: string): Tok[] {
       continue;
     }
 
-    // ellipsis (...)
+    // ellipsis — must be checked before standalone dot
     if (c === "." && input[i + 1] === "." && input[i + 2] === ".") {
       toks.push({ kind: "ELLIPSIS", val: "..." });
       i += 3;
+      continue;
+    }
+
+    // standalone dot (decimal point in grammar, e.g. "[ - ] { number [ . number ] }")
+    // Word-internal dots like familyName.col are already consumed by the word tokeniser below.
+    if (c === ".") {
+      toks.push({ kind: "WORD", val: "." });
+      i++;
+      continue;
+    }
+
+    // standalone dash (unary minus / negation, e.g. "[ - ] number")
+    // Dashes inside words like "camelCase-word" are consumed by the word tokeniser below.
+    if (c === "-") {
+      toks.push({ kind: "WORD", val: "-" });
+      i++;
       continue;
     }
 
@@ -155,7 +171,24 @@ function tokenise(input: string): Tok[] {
       continue;
     }
 
-    // skip unknown characters (/, *, <, >, # etc.)
+    // SQL special symbols — emit as Terminal word tokens so they appear in diagrams
+    if (c === "*") {
+      toks.push({ kind: "WORD", val: "*" });
+      i++;
+      continue;
+    }
+    if (c === "?") {
+      toks.push({ kind: "WORD", val: "?" });
+      i++;
+      continue;
+    }
+    if (c === ":") {
+      toks.push({ kind: "WORD", val: ":" });
+      i++;
+      continue;
+    }
+
+    // skip unknown characters (/, <, >, # etc.)
     i++;
   }
   toks.push({ kind: "EOF", val: "" });
@@ -367,11 +400,11 @@ class BnfParser {
   }
 
   buildDiagram(): any {
-    const seq = this.parseSeq([]);
-    const filtered = seq.filter(Boolean);
-    if (filtered.length === 0) return rd.Diagram(rd.Skip());
-    if (filtered.length === 1) return rd.Diagram(filtered[0]);
-    return rd.Diagram(rd.Sequence(...filtered));
+    // Use parseAlts so top-level | (e.g. "TRUE | FALSE", "string | numeric | ...")
+    // is treated as a Choice rather than silently dropping all but the first alt.
+    const alts = this.parseAlts([]);
+    const node = this.altsToNode(alts);
+    return rd.Diagram(node);
   }
 }
 
@@ -419,19 +452,59 @@ export function syntaxToSvg(
   syntax: string,
   anchors: Record<string, string>
 ): string {
-  const lines = syntax
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
-
-  return lines
-    .map((line) => {
-      const toks = tokenise(line);
+  return splitIntoRows(syntax)
+    .map((row) => {
+      const toks = tokenise(row);
       const parser = new BnfParser(toks, anchors);
       const svg = parser.buildDiagram().toString();
       return injectAnchorLinks(svg, anchors);
     })
     .join("\n");
+}
+
+/**
+ * Splits a (possibly multi-line) syntax string into logical diagram rows.
+ *
+ * Simple newline splitting breaks multi-line entries like Term and Condition
+ * where a single grammar rule spans many lines with its brackets unbalanced
+ * mid-way, or where continuation alternatives begin with a leading `|`.
+ *
+ * Rules:
+ *   - Accumulate lines until brackets/braces/parens are balanced (depth = 0)
+ *     AND the next non-empty line does NOT start with `|` (which would mean
+ *     it is a continuation alternative, not a new independent row).
+ */
+export function splitIntoRows(syntax: string): string[] {
+  const rows: string[] = [];
+  let current = "";
+  let depth = 0;
+
+  const lines = syntax
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    for (const c of line) {
+      if (c === "[" || c === "{" || c === "(") depth++;
+      else if (c === "]" || c === "}" || c === ")") depth--;
+    }
+
+    current = current ? `${current} ${line}` : line;
+
+    const nextLine = lines[i + 1]?.trim() ?? "";
+    const nextIsContinuation = nextLine.startsWith("|");
+
+    if (depth === 0 && !nextIsContinuation) {
+      rows.push(current);
+      current = "";
+    }
+  }
+
+  if (current) rows.push(current);
+  return rows.filter(Boolean);
 }
 
 /**
