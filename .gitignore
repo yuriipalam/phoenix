@@ -37,6 +37,11 @@ lerna-debug.log*
 # Generated files
 /public/books/**
 
+# Generated language reference MDX pages (from public/phoenix.csv via npm run generate-language)
+/app/pages/_docs/docs/_mdx/(multi-page)/grammar.mdx
+/app/pages/_docs/docs/_mdx/(multi-page)/functions.mdx
+/app/pages/_docs/docs/_mdx/(multi-page)/datatypes.mdx
+
 # Playwright
 node_modules/
 /test-results/

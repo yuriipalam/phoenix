@@ -22,8 +22,9 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
     "export-pdf": "playwright test e2e-tests/export-pdf.spec.ts --project=chromium --workers=1",
+    "generate-language": "tsx scripts/generate-language.ts",
     "fumadocs-init": "fumadocs-mdx",
-    "ci": "npm run fumadocs-init && npm run lint && npm run typecheck && npm run test:unit:run && npx playwright install && npm run test:e2e && npm run build"
+    "ci": "npm run generate-language && npm run fumadocs-init && npm run lint && npm run typecheck && npm run test:unit:run && npx playwright install && npm run test:e2e && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -57,6 +58,7 @@
     "katex": "^0.16.27",
     "lucide-react": "^0.454.0",
     "next-themes": "^0.4.6",
+    "railroad-diagrams": "^1.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
@@ -77,8 +79,8 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.36.0",
     "@playwright/test": "^1.57.0",
-    "@tailwindcss/typography": "^0.5.19",
     "@react-router/dev": "^7.12.0",
+    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.13",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",

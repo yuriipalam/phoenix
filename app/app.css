@@ -183,6 +183,78 @@
   }
 }
 
+/* -----------------------------------------------------------------------
+ * Railroad / Syntax Diagrams (railroad-diagrams library)
+ *
+ * The library computes all box widths using CHAR_WIDTH=8.5 and expects:
+ *   - font: bold 14px monospace
+ *   - text-anchor: middle  (x attr is placed at the box centre)
+ *
+ * We keep those layout assumptions intact and only theme the colours.
+ * ----------------------------------------------------------------------- */
+.railroad-diagram-wrapper svg.railroad-diagram {
+  display: block;
+  max-width: 100%;
+  /* gap between continuation rows */
+  margin-bottom: 6px;
+}
+.railroad-diagram-wrapper svg.railroad-diagram:last-child {
+  margin-bottom: 0;
+}
+
+/* Hide the double-bar start/end terminators — the library always places the
+   start cap as the very first <path> child of the outer <g>, and the end cap
+   as the very last. Removing them leaves a clean open line at each end. */
+.railroad-diagram-wrapper svg.railroad-diagram > g > path:first-child,
+.railroad-diagram-wrapper svg.railroad-diagram > g > path:last-child {
+  display: none;
+}
+
+/* Lines / connectors */
+.railroad-diagram-wrapper svg.railroad-diagram path,
+.railroad-diagram-wrapper svg.railroad-diagram line {
+  stroke: var(--foreground);
+  stroke-width: 2px;
+  fill: none;
+}
+
+/* All text — MUST keep font: bold 14px monospace and text-anchor: middle
+   so that the pre-computed box widths stay correct */
+.railroad-diagram-wrapper svg.railroad-diagram text {
+  font: bold 14px ui-monospace, "SFMono-Regular", Consolas, monospace;
+  text-anchor: middle;
+  fill: var(--foreground);
+}
+
+/* Comment text (e.g. loop labels) */
+.railroad-diagram-wrapper svg.railroad-diagram text.comment {
+  font: italic 12px ui-monospace, "SFMono-Regular", Consolas, monospace;
+  fill: var(--muted-foreground);
+}
+
+/* Left-anchored label text */
+.railroad-diagram-wrapper svg.railroad-diagram text.label {
+  text-anchor: start;
+}
+
+/* All boxes (terminal and non-terminal) — same primary accent */
+.railroad-diagram-wrapper svg.railroad-diagram rect {
+  fill: color-mix(in oklch, var(--primary) 15%, transparent);
+  stroke: var(--primary);
+  stroke-width: 1.5px;
+}
+
+/* Linked non-terminal — native SVG <a> handles navigation, just style it */
+.railroad-diagram-wrapper svg a {
+  cursor: pointer;
+}
+.railroad-diagram-wrapper svg a text {
+  text-decoration: none;
+}
+.railroad-diagram-wrapper svg a text:hover {
+  text-decoration: underline;
+}
+
 /* For rendering a PDF */
 @media print {
   @page {
