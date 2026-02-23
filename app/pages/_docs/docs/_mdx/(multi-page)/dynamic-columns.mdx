@@ -3,7 +3,7 @@ title: "Dynamic Columns"
 description: "Define and query late-bound dynamic columns in Phoenix when full schema cannot be declared upfront."
 ---
 
-Sometimes defining a static schema up front is not feasible. Instead, a subset of columns may be specified at table [create](/docs/language/index#create_table) time while the rest are specified at [query](/docs/language/index#select) time. As of Phoenix 1.2, dynamic columns are supported by allowing column definitions in parentheses after the table name in the `FROM` clause of a `SELECT` statement. Although this is not standard SQL, it is useful for leveraging the late-binding capability of HBase.
+Sometimes defining a static schema up front is not feasible. Instead, a subset of columns may be specified at table [create](/docs/grammar#create-table) time while the rest are specified at [query](/docs/grammar#select) time. As of Phoenix 1.2, dynamic columns are supported by allowing column definitions in parentheses after the table name in the `FROM` clause of a `SELECT` statement. Although this is not standard SQL, it is useful for leveraging the late-binding capability of HBase.
 
 ## Examples
 

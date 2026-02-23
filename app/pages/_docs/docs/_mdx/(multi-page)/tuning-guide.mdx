@@ -52,9 +52,9 @@ The following sections provide a few general tips for different access scenarios
 
 ### Can the data be append-only (immutable)?
 
-- If the data is immutable or append-only, declare the table and its indexes as immutable using the `IMMUTABLE_ROWS` [option](/docs/language/index#options) at creation time to reduce the write-time cost. If you need to make an existing table immutable, you can do so with `ALTER TABLE trans.event SET IMMUTABLE_ROWS=true` after creation time.
-  - If speed is more important than data integrity, you can use the `DISABLE_WAL` [option](/docs/language/index#options). Note: it is possible to lose data with `DISABLE_WAL` if a region server fails.
-- Set the `UPDATE_CACHE_FREQUENCY` [option](/docs/language/index#options) to 15 minutes or so if your metadata doesn't change very often. This property determines how often an RPC is done to ensure you're seeing the latest schema.
+- If the data is immutable or append-only, declare the table and its indexes as immutable using the `IMMUTABLE_ROWS` [option](/docs/grammar#options) at creation time to reduce the write-time cost. If you need to make an existing table immutable, you can do so with `ALTER TABLE trans.event SET IMMUTABLE_ROWS=true` after creation time.
+  - If speed is more important than data integrity, you can use the `DISABLE_WAL` [option](/docs/grammar#options). Note: it is possible to lose data with `DISABLE_WAL` if a region server fails.
+- Set the `UPDATE_CACHE_FREQUENCY` [option](/docs/grammar#options) to 15 minutes or so if your metadata doesn't change very often. This property determines how often an RPC is done to ensure you're seeing the latest schema.
 - If the data is not sparse (over 50% of the cells have values), use the SINGLE_CELL_ARRAY_WITH_OFFSETS data encoding scheme introduced in Phoenix 4.10, which obtains faster performance by reducing the size of the data. For more information, see “[Column Mapping and Immutable Data Encoding](https://blogs.apache.org/phoenix/entry/column-mapping-and-immutable-data)” on the Apache Phoenix blog.
 
 ### Is the table very large?
@@ -66,7 +66,7 @@ The following sections provide a few general tips for different access scenarios
 
 A transaction is a data operation that is atomic—that is, guaranteed to succeed completely or not at all. For example, if you need to make cross-row updates to a data table, then you should consider your data transactional.
 
-- If you need transactionality, use the `TRANSACTIONAL` [option](/docs/language/index#options). (See also http://phoenix.apache.org/transactions.html.)
+- If you need transactionality, use the `TRANSACTIONAL` [option](/docs/grammar#options). (See also http://phoenix.apache.org/transactions.html.)
 
 ### Block Encoding
 
@@ -176,11 +176,11 @@ Hints let you override default query processing behavior and specify such factor
 - If necessary, you can do bigger joins with the `/*+ USE_SORT_MERGE_JOIN */` hint, but a big join will be an expensive operation over huge numbers of rows.
 - If the overall size of all right-hand-side tables would exceed the memory size limit, use the `/*+ NO_STAR_JOIN */ `hint.
 
-See also: [Hint](/docs/language/index#hint).
+See also: [Hint](/docs/grammar#hint).
 
 ### Explain plans
 
-An `EXPLAIN` plan tells you a lot about how a query will be run. To generate an explain plan run [this](/docs/language/index#explain) query and to interpret the plan, see [this](/docs/explain-plan) reference.
+An `EXPLAIN` plan tells you a lot about how a query will be run. To generate an explain plan run [this](/docs/grammar#explain) query and to interpret the plan, see [this](/docs/explain-plan) reference.
 
 ### Parallelization
 

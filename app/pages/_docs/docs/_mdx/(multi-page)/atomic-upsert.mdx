@@ -5,7 +5,7 @@ description: "Use UPSERT ... ON DUPLICATE KEY for atomic row-level updates in Ph
 
 To support atomic upsert, an optional ON DUPLICATE KEY clause, similar to the MySQL syntax, has been
 incorporated into the UPSERT VALUES command as of Phoenix 4.9. The general syntax is described
-[here](/docs/language/index#upsert_values). This feature provides a superset of the HBase Increment and
+[here](/docs/grammar#upsert-values). This feature provides a superset of the HBase Increment and
 CheckAndPut functionality to enable atomic upserts. On the server-side, when the commit
 is processed, the row being updated will be locked while the current column values are read and the
 ON DUPLICATE KEY clause is executed. Given that the row must be locked and read when the ON DUPLICATE KEY

@@ -46,7 +46,7 @@ Each are useful in different scenarios and have their own failure profiles and p
 
 ## Global Indexes
 
-Global indexing targets _read heavy_ uses cases. With global indexes, all the performance penalties for indexes occur at write time. We intercept the data table updates on write ([DELETE](/docs/language/index#delete), [UPSERT VALUES](/docs/language/index#upsert_values) and [UPSERT SELECT](/docs/language/index#upsert_select)), build the index update and then sent any necessary updates to all interested index tables. At read time, Phoenix will select the index table to use that will produce the fastest query time and directly scan it just like any other HBase table. An index will not be used for a query that references a column that isn't part of the index.
+Global indexing targets _read heavy_ uses cases. With global indexes, all the performance penalties for indexes occur at write time. We intercept the data table updates on write ([DELETE](/docs/grammar#delete), [UPSERT VALUES](/docs/grammar#upsert-values) and [UPSERT SELECT](/docs/grammar#upsert-select)), build the index update and then sent any necessary updates to all interested index tables. At read time, Phoenix will select the index table to use that will produce the fastest query time and directly scan it just like any other HBase table. An index will not be used for a query that references a column that isn't part of the index.
 
 ## Local Indexes
 
@@ -289,7 +289,7 @@ The following server-side configurations control this behavior:
 
 This is the lowest level of consistency for mutable secondary indexes. In this case, when a write to a secondary
 index fails, the index will be marked as disabled with a manual
-[rebuild of the index](/docs/language/index#alter_index) required to enable it to be used
+[rebuild of the index](/docs/grammar#alter-index) required to enable it to be used
 once again by queries.
 
 The following server-side configurations control this behavior:

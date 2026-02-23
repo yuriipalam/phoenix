@@ -3,7 +3,7 @@ title: "Table Sampling"
 description: "Use TABLESAMPLE in Phoenix for Bernoulli-style sampling, with performance notes, repeatability behavior, and tuning guidance."
 ---
 
-To support table sampling (similar to PostgreSQL and T-SQL syntax), a `TABLESAMPLE` clause was incorporated into aliased table references as of Phoenix 4.12. The general syntax is described [here](/docs/language/index#aliased_table_ref). This feature limits the number of rows returned from a table to a percentage of rows. See [PHOENIX-153](https://issues.apache.org/jira/browse/PHOENIX-153) for implementation details.
+To support table sampling (similar to PostgreSQL and T-SQL syntax), a `TABLESAMPLE` clause was incorporated into aliased table references as of Phoenix 4.12. The general syntax is described [here](/docs/grammar#aliased-table-ref). This feature limits the number of rows returned from a table to a percentage of rows. See [PHOENIX-153](https://issues.apache.org/jira/browse/PHOENIX-153) for implementation details.
 
 This feature is implemented with a Bernoulli trial and a consistent-hashing-based table sampler to achieve Bernoulli sampling on a given row population. Given a sampling rate, it leverages Phoenix statistics and HBase region distribution to perform table sampling.
 
