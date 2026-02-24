@@ -125,7 +125,7 @@ CREATE INDEX my_index ON my_table (v2 DESC, v1) INCLUDE (v3)
 SALT_BUCKETS=10, DATA_BLOCK_ENCODING='NONE'
 ```
 
-Note that if the primary table is salted, then the index is automatically salted in the same way for global indexes. In addition, the MAX_FILESIZE for the index is adjusted down, relative to the size of the primary versus index table. For more on salting see [here](/docs/salted). With local indexes, on the other hand, specifying SALT_BUCKETS is not allowed.
+Note that if the primary table is salted, then the index is automatically salted in the same way for global indexes. In addition, the MAX_FILESIZE for the index is adjusted down, relative to the size of the primary versus index table. For more on salting see [here](/docs/salted-tables). With local indexes, on the other hand, specifying SALT_BUCKETS is not allowed.
 
 ## Consistency Guarantees
 
@@ -215,11 +215,11 @@ The implementation uses a shadow column to track the status of index rows:
   2. Delete the data table rows
   3. Delete index table rows
 
-See [resources](/docs/secondary-indexes#Resources) for more in-depth information.
+See [resources](/docs/secondary-indexes#resources) for more in-depth information.
 
 All newly created tables use the new indexing algorithm.
 
-Indexes created with older Phoenix versions will continue to use the old implementation, until upgraded with [IndexUpgradeTool](/docs/secondary-indexes#Index_Upgrade_Tool)
+Indexes created with older Phoenix versions will continue to use the old implementation, until upgraded with [IndexUpgradeTool](/docs/secondary-indexes#index-upgrade-tool)
 
 #### Mutable table indexes for 4.14 (and 5.0) and older versions
 

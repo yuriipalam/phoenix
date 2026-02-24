@@ -83,15 +83,14 @@ The following optional parameter is used by the dynamic class loader to copy JAR
 
 <Steps>
   <Step>
-    Implement your custom UDF by following [How to write custom UDF](#how-to-write-custom-udf).
+    Implement your custom UDF by following [How to write custom
+    UDF](#how-to-write-custom-udf).
   </Step>
   <Step>
-    Compile your code into a JAR, then deploy the JAR to HDFS.
-    It is recommended to add the JAR to the HDFS directory configured by `hbase.dynamic.jars.dir`.
+    Compile your code into a JAR, then deploy the JAR to HDFS. It is recommended
+    to add the JAR to the HDFS directory configured by `hbase.dynamic.jars.dir`.
   </Step>
-  <Step>
-    Run the [`CREATE FUNCTION`](/docs/grammar#create-function) query.
-  </Step>
+  <Step>Run the [`CREATE FUNCTION`](/docs/grammar#create-function) query.</Step>
 </Steps>
 
 ## Dropping the UDFs
@@ -111,53 +110,53 @@ You can follow these steps to write your UDF (for more detail, see [this blog po
 
 Below are additional optimization-related steps.
 
-To contribute to scan start/stop key formation, custom functions need to override the following two methods from `ScalarFunction`:
+- To contribute to scan start/stop key formation, custom functions need to override the following two methods from `ScalarFunction`:
 
-```java
-/**
- * Determines whether or not a function may be used to form
- * the start/stop key of a scan
- * @return the zero-based position of the argument to traverse
- *  into to look for a primary key column reference, or
- *  {@value #NO_TRAVERSAL} if the function cannot be used to
- *  form the scan key.
- */
-public int getKeyFormationTraversalIndex() {
-    return NO_TRAVERSAL;
-}
+  ```java
+  /**
+   * Determines whether or not a function may be used to form
+  * the start/stop key of a scan
+  * @return the zero-based position of the argument to traverse
+  *  into to look for a primary key column reference, or
+  *  {@value #NO_TRAVERSAL} if the function cannot be used to
+  *  form the scan key.
+  */
+  public int getKeyFormationTraversalIndex() {
+      return NO_TRAVERSAL;
+  }
 
-/**
- * Manufactures a KeyPart used to construct the KeyRange given
- * a constant and a comparison operator.
- * @param childPart the KeyPart formulated for the child expression
- *  at the {@link #getKeyFormationTraversalIndex()} position.
- * @return the KeyPart for constructing the KeyRange for this
- *  function.
- */
-public KeyPart newKeyPart(KeyPart childPart) {
-    return null;
-}
-```
+  /**
+   * Manufactures a KeyPart used to construct the KeyRange given
+  * a constant and a comparison operator.
+  * @param childPart the KeyPart formulated for the child expression
+  *  at the {@link #getKeyFormationTraversalIndex()} position.
+  * @return the KeyPart for constructing the KeyRange for this
+  *  function.
+  */
+  public KeyPart newKeyPart(KeyPart childPart) {
+      return null;
+  }
+  ```
 
-Additionally, to enable `ORDER BY` optimization or in-place `GROUP BY`, override:
+- Additionally, to enable `ORDER BY` optimization or in-place `GROUP BY`, override:
 
-```java
-/**
- * Determines whether or not the result of the function invocation
- * will be ordered in the same way as the input to the function.
- * Returning YES enables an optimization to occur when a
- * GROUP BY contains function invocations using the leading PK
- * column(s).
- * @return YES if the function invocation will always preserve order for
- * the inputs versus the outputs and false otherwise, YES_IF_LAST if the
- * function preserves order, but any further column reference would not
- * continue to preserve order, and NO if the function does not preserve
- * order.
- */
-public OrderPreserving preservesOrder() {
-    return OrderPreserving.NO;
-}
-```
+  ```java
+  /**
+   * Determines whether or not the result of the function invocation
+  * will be ordered in the same way as the input to the function.
+  * Returning YES enables an optimization to occur when a
+  * GROUP BY contains function invocations using the leading PK
+  * column(s).
+  * @return YES if the function invocation will always preserve order for
+  * the inputs versus the outputs and false otherwise, YES_IF_LAST if the
+  * function preserves order, but any further column reference would not
+  * continue to preserve order, and NO if the function does not preserve
+  * order.
+  */
+  public OrderPreserving preservesOrder() {
+      return OrderPreserving.NO;
+  }
+  ```
 
 ## Limitations
 

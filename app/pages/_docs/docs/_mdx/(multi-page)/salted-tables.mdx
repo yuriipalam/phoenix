@@ -29,6 +29,6 @@ This row-key ordered scan can be enabled by setting `phoenix.query.rowKeyOrderSa
 
 ## Performance
 
-Using salted tables with pre-splitting helps distribute write workload uniformly across region servers, which improves write performance. Our [performance evaluation](/docs/performance#Salting) shows that salted tables can achieve up to 80% higher write throughput than non-salted tables.
+Using salted tables with pre-splitting helps distribute write workload uniformly across region servers, which improves write performance. Our [performance evaluation](/docs/performance#salting) shows that salted tables can achieve up to 80% higher write throughput than non-salted tables.
 
-Reads from salted tables can also benefit from more uniform data distribution. Our [performance evaluation](/docs/performance#Salting) shows improved read performance for queries focused on subsets of data.
+Reads from salted tables can also benefit from more uniform data distribution. Our [performance evaluation](/docs/performance#salting) shows improved read performance for queries focused on subsets of data.

@@ -122,10 +122,10 @@ You can also enable tracing via `hbase-site.xml`. However, only `always` and `ne
 Once the traces are deposited into the tracing table, by default `SYSTEM.TRACING_STATS`, but it is configurable in the HBase configuration via:
 
 ```xml
-  <property>
-    <name>phoenix.trace.statsTableName</name>
-    <value>YOUR_CUSTOM_TRACING_TABLE</value>
-  </property>
+<property>
+  <name>phoenix.trace.statsTableName</name>
+  <value>YOUR_CUSTOM_TRACING_TABLE</value>
+</property>
 ```
 
 The tracing table is initialized via the DDL:
