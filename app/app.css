@@ -247,6 +247,7 @@
 /* Linked non-terminal — native SVG <a> handles navigation, just style it */
 .railroad-diagram-wrapper svg a {
   cursor: pointer;
+  text-decoration: none;
 }
 .railroad-diagram-wrapper svg a text {
   text-decoration: none;

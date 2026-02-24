@@ -136,6 +136,13 @@ function tokenise(input: string): Tok[] {
       continue;
     }
 
+    // double-dash line comment prefix — must be checked before standalone dash
+    if (c === "-" && input[i + 1] === "-") {
+      toks.push({ kind: "WORD", val: "--" });
+      i += 2;
+      continue;
+    }
+
     // standalone dash (unary minus / negation, e.g. "[ - ] number")
     // Dashes inside words like "camelCase-word" are consumed by the word tokeniser below.
     if (c === "-") {
@@ -163,17 +170,66 @@ function tokenise(input: string): Tok[] {
       continue;
     }
 
-    // digit-only token (number)
+    // digit-starting token — also consumes range notation like 0-9
     if (/[0-9]/.test(c)) {
       let w = "";
       while (i < input.length && /[0-9]/.test(input[i])) w += input[i++];
+      // range notation: 0-9, 1-99, etc.
+      if (input[i] === "-" && /[0-9a-zA-Z]/.test(input[i + 1])) {
+        w += input[i++]; // -
+        while (i < input.length && /[0-9a-zA-Z]/.test(input[i])) w += input[i++];
+      }
       toks.push({ kind: "WORD", val: w });
       continue;
     }
 
     // SQL special symbols — emit as Terminal word tokens so they appear in diagrams
+
+    // Two-char comparison operators — must be checked before their single-char prefixes
+    if (c === "<" && input[i + 1] === "=") {
+      toks.push({ kind: "WORD", val: "<=" });
+      i += 2;
+      continue;
+    }
+    if (c === ">" && input[i + 1] === "=") {
+      toks.push({ kind: "WORD", val: ">=" });
+      i += 2;
+      continue;
+    }
+    if (c === "<" && input[i + 1] === ">") {
+      toks.push({ kind: "WORD", val: "<>" });
+      i += 2;
+      continue;
+    }
+    if (c === "!" && input[i + 1] === "=") {
+      toks.push({ kind: "WORD", val: "!=" });
+      i += 2;
+      continue;
+    }
+
+    if (c === "<") {
+      toks.push({ kind: "WORD", val: "<" });
+      i++;
+      continue;
+    }
+    if (c === ">") {
+      toks.push({ kind: "WORD", val: ">" });
+      i++;
+      continue;
+    }
+    if (c === "!") {
+      toks.push({ kind: "WORD", val: "!" });
+      i++;
+      continue;
+    }
+
     if (c === "*") {
       toks.push({ kind: "WORD", val: "*" });
+      i++;
+      continue;
+    }
+    if (c === "%") {
+      toks.push({ kind: "WORD", val: "%" });
       i++;
       continue;
     }
@@ -187,8 +243,42 @@ function tokenise(input: string): Tok[] {
       i++;
       continue;
     }
+    if (c === "+") {
+      toks.push({ kind: "WORD", val: "+" });
+      i++;
+      continue;
+    }
 
-    // skip unknown characters (/, <, >, # etc.)
+    // double-slash line comment prefix — must be checked before block comment and standalone /
+    if (c === "/" && input[i + 1] === "/") {
+      toks.push({ kind: "WORD", val: "//" });
+      i += 2;
+      continue;
+    }
+
+    // SQL block comment /*+ ... */ — must be checked before standalone /
+    if (c === "/" && input[i + 1] === "*") {
+      let w = "/";
+      i++;
+      while (i < input.length) {
+        if (input[i] === "*" && input[i + 1] === "/") {
+          w += "*/";
+          i += 2;
+          break;
+        }
+        w += input[i++];
+      }
+      toks.push({ kind: "WORD", val: w });
+      continue;
+    }
+
+    if (c === "/") {
+      toks.push({ kind: "WORD", val: "/" });
+      i++;
+      continue;
+    }
+
+    // skip unknown characters (<, >, # etc.)
     i++;
   }
   toks.push({ kind: "EOF", val: "" });
@@ -363,10 +453,20 @@ class BnfParser {
 
     if (t.kind === "WORD") {
       if (isUpperWord(t.val)) {
-        // Collect consecutive uppercase words as one Terminal
+        // Collect consecutive proper-uppercase words into one Terminal.
+        // Symbol tokens (*, +, /, -, etc.) satisfy isUpperWord() but must never
+        // merge with adjacent keywords — so merging only starts when the first
+        // token is itself a proper uppercase letter word.
+        const isProperUpperWord = (w: string) => /^[A-Z][A-Z0-9_]*$/.test(w);
         const words: string[] = [this.consume().val];
-        while (this.peek().kind === "WORD" && isUpperWord(this.peek().val)) {
-          words.push(this.consume().val);
+        if (isProperUpperWord(words[0])) {
+          while (
+            this.peek().kind === "WORD" &&
+            isUpperWord(this.peek().val) &&
+            isProperUpperWord(this.peek().val)
+          ) {
+            words.push(this.consume().val);
+          }
         }
         return rd.Terminal(words.join(" "));
       } else if (isNonTerminal(t.val)) {
@@ -381,7 +481,9 @@ class BnfParser {
 
     if (t.kind === "QUOTED") {
       this.consume();
-      return rd.Terminal(`'${t.val}'`);
+      // Single-quoted tokens in the CSV grammar (e.g. '[', ']') are literal
+      // characters used to disambiguate from BNF brackets — render without quotes.
+      return rd.Terminal(t.val);
     }
 
     if (t.kind === "COMMA") {
