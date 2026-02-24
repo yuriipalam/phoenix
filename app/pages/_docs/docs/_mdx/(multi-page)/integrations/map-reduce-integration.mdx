@@ -21,23 +21,23 @@ Let's dive into an example where we have a table, **STOCK**, that holds the mast
 
 > Note: You can definitely configure a job to read from HDFS and load into a Phoenix table.
 
-### a) `stock`
+## a) `stock`
 
 ```sql
 CREATE TABLE IF NOT EXISTS STOCK (
   STOCK_NAME VARCHAR NOT NULL,
   RECORDING_YEAR INTEGER NOT NULL,
-  RECORDINGS_QUARTER DOUBLE ARRAY[]
+  RECORDINGS_QUARTER DOUBLE ARRAY[],
   CONSTRAINT pk PRIMARY KEY (STOCK_NAME, RECORDING_YEAR)
 );
 ```
 
-### b) `stock_stats`
+## b) `stock_stats`
 
 ```sql
 CREATE TABLE IF NOT EXISTS STOCK_STATS (
   STOCK_NAME VARCHAR NOT NULL,
-  MAX_RECORDING DOUBLE
+  MAX_RECORDING DOUBLE,
   CONSTRAINT pk PRIMARY KEY (STOCK_NAME)
 );
 ```
@@ -66,126 +66,119 @@ UPSERT into STOCK values ('YHOO',2007,ARRAY[25.85,26.26,25.26,25.61]);
 UPSERT into STOCK values ('YHOO',2006,ARRAY[39.69,41.22,38.79,40.91]);
 ```
 
-### Below is a simple job configuration
+## Below is a simple job configuration
 
-#### Job Configuration
+### Job Configuration
 
 ```java
-    final Configuration configuration = HBaseConfiguration.create();
-    final Job job = Job.getInstance(configuration, "phoenix-mr-job");
+final Configuration configuration = HBaseConfiguration.create();
+final Job job = Job.getInstance(configuration, "phoenix-mr-job");
 
-    // We can either specify a selectQuery or ignore it when we would like to retrieve all the columns
-    final String selectQuery = "SELECT STOCK_NAME,RECORDING_YEAR,RECORDINGS_QUARTER FROM STOCK ";
+// We can either specify a selectQuery or ignore it when we would like to retrieve all the columns
+final String selectQuery = "SELECT STOCK_NAME,RECORDING_YEAR,RECORDINGS_QUARTER FROM STOCK ";
 
-    // StockWritable is the DBWritable class that enables us to process the Result of the above query
-    PhoenixMapReduceUtil.setInput(job, StockWritable.class, "STOCK",  selectQuery);
+// StockWritable is the DBWritable class that enables us to process the result of the above query
+PhoenixMapReduceUtil.setInput(job, StockWritable.class, "STOCK", selectQuery);
 
-    // Set the target Phoenix table and the columns
-    PhoenixMapReduceUtil.setOutput(job, "STOCK_STATS", "STOCK_NAME,MAX_RECORDING");
+// Set the target Phoenix table and the columns
+PhoenixMapReduceUtil.setOutput(job, "STOCK_STATS", "STOCK_NAME,MAX_RECORDING");
 
-    job.setMapperClass(StockMapper.class);
-    job.setReducerClass(StockReducer.class);
-    job.setOutputFormatClass(PhoenixOutputFormat.class);
+job.setMapperClass(StockMapper.class);
+job.setReducerClass(StockReducer.class);
+job.setOutputFormatClass(PhoenixOutputFormat.class);
 
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(DoubleWritable.class);
-    job.setOutputKeyClass(NullWritable.class);
-    job.setOutputValueClass(StockWritable.class);
-    TableMapReduceUtil.addDependencyJars(job);
-    job.waitForCompletion(true);
+job.setMapOutputKeyClass(Text.class);
+job.setMapOutputValueClass(DoubleWritable.class);
+job.setOutputKeyClass(NullWritable.class);
+job.setOutputValueClass(StockWritable.class);
+TableMapReduceUtil.addDependencyJars(job);
+job.waitForCompletion(true);
 ```
 
-#### StockWritable
+### StockWritable
 
 ```java
-    public class StockWritable implements DBWritable,Writable {
+public class StockWritable implements DBWritable, Writable {
+  private String stockName;
+  private int year;
+  private double[] recordings;
+  private double maxPrice;
 
-    	private String stockName;
+  @Override
+  public void readFields(DataInput input) throws IOException {
+  }
 
-    	private int year;
+  @Override
+  public void write(DataOutput output) throws IOException {
+  }
 
-    	private double[] recordings;
+  @Override
+  public void readFields(ResultSet rs) throws SQLException {
+    stockName = rs.getString("STOCK_NAME");
+    year = rs.getInt("RECORDING_YEAR");
+    final Array recordingsArray = rs.getArray("RECORDINGS_QUARTER");
+    recordings = (double[]) recordingsArray.getArray();
+  }
 
-    	private double maxPrice;
+  @Override
+  public void write(PreparedStatement pstmt) throws SQLException {
+    pstmt.setString(1, stockName);
+    pstmt.setDouble(2, maxPrice);
+  }
 
-    	@Override
-    	public void readFields(DataInput input) throws IOException {
-
-    	}
-
-    	@Override
-    	public void write(DataOutput output) throws IOException {
-
-    	}
-
-    	@Override
-    	public void readFields(ResultSet rs) throws SQLException {
-    		stockName = rs.getString("STOCK_NAME");
-    		year = rs.getInt("RECORDING_YEAR");
-    		final Array recordingsArray = rs.getArray("RECORDINGS_QUARTER");
-    		recordings = (double[])recordingsArray.getArray();
-    	}
-
-    	@Override
-    	public void write(PreparedStatement pstmt) throws SQLException {
-    	   pstmt.setString(1, stockName);
-    	   pstmt.setDouble(2, maxPrice);
-    	}
-
-        // getters / setters for the fields
-         ...
-         ...
+  // getters / setters for the fields
+  ...
+  ...
+}
 ```
 
-#### Stock Mapper
+### Stock Mapper
 
 ```java
-     public static class StockMapper extends Mapper<NullWritable, StockWritable, Text , DoubleWritable> {
+public static class StockMapper extends Mapper<NullWritable, StockWritable, Text, DoubleWritable> {
+  private Text stock = new Text();
+  private DoubleWritable price = new DoubleWritable();
 
-    	private Text stock = new Text();
-    	private DoubleWritable price = new DoubleWritable ();
-
-    	@Override
-    	protected void map(NullWritable key, StockWritable stockWritable, Context context) throws IOException, InterruptedException {
-    		double[] recordings = stockWritable.getRecordings();
-    		final String stockName = stockWritable.getStockName();
-    		double maxPrice = Double.MIN_VALUE;
-    		for(double recording : recordings) {
-    			if(maxPrice < recording) {
-    				maxPrice = recording;
-    		  	}
-    		}
-    		stock.set(stockName);
-    		price.set(maxPrice);
-    		context.write(stock,price);
-    	}
-
+  @Override
+  protected void map(NullWritable key, StockWritable stockWritable, Context context)
+      throws IOException, InterruptedException {
+    double[] recordings = stockWritable.getRecordings();
+    final String stockName = stockWritable.getStockName();
+    double maxPrice = Double.MIN_VALUE;
+    for (double recording : recordings) {
+      if (maxPrice < recording) {
+        maxPrice = recording;
+      }
     }
+    stock.set(stockName);
+    price.set(maxPrice);
+    context.write(stock, price);
+  }
+}
 ```
 
-#### Stock Reducer
+### Stock Reducer
 
 ```java
-     public static class StockReducer extends Reducer<Text, DoubleWritable, NullWritable , StockWritable> {
-
-    	@Override
-    	protected void reduce(Text key, Iterable<DoubleWritable> recordings, Context context) throws IOException, InterruptedException {
-    		double maxPrice = Double.MIN_VALUE;
-    		for(DoubleWritable recording : recordings) {
-    			if(maxPrice < recording.get()) {
-    				maxPrice = recording.get();
-    			}
-    		}
-    	    final StockWritable stock = new StockWritable();
-            stock.setStockName(key.toString());
-    		stock.setMaxPrice(maxPrice);
-            context.write(NullWritable.get(),stock);
-    	}
-
+public static class StockReducer extends Reducer<Text, DoubleWritable, NullWritable, StockWritable> {
+  @Override
+  protected void reduce(Text key, Iterable<DoubleWritable> recordings, Context context)
+      throws IOException, InterruptedException {
+    double maxPrice = Double.MIN_VALUE;
+    for (DoubleWritable recording : recordings) {
+      if (maxPrice < recording.get()) {
+        maxPrice = recording.get();
+      }
     }
+    final StockWritable stock = new StockWritable();
+    stock.setStockName(key.toString());
+    stock.setMaxPrice(maxPrice);
+    context.write(NullWritable.get(), stock);
+  }
+}
 ```
 
-#### Packaging and Running
+### Packaging and Running
 
 1. Ensure `phoenix-[version]-client.jar` is in the classpath of your MapReduce job JAR.
 2. To run the job, use the **hadoop jar** command with the necessary arguments.

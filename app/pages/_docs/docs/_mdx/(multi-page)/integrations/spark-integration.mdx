@@ -3,17 +3,15 @@ title: "Spark Integration"
 description: "Use Apache Spark with Phoenix to read and write DataFrames."
 ---
 
-## Apache Spark Plugin
-
 The phoenix-spark plugin extends Phoenix's MapReduce support to allow Spark to load Phoenix tables
 as DataFrames, and enables persisting them back to Phoenix.
 
-### Prerequisites
+## Prerequisites
 
 - Phoenix 4.4.0+
 - Spark 1.3.1+ (prebuilt with Hadoop 2.4 recommended)
 
-### Why not JDBC?
+## Why not JDBC?
 
 Although Spark supports connecting directly to JDBC databases, it's only able to parallelize
 queries by partitioning on a numeric column. It also requires a known lower bound, upper bound
@@ -26,7 +24,7 @@ for efficient filtering.
 
 The choice of which method to use to access Phoenix comes down to each specific use case.
 
-### Spark setup
+## Spark setup
 
 - To ensure that all requisite Phoenix/HBase platform dependencies are available on the classpath
   for Spark executors and drivers, set both `spark.executor.extraClassPath` and
@@ -61,7 +59,7 @@ The choice of which method to use to access Phoenix comes down to each specific 
 
 The first released connectors jar is `connectors-1.0.0` (replace `phoenix.connectors.version` above with this version).
 
-### Reading Phoenix Tables
+## Reading Phoenix Tables
 
 Given a Phoenix table with the following DDL and DML:
 
@@ -71,7 +69,7 @@ UPSERT INTO TABLE1 (ID, COL1) VALUES (1, 'test_row_1');
 UPSERT INTO TABLE1 (ID, COL1) VALUES (2, 'test_row_2');
 ```
 
-#### Load as a DataFrame using the DataSourceV2 API
+### Load as a DataFrame using the DataSourceV2 API
 
 Scala example:
 
@@ -133,9 +131,9 @@ public class PhoenixSparkRead {
 }
 ```
 
-### Saving to Phoenix
+## Saving to Phoenix
 
-#### Save DataFrames to Phoenix using DataSourceV2
+### Save DataFrames to Phoenix using DataSourceV2
 
 The `save` method on DataFrame allows passing in a data source type. You can use
 `phoenix` for DataSourceV2 and must also pass in a `table` and `zkUrl` parameter to
@@ -218,7 +216,7 @@ public class PhoenixSparkWriteFromInputTable {
 }
 ```
 
-#### Save from an external RDD with a schema to a Phoenix table
+### Save from an external RDD with a schema to a Phoenix table
 
 Just like the previous example, you can pass in the data source type as `phoenix` and specify the `table` and
 `zkUrl` parameters indicating which table and server to persist the DataFrame to.
@@ -321,11 +319,11 @@ public class PhoenixSparkWriteFromRDDWithSchema {
 }
 ```
 
-### PySpark
+## PySpark
 
 With Spark's DataFrame support, you can also use `pyspark` to read and write from Phoenix tables.
 
-#### Load a DataFrame
+### Load a DataFrame
 
 Given a table _TABLE1_ and a ZooKeeper URL of `phoenix-server:2181`, you can load the table as a
 DataFrame using the following Python code in `pyspark`:
@@ -338,7 +336,7 @@ df = sqlContext.read \
   .load()
 ```
 
-#### Save a DataFrame
+### Save a DataFrame
 
 Given the same table and ZooKeeper URL above, you can save a DataFrame to a Phoenix table
 using the following code:
@@ -352,7 +350,7 @@ df.write \
   .save()
 ```
 
-### Notes
+## Notes
 
 - If you want to use DataSourceV1, you can use source type `"org.apache.phoenix.spark"`
   instead of `"phoenix"`, however this is deprecated as of `connectors-1.0.0`.
@@ -378,16 +376,16 @@ This list of properties is parsed and populated into a properties map which is p
 Note that the same property values will be used for both the driver and all executors and
 these configurations are used each time a connection is made (both on the driver and executors).
 
-### Limitations
+## Limitations
 
 - Basic support for column and predicate pushdown using the Data Source API
 - The Data Source API does not support passing custom Phoenix settings in configuration, you must
   create the DataFrame or RDD directly if you need fine-grained configuration.
-- No support for aggregate or distinct queries as explained in our [Map Reduce Integration](/docs/map-reduce-integration) documentation.
+- No support for aggregate or distinct queries as explained in our [Map Reduce Integration](/docs/integrations/map-reduce-integration) documentation.
 
 ---
 
-### PageRank example
+## PageRank example
 
 This example makes use of the Enron email data set, provided by the
 [Stanford Network Analysis Project](https://snap.stanford.edu/data/email-Enron.html),
@@ -440,9 +438,9 @@ saves the results back to Phoenix.
 
 ---
 
-### Deprecated Usages
+## Deprecated Usages
 
-#### Load as a DataFrame directly using a Configuration object
+### Load as a DataFrame directly using a Configuration object
 
 ```scala
 import org.apache.hadoop.conf.Configuration
@@ -464,7 +462,7 @@ val df = sqlContext.phoenixTableAsDataFrame(
 df.show
 ```
 
-#### Load as an RDD, using a Zookeeper URL
+### Load as an RDD, using a Zookeeper URL
 
 ```scala
 import org.apache.spark.SparkContext
@@ -485,7 +483,7 @@ val firstId = rdd.first()("ID").asInstanceOf[Long]
 val firstCol = rdd.first()("COL1").asInstanceOf[String]
 ```
 
-#### Saving RDDs to Phoenix
+### Saving RDDs to Phoenix
 
 `saveToPhoenix` is an implicit method on RDD[Product], or an RDD of Tuples. The data types must
 correspond to the Java types Phoenix supports [Datatypes](/docs/datatypes)

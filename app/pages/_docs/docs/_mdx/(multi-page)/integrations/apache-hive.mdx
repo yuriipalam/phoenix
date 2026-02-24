@@ -3,8 +3,6 @@ title: "Apache Hive"
 description: "Configure and use the Phoenix Storage Handler with Apache Hive."
 ---
 
-## Phoenix Storage Handler for Apache Hive
-
 The Apache Phoenix Storage Handler is a plugin that enables Apache Hive access to Phoenix tables from the Apache Hive command line using HiveQL.
 
 ## Prerequisites
@@ -96,7 +94,7 @@ This must be performed on every Hive node.
 
 The Phoenix Storage Handler supports only EXTERNAL Hive tables.
 
-### Create EXTERNAL Table
+## Create EXTERNAL Table
 
 For EXTERNAL tables, Hive works with an existing Phoenix table and manages only Hive metadata. Dropping an EXTERNAL table from Hive deletes only Hive metadata but does not delete the Phoenix table.
 
@@ -118,7 +116,7 @@ TBLPROPERTIES (
 );
 ```
 
-### Properties
+## Properties
 
 1. phoenix.table.name
    - Specifies the Phoenix table name
@@ -184,12 +182,12 @@ You can use HiveQL for querying data in a Phoenix table. A Hive query on a singl
 | hbase.scan.cache                | 100           | Read row size for a unit request                                                                          |
 | hbase.scan.cacheblock           | false         | Whether or not cache block                                                                                |
 | split.by.stats                  | false         | If true, mappers use table statistics. One mapper per guide post.                                         |
-| [hive-table-name].reducer.count | 1             | Number of reducers. In Tez mode, this affects only single-table queries. See [Limitations](#Limitations). |
+| [hive-table-name].reducer.count | 1             | Number of reducers. In Tez mode, this affects only single-table queries. See [Limitations](#limitations). |
 | [phoenix-table-name].query.hint |               | Hint for Phoenix query (for example, `NO_INDEX`)                                                          |
 
 ## Limitations
 
-- Hive update and delete operations require transaction manager support on both Hive and Phoenix sides. Related Hive and Phoenix JIRAs are listed in the [Resources](#Resources) section.
+- Hive update and delete operations require transaction manager support on both Hive and Phoenix sides. Related Hive and Phoenix JIRAs are listed in the [Resources](#resources) section.
 - Column mapping does not work correctly with mapping row key columns.
 - MapReduce and Tez jobs always have a single reducer.
 
