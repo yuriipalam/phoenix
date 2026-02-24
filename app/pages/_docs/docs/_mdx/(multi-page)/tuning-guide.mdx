@@ -13,7 +13,7 @@ The underlying row key design is the single most important factor in Phoenix per
 
 The Phoenix primary keys are concatenated to create the underlying row key in Apache HBase. Choose and order primary key columns to align with common query patterns. The leading key column has the greatest performance impact. For example, if you lead with a column containing org IDs, it is easy to select all rows for a specific org. You can also add the HBase row timestamp to the primary key to improve scan efficiency by skipping rows outside the queried time range.
 
-Every primary key imposes a cost because the entire row key is appended to every piece of data in memory and on disk. The larger the row key, the greater the storage overhead. Find ways to store information compactly in columns you plan to use for primary keys—store deltas instead of complete time stamps, for example.
+Every primary key imposes a cost because the entire row key is appended to every piece of data in memory and on disk. The larger the row key, the greater the storage overhead. Find ways to store information compactly in columns you plan to use for primary keys — store deltas instead of complete time stamps, for example.
 
 To sum up, the best practice is to design primary keys to add up to a row key that lets you scan the smallest amount of data.
 
@@ -43,7 +43,7 @@ The following sections provide a few general tips for different access scenarios
   - When specifying machines for HBase, do not skimp on cores; HBase needs them.
 - For write-heavy data:
   - Pre-split the table. It can be helpful to split the table into predefined regions, or if keys are monotonically increasing, use salting to avoid creating write hotspots on a small number of nodes. Use real data types rather than raw byte data.
-  - Create local indexes. Reads from local indexes have a performance penalty, so it's important to do performance testing. See the [Pherf](/docs/pherf) tool.
+  - Create local indexes. Reads from local indexes have a performance penalty, so it's important to do performance testing. See the [Pherf](/docs/performance-testing) tool.
 
 ### Which columns will be accessed often?
 
@@ -59,14 +59,14 @@ The following sections provide a few general tips for different access scenarios
 
 ### Is the table very large?
 
-- Use the `ASYNC` keyword with your `CREATE INDEX` call to create the index asynchronously via MapReduce job. You'll need to manually start the job; see https://phoenix.apache.org/secondary_indexing.html#Index_Population for details.
-- If the data is too large to scan the table completely, use primary keys to create an underlying composite row key that makes it easy to return a subset of the data or facilitates [skip-scanning](/docs/skip-scan)—Phoenix can jump directly to matching keys when the query includes key sets in the predicate.
+- Use the `ASYNC` keyword with your `CREATE INDEX` call to create the index asynchronously via MapReduce job. You'll need to manually start the job; see [Index Population](/docs/secondary-indexes#index-population) for details.
+- If the data is too large to scan the table completely, use primary keys to create an underlying composite row key that makes it easy to return a subset of the data or facilitates [skip-scanning](/docs/skip-scan) — Phoenix can jump directly to matching keys when the query includes key sets in the predicate.
 
 ### Is transactionality required?
 
-A transaction is a data operation that is atomic—that is, guaranteed to succeed completely or not at all. For example, if you need to make cross-row updates to a data table, then you should consider your data transactional.
+A transaction is a data operation that is atomic — that is, guaranteed to succeed completely or not at all. For example, if you need to make cross-row updates to a data table, then you should consider your data transactional.
 
-- If you need transactionality, use the `TRANSACTIONAL` [option](/docs/grammar#options). (See also http://phoenix.apache.org/transactions.html.)
+- If you need transactionality, use the `TRANSACTIONAL` [option](/docs/grammar#options). (See also [Transactions](/docs/transactions))
 
 ### Block Encoding
 
@@ -104,11 +104,11 @@ Here are a few tips that apply to columns in general, whether they are indexed o
 A Phoenix index is a physical table that stores a pivoted copy of some or all of the data in the main table to serve specific query patterns. When you issue a query, Phoenix automatically selects the best index. The primary index is created automatically based on selected primary keys. You can create secondary indexes by specifying included columns based on expected query patterns.
 
 See also:
-[Secondary Indexing](/docs/secondary-indexing)
+[Secondary Indexing](/docs/secondary-indexes)
 
 ## Secondary indexes
 
-Secondary indexes can improve read performance by turning what would normally be a full table scan into a point lookup (at the cost of storage space and write speed). Secondary indexes can be added or removed after table creation and don't require changes to existing queries – queries simply run faster. A small number of secondary indexes is often sufficient. Depending on your needs, consider creating _[covered](/docs/secondary-indexing#Covered_Indexes)_ indexes or _[functional](/docs/secondary-indexing#Functional_Indexes)_ indexes, or both.
+Secondary indexes can improve read performance by turning what would normally be a full table scan into a point lookup (at the cost of storage space and write speed). Secondary indexes can be added or removed after table creation and don't require changes to existing queries – queries simply run faster. A small number of secondary indexes is often sufficient. Depending on your needs, consider creating _[covered](/docs/secondary-indexes#covered-indexes)_ indexes or _[functional](/docs/secondary-indexes#functional-indexes)_ indexes, or both.
 
 If your table is large, use `ASYNC` with `CREATE INDEX` to create indexes asynchronously. In this case, index build runs through MapReduce, so client restarts will not impact index creation and jobs can be retried automatically if needed. You still need to start the job manually, and then monitor it like any other MapReduce job.
 
@@ -120,23 +120,23 @@ ON trans.event (object_id)
 ASYNC UPDATE_CACHE_FREQUENCY = 60000;
 ```
 
-See [Index Population](/docs/secondary-indexing#Index_Population) for details.
+See [Index Population](/docs/secondary-indexes#index-population) for details.
 
 If you cannot create the index asynchronously, increase query timeout (`phoenix.query.timeoutMs`) to exceed expected index build time. If `CREATE INDEX` times out or the client goes down before completion, the build stops and must be run again. You can monitor the index table during creation: new regions appear as splits occur. You can query `SYSTEM.STATS` (populated by splits/compactions), or run `COUNT(*)` against the index table (higher load because it requires a full scan).
 
 Tips:
 
-- Create [local](/docs/secondary-indexing#Local_Indexes) indexes for write-heavy use cases.
-- Create global indexes for read-heavy use cases. To save read-time overhead, consider creating [covered](/docs/secondary-indexing#Covered_Indexes) indexes.
+- Create [local](/docs/secondary-indexes#local-indexes) indexes for write-heavy use cases.
+- Create global indexes for read-heavy use cases. To save read-time overhead, consider creating [covered](/docs/secondary-indexes#covered-indexes) indexes.
 - If the primary key is monotonically increasing, create salt buckets. The salt buckets can't be changed later, so design them to handle future growth. Salt buckets help avoid write hotspots, but can decrease overall throughput due to the additional scans needed on read.
 - Set up a cron job to build indexes. Use `ASYNC` with `CREATE INDEX` to avoid blocking.
 - Only create the indexes you need.
 - Limit the number of indexes on frequently updated tables.
 - Use covered indexes to convert table scans into efficient point lookups or range queries over the index table instead of the primary table:
 
-```sql
-CREATE INDEX idx ON table_name ( ... ) INCLUDE ( ... );
-```
+  ```sql
+  CREATE INDEX idx ON table_name ( ... ) INCLUDE ( ... );
+  ```
 
 ## Queries
 
@@ -150,7 +150,7 @@ It's important to know which queries execute on the server side versus client si
 - Equality or comparisons (`<` or `>`) in the `WHERE` clause enable range-scan optimizations.
 - Let Phoenix optimize query parallelism using statistics. This provides an automatic benefit if using Phoenix 4.2 or greater in production.
 
-See also: [Joins](https://phoenix.apache.org/joins.html)
+See also: [Joins](/docs/joins)
 
 ### Range Queries
 
@@ -184,7 +184,7 @@ An `EXPLAIN` plan tells you a lot about how a query will be run. To generate an 
 
 ### Parallelization
 
-You can improve parallelization with the [UPDATE STATISTICS](/docs/update-statistics) command. This command subdivides each region by determining keys called _guideposts_ that are equidistant from each other, then uses these guideposts to break up queries into multiple parallel scans.
+You can improve parallelization with the [UPDATE STATISTICS](/docs/statistics-collection) command. This command subdivides each region by determining keys called _guideposts_ that are equidistant from each other, then uses these guideposts to break up queries into multiple parallel scans.
 Statistics are turned on by default. With Phoenix 4.9, the user can set guidepost width for each table. Optimal guidepost width depends on a number of factors such as cluster size, cluster usage, number of cores per node, table size, and disk I/O.
 
 In Phoenix 4.12, configuration `phoenix.use.stats.parallelization` was added to control whether statistics are used to drive parallelization. Stats collection can still run regardless. Collected information is also used to estimate bytes and rows scanned when generating `EXPLAIN`.
@@ -227,7 +227,7 @@ When deleting a large data set, turn on autoCommit before issuing the `DELETE` q
 
 ### Reducing RPC traffic
 
-To reduce RPC traffic, set `UPDATE_CACHE_FREQUENCY` (4.7 or above) on your tables and indexes when creating them (or via `ALTER TABLE`/`ALTER INDEX`). See [Altering](https://phoenix.apache.org/#Altering).
+To reduce RPC traffic, set `UPDATE_CACHE_FREQUENCY` (4.7 or above) on your tables and indexes when creating them (or via `ALTER TABLE`/`ALTER INDEX`). See [Altering](/docs#altering).
 
 ### Using local indexes
 

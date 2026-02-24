@@ -7,7 +7,7 @@ To support table sampling (similar to PostgreSQL and T-SQL syntax), a `TABLESAMP
 
 This feature is implemented with a Bernoulli trial and a consistent-hashing-based table sampler to achieve Bernoulli sampling on a given row population. Given a sampling rate, it leverages Phoenix statistics and HBase region distribution to perform table sampling.
 
-As part of [statistics collection](/docs/update-statistics), a guidepost (a row reference) is created at equidistant byte intervals. When sampling is required, a Bernoulli trial process is applied repeatedly on each guidepost in each region with a probability proportional to the sampling rate. An included guidepost results in all rows between it and the next guidepost being included in the sample population.
+As part of [statistics collection](/docs/statistics-collection), a guidepost (a row reference) is created at equidistant byte intervals. When sampling is required, a Bernoulli trial process is applied repeatedly on each guidepost in each region with a probability proportional to the sampling rate. An included guidepost results in all rows between it and the next guidepost being included in the sample population.
 
 ## Performance
 
@@ -60,7 +60,7 @@ EXPLAIN SELECT COUNT(*) FROM PERSON TABLESAMPLE (49) LIMIT 2;
 ## Tuning
 
 - Due to the sampling process, `TABLESAMPLE` should be used with caution. For example, a join of two tables is likely to return a match for each row in both tables; however, when sampling is applied to one or both tables, join results may differ from non-sampled expectations.
-- Statistics should be collected to achieve the best sampling accuracy. To turn on statistics collection, refer to [Statistics Collection](/docs/update-statistics).
+- Statistics should be collected to achieve the best sampling accuracy. To turn on statistics collection, refer to [Statistics Collection](/docs/statistics-collection).
 
 ```sql
 ALTER TABLE my_table SET GUIDE_POSTS_WIDTH = 10000000;

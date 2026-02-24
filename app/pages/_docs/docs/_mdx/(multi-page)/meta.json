@@ -5,6 +5,7 @@
   "pages": [
     "---Fundamentals---",
     "index",
+    "quick-start",
     "faq",
     "building",
     "client-classpath-and-jdbc-url",
@@ -12,7 +13,6 @@
     "installation",
     "configuration",
     "backward-compatibility",
-    "release-notes",
     "performance",
     "performance-testing",
     "integrations",
@@ -50,6 +50,7 @@
     "---Additional---",
     "contributing",
     "develop",
-    "building-website"
+    "building-website",
+    "how-to-release"
   ]
 }

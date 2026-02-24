@@ -1,126 +1,214 @@
 ---
-title: "Quick Start"
-description: "Phoenix in 15 minutes or less."
+title: "Overview"
+description: "OLTP and operational analytics for Apache Hadoop."
 ---
 
-## What is this new [Phoenix](/) thing I've been hearing about?
+import { Bug, Code2, Download } from "lucide-react";
+import { Card, Cards } from "fumadocs-ui/components/card";
 
-Phoenix is an open source SQL skin for HBase. You use the standard JDBC APIs instead of the regular HBase client APIs to create tables, insert data, and query your HBase data.
+<img
+  src="/images/logo.svg"
+  alt="Apache Phoenix logo"
+  className="w-1/2 dark:hidden"
+/>
+<img
+  src="/images/dark-theme-logo.svg"
+  alt="Apache Phoenix logo"
+  className="hidden w-1/2 dark:block"
+/>
 
-### Doesn't putting an extra layer between my application and HBase just slow things down?
 
-Actually, no. Phoenix achieves as good or likely better [performance](/docs/performance) than if you hand-coded it yourself (not to mention with a heck of a lot less code) by:
+**OLTP and operational analytics for Apache Hadoop**
 
-- compiling your SQL queries to native HBase scans
-- determining the optimal start and stop for your scan key
-- orchestrating the parallel execution of your scans
-- bringing the computation to the data by
-  - pushing the predicates in your where clause to a server-side filter
-  - executing aggregate queries through server-side hooks (called co-processors)
-- secondary indexes to improve performance for queries on non row key columns
-- stats gathering to improve parallelization and guide choices between optimizations
-- skip scan filter to optimize IN, LIKE, and OR queries
-- optional salting of row keys to evenly distribute write load
+<Cards className="mt-4 grid-cols-1 md:grid-cols-3">
+  <Card
+    title={
+      <span className="inline-flex items-center gap-2">
+        <Download className="h-5 w-5 shrink-0 text-primary" />
+        Download
+      </span>
+    }
+    href="/downloads"
+  >
+    Download latest Apache Phoenix binary and source release artifacts
+  </Card>
+  <Card
+    title={
+      <span className="inline-flex items-center gap-2">
+        <Bug className="h-5 w-5 shrink-0 text-primary" />
+        Issues
+      </span>
+    }
+    href="/issues-tracking"
+  >
+    Browse Apache Phoenix JIRAs
+  </Card>
+  <Card
+    title={
+      <span className="inline-flex items-center gap-2">
+        <Code2 className="h-5 w-5 shrink-0 text-primary" />
+        Source
+      </span>
+    }
+    href="/source-repository"
+  >
+    Sync and build Apache Phoenix from source code
+  </Card>
+</Cards>
 
-### Ok, so it's fast. But why SQL? It's so 1970s
+<Callout type="info">
+  **[News](/news):** **Phoenix 5.3.0** has been released and is available for
+  download [here](/downloads). Follow Apache Phoenix on
+  [X/Twitter](https://twitter.com/ApachePhoenix).
+</Callout>
 
-Well, that's kind of the point: give folks something with which they're already familiar. What better way to spur the adoption of HBase? On top of that, using JDBC and SQL:
+## Overview
 
-- Reduces the amount of code users need to write
-- Allows for performance optimizations transparent to the user
-- Opens the door for leveraging and integrating lots of existing tooling
+Apache Phoenix enables OLTP and operational analytics in Hadoop for low-latency applications by combining:
 
-### But how can SQL support my favorite HBase technique of x,y,z
+- the power of standard SQL and JDBC APIs, with full ACID transaction capabilities
+- the flexibility of late-bound, schema-on-read capabilities from the NoSQL world by leveraging HBase as its backing store
 
-Didn't make it to the last HBase Meetup did you? SQL is just a way of expressing **_what you want to get_** not **_how you want to get it_**. Check out my [presentation](http://files.meetup.com/1350427/IntelPhoenixHBaseMeetup.ppt) for various existing and to-be-done Phoenix features to support your favorite HBase trick. Have ideas of your own? We'd love to hear about them: file an [issue](/docs/issues) for us and/or join our [mailing list](/docs/mailing-list).
+Apache Phoenix is fully integrated with other Hadoop products such as Spark, Hive, Pig, Flume, and MapReduce.
 
-## Blah, blah, blah - I just want to get started!
+Who is using Apache Phoenix? Read more [here](/who-is-using).
 
-Ok, great! Just follow our [install instructions](/docs/installation):
+## Mission
 
-- [download](/docs/download) and expand our installation binary tar corresponding to your HBase version
-- copy the phoenix server jar into the lib directory of every region server and master
-- restart HBase
-- add the phoenix client jar to the classpath of your JDBC client or application
-- We have detailed instructions for [setting up SQuirreL SQL](/docs/installation#SQL_Client) as your SQL client
+Become the trusted data platform for OLTP and operational analytics for Hadoop through well-defined, industry-standard APIs.
 
-## I don't want to download and setup anything else!
+## Quick Start
 
-Ok, fair enough - you can create your own SQL scripts and execute them using our command line tools instead. Let's walk through an example now. Begin by navigating to the `bin/` directory of your Phoenix install location.
+Tired of reading and just want to get started? Take a look at our [FAQs](/docs/faq), listen to the Apache Phoenix talk from [Hadoop Summit 2015](https://www.youtube.com/watch?v=XGa0SyJMH94), review the [overview presentation](/presentations/OC-HUG-2014-10-4x3.pdf), and jump to our quick start guide [here](/docs/quick-start).
 
-<Steps>
+## SQL Support
 
-<Step>
+Apache Phoenix takes your SQL query, compiles it into a series of HBase scans, and orchestrates those scans to produce regular JDBC result sets. Direct use of the HBase API, along with coprocessors and custom filters, results in [performance](/docs/performance) on the order of milliseconds for small queries, or seconds for tens of millions of rows.
 
-### First, let's create a `us_population.sql` file, containing a table definition:
+To see a complete list of what is supported, go to our [language reference](/docs/grammar). All standard SQL query constructs are supported, including `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, etc. It also supports a full set of DML commands, as well as table creation and versioned incremental alterations through DDL commands.
+
+Here is a list of what is currently **not** supported:
+
+- **Relational operators**: `INTERSECT`, `MINUS`
+- **Miscellaneous built-in functions**: these are easy to add — read this [blog](http://phoenix-hbase.blogspot.com/2013/04/how-to-add-your-own-built-in-function.html) for step-by-step instructions.
+
+### Connection
+
+Use JDBC to get a connection to an HBase cluster:
+
+```java
+Connection conn = DriverManager.getConnection("jdbc:phoenix:server1,server2:3333", props);
+```
+
+Where `props` are optional properties that may include Phoenix and HBase configuration values.
+
+The JDBC connection string is composed as:
+
+```text
+jdbc:phoenix[:<zookeeper quorum>[:<port number>[:<root node>[:<principal>[:<keytab file>]]]]]
+```
+
+For omitted parts, values are taken from `hbase-site.xml` (`hbase.zookeeper.quorum`, `hbase.zookeeper.property.clientPort`, and `zookeeper.znode.parent`).
+
+The optional `principal` and `keytab file` may be used to connect to a Kerberos-secured cluster. If only `principal` is specified, each distinct user gets a dedicated HBase connection (`HConnection`), allowing multiple different connections with different configuration properties on the same JVM.
+
+For example, for longer-running queries:
+
+```java
+Connection conn = DriverManager.getConnection("jdbc:phoenix:my_server:longRunning", longRunningProps);
+```
+
+And for shorter-running queries:
+
+```java
+Connection conn = DriverManager.getConnection("jdbc:phoenix:my_server:shortRunning", shortRunningProps);
+```
+
+See the relevant [FAQ entry](/docs/faq#what-is-the-phoenix-jdbc-url-syntax) for example URLs.
+
+Phoenix also supports [connecting to HBase without ZooKeeper](/docs/client-classpath-and-jdbc-url#the-phoenix-jdbc-url).
+
+## Transactions
+
+To enable full ACID transactions (beta in 4.7.0), set `phoenix.transactions.enabled=true`. In this case, you also need to run the transaction manager included in the distribution. Once enabled, a table may optionally be declared as transactional (see [transactions](/docs/transactions)).
+
+Commits over transactional tables are all-or-none: either all data is committed (including secondary index updates) or none is committed (and an exception is thrown). Both cross-table and cross-row transactions are supported. Transactional tables also see their own uncommitted data when querying. An optimistic concurrency model is used to detect row-level conflicts with first-commit-wins semantics.
+
+Non-transactional tables have no guarantees beyond HBase row-level atomicity (see [HBase ACID semantics](https://hbase.apache.org/acid-semantics.html)). Also, non-transactional tables do not see updates until commit occurs.
+
+Phoenix DML commands (`UPSERT VALUES`, `UPSERT SELECT`, `DELETE`) batch pending changes on the client side. Changes are sent to server on commit and discarded on rollback. If auto-commit is enabled, Phoenix will execute the entire DML command server-side via coprocessors whenever possible for better performance.
+
+#### Timestamps
+
+Most applications let HBase manage timestamps. In cases where timestamps must be controlled, the [CurrentSCN](/docs/faq#can-phoenix-work-on-tables-with-arbitrary-timestamp-as-flexible-as-hbase-api) property can be set at connection time to control timestamps for DDL, DML, and queries. This also enables snapshot queries against prior row values because Phoenix uses this property as scan max timestamp.
+
+Timestamps cannot be controlled for transactional tables. Instead, the transaction manager assigns timestamps that become HBase cell timestamps on commit. They still correspond to wall-clock time, but are multiplied by 1,000,000 to ensure enough granularity for uniqueness across the cluster.
+
+## Schema
+
+Apache Phoenix supports table creation and versioned incremental alterations through DDL commands. Table metadata is stored in an HBase table and versioned, so snapshot queries over prior versions automatically use the correct schema.
+
+A Phoenix table can be created through [`CREATE TABLE`](/docs/grammar#create-table) and can either be:
+
+1. **Built from scratch**: HBase table and column families are created automatically.
+2. **Mapped to an existing HBase table**: either as a read-write TABLE or a read-only VIEW, with the caveat that row key/key-value binary representation must match Phoenix data types (see [Data Types](/docs/datatypes)).
+   - For a read-write TABLE, column families are created automatically if absent. An empty key value is added to the first column family of each existing row to minimize projection size for queries.
+   - For a read-only VIEW, all column families must already exist. The only change is adding Phoenix coprocessors for query processing. The primary use case is transferring existing data into Phoenix; DML is not allowed on a VIEW, and query performance may be lower than with a TABLE.
+
+All schema is versioned (up to 1000 versions kept). Snapshot queries over older data pick up the correct schema based on connection time via [CurrentSCN](/docs/faq#can-phoenix-work-on-tables-with-arbitrary-timestamp-as-flexible-as-hbase-api).
+
+#### Altering
+
+A Phoenix table may be altered via [`ALTER TABLE`](/docs/grammar#alter). When a SQL statement references a table, Phoenix checks with the server by default to ensure metadata and statistics are up to date.
+
+If table structure is known to be stable, this RPC may be unnecessary. `UPDATE_CACHE_FREQUENCY` (added in 4.7) lets users define how often the server is checked for metadata/statistics updates. Possible values: `ALWAYS` (default), `NEVER`, or a millisecond value.
+
+For example, this DDL creates table `FOO` and tells clients to check for updates every 15 minutes:
 
 ```sql
-CREATE TABLE IF NOT EXISTS us_population (
-  state CHAR(2) NOT NULL,
-  city VARCHAR NOT NULL,
-  population BIGINT
-  CONSTRAINT my_pk PRIMARY KEY (state, city)
-);
+CREATE TABLE FOO (k BIGINT PRIMARY KEY, v VARCHAR) UPDATE_CACHE_FREQUENCY=900000;
 ```
 
-</Step>
+#### Views
 
-<Step>
+Phoenix supports updatable views on top of tables, with the unique capability of adding columns by leveraging HBase schemaless behavior. All views share the same underlying HBase table and may be indexed independently. Read more [here](/docs/views).
 
-### Now let's create a `us_population.csv` file containing some data to put in that table:
+#### Multi-tenancy
 
-```csv
-NY,New York,8143197
-CA,Los Angeles,3844829
-IL,Chicago,2842518
-TX,Houston,2016582
-PA,Philadelphia,1463281
-AZ,Phoenix,1461575
-TX,San Antonio,1256509
-CA,San Diego,1255540
-TX,Dallas,1213825
-CA,San Jose,912332
-```
+Built on top of view support, Phoenix also supports [multi-tenancy](/docs/multi-tenancy). As with views, a multi-tenant view can add columns defined solely for that user.
 
-</Step>
+#### Schema at read time
 
-<Step>
+Another schema-related feature allows columns to be defined dynamically at query time. This is useful when not all columns are known at create time. More details [here](/docs/dynamic-columns).
 
-### Execute the following command from a command terminal to create and populate the table
+#### Mapping to an Existing HBase Table
 
-```bash
-./psql.py <your_zookeeper_quorum> us_population.sql us_population.csv
-```
+Phoenix supports mapping to an existing HBase table through [`CREATE TABLE`](/docs/grammar#create-table) and [`CREATE VIEW`](/docs/grammar#create-view). In both cases, HBase metadata remains as-is, except that with `CREATE TABLE`, [KEEP_DELETED_CELLS](http://hbase.apache.org/book/cf.keep.deleted.html) is enabled so flashback queries work correctly.
 
-</Step>
-
-<Step>
-
-### Start the interactive sql client
-
-```bash
-./sqlline.py <your_zookeeper_quorum>
-```
-
-and issue a query
+For `CREATE TABLE`, missing HBase metadata (table/column families) is created if needed. Table and column family names are case-sensitive at HBase level; Phoenix uppercases names by default. To preserve case sensitivity, wrap names in double quotes:
 
 ```sql
-SELECT state as "State",count(city) as "City Count",sum(population) as "Population Sum"
-FROM us_population
-GROUP BY state
-ORDER BY sum(population) DESC;
+CREATE VIEW "MyTable" ("a".ID VARCHAR PRIMARY KEY);
 ```
 
-</Step>
+For `CREATE TABLE`, an empty key value is added per row so queries behave as expected without projecting all columns during scans. For `CREATE VIEW`, this is not done and no HBase metadata is created. Existing HBase metadata must match DDL metadata, or `ERROR 505 (42000): Table is read only` is thrown.
 
-</Steps>
+Another caveat: bytes serialized in HBase must match Phoenix serialization expectations.
 
-Congratulations! You've just created your first Phoenix table, inserted data into it, and executed an aggregate query with just a few lines of code in 15 minutes or less!
+- For `VARCHAR`, `CHAR`, and `UNSIGNED_*` types, Phoenix uses HBase `Bytes` utility methods.
+- `CHAR` expects only single-byte characters.
+- `UNSIGNED_*` expects non-negative values.
 
-### Big deal - 10 rows! What else you got?
+Composite row keys are formed by concatenating values, with a zero byte separator after variable-length types. For more on type system details, see [Data Types](/docs/datatypes).
 
-Ok, ok - tough crowd. Check out our `bin/performance.py` script to create as many rows as you want, for any schema you come up with, and run timed queries against it.
+#### Salting
 
-### Why is it called Phoenix anyway? Did some other project crash and burn and this is the next generation?
+Tables can be declared salted to avoid HBase region hotspotting. Declare a salt bucket count and Phoenix manages salting transparently. See details [here](/docs/salted-tables), and write-throughput comparison [here](/docs/performance#salting).
 
-I'm sorry, but we're out of time and space, so we'll have to answer that next time!
+#### APIs
+
+Catalog metadata (tables, columns, primary keys, and types) can be retrieved through Java SQL metadata interfaces: `DatabaseMetaData`, `ParameterMetaData`, and `ResultSetMetaData`.
+
+For schema/table/column retrieval via `DatabaseMetaData`, schema pattern, table pattern, and column pattern are LIKE-style expressions (`%` and `_`, escaped by `\`).
+
+In metadata APIs, table catalog argument is used to filter by tenant ID for multi-tenant tables.

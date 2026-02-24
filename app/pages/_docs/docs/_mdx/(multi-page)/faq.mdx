@@ -22,7 +22,7 @@ description: "Frequently asked question about Phoenix"
 
 ### I want to get started. Is there a Phoenix _Hello World_?
 
-_Pre-requisite:_ [Download](/docs/download) and [install](/docs/installation) the latest Phoenix.
+_Pre-requisite:_ [Download](/downloads) and [install](/docs/installation) the latest Phoenix.
 
 #### Using console
 
@@ -120,7 +120,7 @@ World!
 
 #### Thick Driver
 
-**See [Using the Phoenix JDBC Driver](/docs/classpath_and-url#The_Phoenix_JDBC_URL) for a more up-to-date description**
+**See [Using the Phoenix JDBC Driver](/docs/client-classpath-and-jdbc-url#using-the-phoenix-jdbc-driver) for a more up-to-date description**
 
 The Phoenix (Thick) Driver JDBC URL syntax is as follows (where elements in square brackets are optional):
 
@@ -143,7 +143,7 @@ jdbc:phoenix:zookeeper1.domain,zookeeper2.domain,zookeeper3.domain:2181:/hbase-1
 Please note that each optional element in the URL requires all previous optional elements. For example, to specify the
 HBase root ZNode, the ZooKeeper port _must_ also be specified.
 
-This information is initially covered on the [index page](/#connStr).
+See also [Connection String](/docs#connection).
 
 #### Thin Driver
 
@@ -169,13 +169,13 @@ jdbc:phoenix:thin:url=http://queryserver.domain:8765;serialization=PROTOBUF;auth
 ```
 
 Please refer to the [Apache Avatica documentation](https://calcite.apache.org/avatica/docs/client_reference.html) for a full list of supported options in the Thin client JDBC URL,
-or see the [Query Server documentation](/docs/server)
+or see the [Query Server documentation](/docs/query-server)
 
 ### Is there a way to bulk load in Phoenix?
 
 #### Map Reduce
 
-See the example [here](/docs/bulk-dataload)
+See the example [here](/docs/bulk-loading)
 
 #### CSV
 
@@ -239,41 +239,35 @@ CREATE TABLE t1 ( pk VARCHAR PRIMARY KEY, val VARCHAR )
 
 ### Are there any tips for optimizing Phoenix?
 
-- Use **Salting** to increase read/write performance
-  Salting can significantly increase read/write performance by pre-splitting the data into multiple regions. Although Salting will yield better performance in most scenarios.
-
+- Use **Salting** to increase read/write performance  
+  Salting can significantly increase read/write performance by pre-splitting the data into multiple regions. Although Salting will yield better performance in most scenarios.  
   Example:
 
   ```sql
   CREATE TABLE TEST (HOST VARCHAR NOT NULL PRIMARY KEY, DESCRIPTION VARCHAR) SALT_BUCKETS=16
   ```
 
-  Note: Ideally for a 16 region server cluster with quad-core CPUs, choose salt buckets between 32-64 for optimal performance.
+  *Note: Ideally for a 16 region server cluster with quad-core CPUs, choose salt buckets between 32-64 for optimal performance.*
 
-- **Pre-split** table
-  Salting does automatic table splitting but in case you want to exactly control where table split occurs with out adding extra byte or change row key order then you can pre-split a table.
-
+- **Pre-split** table  
+  Salting does automatic table splitting but in case you want to exactly control where table split occurs with out adding extra byte or change row key order then you can pre-split a table.  
   Example:
 
   ```sql
   CREATE TABLE TEST (HOST VARCHAR NOT NULL PRIMARY KEY, DESCRIPTION VARCHAR) SPLIT ON ('CS','EU','NA')
   ```
 
-- Use **multiple column families**
-
-  Column family contains related data in separate files. If you query use selected columns then it make sense to group those columns together in a column family to improve read performance.
-
-  Example:
-
+- Use **multiple column families**  
+  Column family contains related data in separate files. If you query use selected columns then it make sense to group those columns together in a column family to improve read performance.  
+  Example:  
   Following create table DDL will create two column faimiles A and B.
 
   ```sql
   CREATE TABLE TEST (MYKEY VARCHAR NOT NULL PRIMARY KEY, A.COL1 VARCHAR, A.COL2 VARCHAR, B.COL3 VARCHAR)
   ```
 
-- Use **compression**
-  On disk compression improves performance on large tables
-
+- Use **compression**  
+  On disk compression improves performance on large tables  
   Example:
 
   ```sql
@@ -281,13 +275,13 @@ CREATE TABLE t1 ( pk VARCHAR PRIMARY KEY, val VARCHAR )
   ```
 
 - Create **indexes**
-  See [#how-do-i-connect-to-secure-hbase-cluster](#how-do-i-connect-to-secure-hbase-cluster)
+  See [How do I connect to secure HBase cluster?](#how-do-i-connect-to-secure-hbase-cluster)
 
 - **Optimize cluster** parameters
   See http://hbase.apache.org/book/performance.html
 
 - **Optimize Phoenix** parameters
-  See [tuning.html](/docs/tuning)
+  See [Configuration](/docs/configuration)
 
 ### How do I create Secondary Index on a table?
 
@@ -295,23 +289,16 @@ Starting with Phoenix version 2.1, Phoenix supports index over mutable and immut
 
 Example:
 
-- Create table
-
-	Immutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar) IMMUTABLE_ROWS=true;`
-
+- **Create table**  
+	Immutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar) IMMUTABLE_ROWS=true;`  
 	Mutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar);`
-
-- Creating index on col2
-
+- **Creating index on col2**  
 	`create index idx on test (col2)`
-
-- Creating index on col1 and a covered index on col2
-
-	`create index idx on test (col1) include (col2)`
-
+- **Creating index on col1 and a covered index on col2**  
+	`create index idx on test (col1) include (col2)`  
 	Upsert rows in this test table and Phoenix query optimizer will choose correct index to use. You can see in [explain plan](/docs/grammar#explain) if Phoenix is using the index table. You can also give a [hint](/docs/grammar#hint) in Phoenix query to use a specific index.
 
-See [Secondary Indexing](/docs/secondary-indexing) for further information
+See [Secondary Indexing](/docs/secondary-indexes) for further information
 
 ### Why isn't my secondary index being used?
 
@@ -323,7 +310,7 @@ Query: DDL `select id, firstname, lastname from usertable where firstname = 'foo
 
 Index would not be used in this case as lastname is not part of indexed or covered column. This can be verified by looking at the explain plan. To fix this create index that has either lastname part of index or covered column. Example: `create idx_name on usertable (firstname) include (lastname);`
 
-You can force Phoenix to use secondary for uncovered columns by specifying an [index hint](/docs#index-hint)
+You can force Phoenix to use secondary for uncovered columns by specifying an [index hint](/docs/secondary-indexes)
 
 ### How fast is Phoenix? Why is it so fast?
 
