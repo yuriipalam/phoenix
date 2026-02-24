@@ -3,21 +3,6 @@ title: "Developing Phoenix"
 description: "Set up a local Apache Phoenix development environment, IDE preferences, and contribution workflow."
 ---
 
-Below are the steps necessary to setup your development environment so that you may contribute to Apache Phoenix.
-
-- [Getting Started](#getting-started)
-- [Other Phoenix subprojects](#other-phoenix-subprojects)
-- [Setup local Git repository](#setup-local-git-repository)
-- [Eclipse](#eclipse)
-  - [Get settings and preferences correct](#get-settings-and-preferences-correct)
-  - [Connecting to JIRA](#connecting-to-jira)
-  - [Commit](#commit)
-- [IntelliJ](#for-intellij)
-  - [If you do not have a local git repository setup](#if-you-do-not-have-a-local-git-repository-setup)
-  - [If you already have a local git repository setup](#if-you-already-have-a-local-git-repository-setup)
-- [Contributing finished work](#contributing-finished-work)
-  - [Create pull request](#create-pull-request)
-
 ## Getting Started
 
 1. Review the [How to Contribute](/docs/contributing) documentation.
@@ -39,7 +24,7 @@ export PATH=$M2_HOME/bin:$PATH
 
 ## Other Phoenix Subprojects
 
-The instructions here are for the main Phoenix project. For the other subprojects, use the corresponding [repository](/docs/source) and [JIRA project](/issues-tracking).
+The instructions here are for the main Phoenix project. For the other subprojects, use the corresponding [repository](/source-repository) and [JIRA project](/issues-tracking).
 
 The Eclipse and IntelliJ setup instructions may not necessarily work well for the other projects.
 
@@ -49,18 +34,18 @@ You may find it easier to clone from your IDE of choice, especially with Intelli
 
 1. Create a local clone of your new forked repository
 
-```shell
-git clone https://github.com/{username}/phoenix.git
-```
+   ```shell
+   git clone https://github.com/{username}/phoenix.git
+   ```
 
-1. Configure your local repository to be able to sync with the apache/phoenix repository
+2. Configure your local repository to be able to sync with the apache/phoenix repository
 
-```shell
-cd {repository}
-git remote add upstream https://github.com/apache/phoenix.git
-```
+   ```shell
+   cd {repository}
+   git remote add upstream https://github.com/apache/phoenix.git
+   ```
 
-1. Setup your development environment
+3. Setup your development environment
 
 ## For Eclipse IDE for Java Developers (Luna)
 
