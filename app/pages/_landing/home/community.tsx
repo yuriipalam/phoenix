@@ -76,9 +76,8 @@ export function CommunitySection() {
               </Link>
             </li>
             <li id="language-reference" className="relative p-0">
-              {/* TODO: update this link once the page is done */}
               <Link
-                to="/docs"
+                to="/docs/grammar"
                 className="border-border/60 bg-background hover:border-primary focus-visible:ring-primary block rounded-lg border p-4 transition-colors focus-visible:ring-2 focus-visible:outline-none"
               >
                 <span className="text-foreground font-medium">

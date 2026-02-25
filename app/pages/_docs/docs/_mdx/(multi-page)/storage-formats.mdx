@@ -5,8 +5,8 @@ description: "Configure Phoenix column mapping and immutable storage encoding fo
 
 As part of Phoenix 4.10, we have reduced on-disk storage size to improve overall performance by implementing the following enhancements:
 
-* Introduce a layer of indirection between Phoenix column names and the corresponding HBase column qualifiers.
-* Support a new encoding scheme for immutable tables that packs all values into a single cell per column family.
+- Introduce a layer of indirection between Phoenix column names and the corresponding HBase column qualifiers.
+- Support a new encoding scheme for immutable tables that packs all values into a single cell per column family.
 
 For more details on column mapping and immutable data encoding, see [this blog](https://blogs.apache.org/phoenix/entry/column-mapping-and-immutable-data).
 
@@ -14,18 +14,18 @@ For more details on column mapping and immutable data encoding, see [this blog](
 
 You can set the column mapping property only when creating a table. Before deciding to use column mapping, think about how many columns your table and view hierarchy will require over their lifecycle. The following limits apply for each mapping scheme:
 
-| Config/Property Value | Max # of columns |
-|-----------------------|------------------|
-| 1                     | 255              |
-| 2                     | 65535            |
-| 3                     | 16777215         |
-| 4                     | 2147483647       |
+| Config/Property Value | Max # of columns         |
+| --------------------- | ------------------------ |
+| 1                     | 255                      |
+| 2                     | 65535                    |
+| 3                     | 16777215                 |
+| 4                     | 2147483647               |
 | NONE                  | no limit (theoretically) |
 
 For mutable tables, this limit applies to columns in **all** column families. For immutable tables, the limit applies **per** column family. By default, new Phoenix tables use column mapping. These defaults can be overridden by setting the following config value in `hbase-site.xml`.
 
 | Table type        | Default Column mapping | Config                                      |
-|-------------------|------------------------|---------------------------------------------|
+| ----------------- | ---------------------- | ------------------------------------------- |
 | Mutable/Immutable | 2 byte qualifiers      | phoenix.default.column.encoded.bytes.attrib |
 
 This config controls global defaults that apply to all tables. If you want a different mapping scheme than the global default, use the `COLUMN_ENCODED_BYTES` table property.
@@ -51,7 +51,7 @@ Like column mapping, immutable data encoding can only be set when creating a tab
 By default, immutable non-multitenant tables are created using two-byte column mapping and `SINGLE_CELL_ARRAY_WITH_OFFSETS` data encoding. Immutable multi-tenant tables are created with two-byte column mapping and `ONE_CELL_PER_COLUMN` data encoding. This is because users often create tenant-specific views on base multi-tenant tables, and as noted above this is more suitable for `ONE_CELL_PER_COLUMN`. Like column mapping, you can change these global defaults by setting the following configs in `hbase-site.xml`.
 
 | Immutable Table type | Immutable storage scheme       | Config                                               |
-|----------------------|--------------------------------|------------------------------------------------------|
+| -------------------- | ------------------------------ | ---------------------------------------------------- |
 | Multi-tenant         | ONE_CELL_PER_COLUMN            | phoenix.default.multitenant.immutable.storage.scheme |
 | Non multi-tenant     | SINGLE_CELL_ARRAY_WITH_OFFSETS | phoenix.default.immutable.storage.scheme             |
 

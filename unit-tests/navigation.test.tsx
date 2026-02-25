@@ -61,7 +61,7 @@ describe("SiteNavbar", () => {
 
     // There are multiple buttons (JS and no-JS), so use getAllByRole
     const docsMenus = screen.getAllByRole("button", {
-      name: /Documentation and API/i
+      name: /Documentation/i
     });
     expect(docsMenus.length).toBeGreaterThan(0);
   });
@@ -101,7 +101,7 @@ describe("SiteNavbar", () => {
     renderWithProviders(<SiteNavbar />);
 
     const docsMenus = screen.getAllByRole("button", {
-      name: /Documentation and API/i
+      name: /Documentation/i
     });
     await user.click(docsMenus[0]);
 

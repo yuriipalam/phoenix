@@ -177,7 +177,8 @@ function tokenise(input: string): Tok[] {
       // range notation: 0-9, 1-99, etc.
       if (input[i] === "-" && /[0-9a-zA-Z]/.test(input[i + 1])) {
         w += input[i++]; // -
-        while (i < input.length && /[0-9a-zA-Z]/.test(input[i])) w += input[i++];
+        while (i < input.length && /[0-9a-zA-Z]/.test(input[i]))
+          w += input[i++];
       }
       toks.push({ kind: "WORD", val: w });
       continue;

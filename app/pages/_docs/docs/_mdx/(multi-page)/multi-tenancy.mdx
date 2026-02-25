@@ -5,10 +5,10 @@ description: "Use multi-tenant tables, tenant-specific connections, and tenant v
 
 ## Highlights
 
-* Multi-tenancy in Phoenix works via a combination of multi-tenant tables and tenant-specific connections (detailed below).
-* Tenants open tenant-specific connections to Phoenix. These connections can only access data that belongs to the tenant.
-* Tenants only see their own data in multi-tenant tables and can see all data in regular tables.
-* In order to add their own columns, tenants create tenant-specific views on top of multi-tenant tables and add their own columns to the views.
+- Multi-tenancy in Phoenix works via a combination of multi-tenant tables and tenant-specific connections (detailed below).
+- Tenants open tenant-specific connections to Phoenix. These connections can only access data that belongs to the tenant.
+- Tenants only see their own data in multi-tenant tables and can see all data in regular tables.
+- In order to add their own columns, tenants create tenant-specific views on top of multi-tenant tables and add their own columns to the views.
 
 ## Multi-tenant tables
 
@@ -30,9 +30,9 @@ The column that identifies the tenant may have any name, but it must be of type 
 
 Tenants are identified by the presence or absence of the `TenantId` property at JDBC connection time. A connection with a non-null `TenantId` is tenant-specific. A connection with an unspecified or null `TenantId` is a regular connection. A tenant-specific connection may query only:
 
-* **all data in non-multi-tenant (global) tables**, that is, tables created with a regular connection without `MULTI_TENANT=true`.
-* **their own data in multi-tenant tables**.
-* **their own schema**, meaning it sees only tenant-specific views created by that tenant (detailed below).
+- **all data in non-multi-tenant (global) tables**, that is, tables created with a regular connection without `MULTI_TENANT=true`.
+- **their own data in multi-tenant tables**.
+- **their own schema**, meaning it sees only tenant-specific views created by that tenant (detailed below).
 
 For example, a tenant-specific connection is established like this:
 

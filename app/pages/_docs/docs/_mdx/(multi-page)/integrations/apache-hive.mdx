@@ -177,13 +177,13 @@ Disabling WAL can lead to data loss.
 
 You can use HiveQL for querying data in a Phoenix table. A Hive query on a single table can be as fast as running the query in the Phoenix CLI with the following property settings: `hive.fetch.task.conversion=more` and `hive.exec.parallel=true`
 
-| Parameter                       | Default Value | Description                                                                                               |
-| ------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------- |
-| hbase.scan.cache                | 100           | Read row size for a unit request                                                                          |
-| hbase.scan.cacheblock           | false         | Whether or not cache block                                                                                |
-| split.by.stats                  | false         | If true, mappers use table statistics. One mapper per guide post.                                         |
+| Parameter                       | Default Value | Description                                                                                                           |
+| ------------------------------- | ------------- | --------------------------------------------------------------------------------------------------------------------- |
+| hbase.scan.cache                | 100           | Read row size for a unit request                                                                                      |
+| hbase.scan.cacheblock           | false         | Whether or not cache block                                                                                            |
+| split.by.stats                  | false         | If true, mappers use table statistics. One mapper per guide post.                                                     |
 | [hive-table-name].reducer.count | 1             | Number of reducers. In Tez mode, this affects only single-table queries. See [Limitations](#apache-hive-limitations). |
-| [phoenix-table-name].query.hint |               | Hint for Phoenix query (for example, `NO_INDEX`)                                                          |
+| [phoenix-table-name].query.hint |               | Hint for Phoenix query (for example, `NO_INDEX`)                                                                      |
 
 ## Limitations [#apache-hive-limitations]
 

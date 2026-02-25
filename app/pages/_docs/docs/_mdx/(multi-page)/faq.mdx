@@ -185,15 +185,15 @@ Usage example:
 
 - Create table using psql:
 
-	```shell
-	$ psql.py [zookeeper] ../examples/web_stat.sql
-	```
+  ```shell
+  $ psql.py [zookeeper] ../examples/web_stat.sql
+  ```
 
 - Upsert CSV bulk data:
 
-	```shell
-	$ psql.py [zookeeper] ../examples/web_stat.csv
-	```
+  ```shell
+  $ psql.py [zookeeper] ../examples/web_stat.csv
+  ```
 
 ### How I map Phoenix table to an existing HBase table?
 
@@ -247,7 +247,7 @@ CREATE TABLE t1 ( pk VARCHAR PRIMARY KEY, val VARCHAR )
   CREATE TABLE TEST (HOST VARCHAR NOT NULL PRIMARY KEY, DESCRIPTION VARCHAR) SALT_BUCKETS=16
   ```
 
-  *Note: Ideally for a 16 region server cluster with quad-core CPUs, choose salt buckets between 32-64 for optimal performance.*
+  _Note: Ideally for a 16 region server cluster with quad-core CPUs, choose salt buckets between 32-64 for optimal performance._
 
 - **Pre-split** table  
   Salting does automatic table splitting but in case you want to exactly control where table split occurs with out adding extra byte or change row key order then you can pre-split a table.  
@@ -290,13 +290,13 @@ Starting with Phoenix version 2.1, Phoenix supports index over mutable and immut
 Example:
 
 - **Create table**  
-	Immutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar) IMMUTABLE_ROWS=true;`  
-	Mutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar);`
+  Immutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar) IMMUTABLE_ROWS=true;`  
+  Mutable table: `create table test (mykey varchar primary key, col1 varchar, col2 varchar);`
 - **Creating index on col2**  
-	`create index idx on test (col2)`
+  `create index idx on test (col2)`
 - **Creating index on col1 and a covered index on col2**  
-	`create index idx on test (col1) include (col2)`  
-	Upsert rows in this test table and Phoenix query optimizer will choose correct index to use. You can see in [explain plan](/docs/grammar#explain) if Phoenix is using the index table. You can also give a [hint](/docs/grammar#hint) in Phoenix query to use a specific index.
+  `create index idx on test (col1) include (col2)`  
+  Upsert rows in this test table and Phoenix query optimizer will choose correct index to use. You can see in [explain plan](/docs/grammar#explain) if Phoenix is using the index table. You can also give a [hint](/docs/grammar#hint) in Phoenix query to use a specific index.
 
 See [Secondary Indexing](/docs/secondary-indexes) for further information
 

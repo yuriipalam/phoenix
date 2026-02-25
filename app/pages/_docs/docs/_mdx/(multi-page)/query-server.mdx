@@ -4,14 +4,14 @@ description: "Deploy and use Phoenix Query Server (PQS), including client access
 ---
 
 The Phoenix Query Server provides an alternative means for interaction with
-Phoenix and HBase. 
+Phoenix and HBase.
 
 ## Overview [#query-server-overview]
 
 Phoenix 4.4 introduces a stand-alone server that exposes Phoenix to "thin"
 clients. It is based on the [Avatica](https://calcite.apache.org/avatica) component of
 [Apache Calcite](https://calcite.apache.org). The query server is comprised of a Java server that
-manages Phoenix Connections on the clients' behalf. 
+manages Phoenix Connections on the clients' behalf.
 
 With the introduction of the
 Protobuf transport, Avatica is moving towards backwards compatibility with the
@@ -46,8 +46,8 @@ distribution. They require no additional dependencies or installation.
 After the 4.15 and 5.1 release, the query server has been unbundled into the phoenix-queryserver
 repository, and its version number has been reset to 6.0.
 
-Download the latest source or binary release from the 
-[Download page](/downloads), 
+Download the latest source or binary release from the
+[Download page](/downloads),
 or check out the development version from
 [GitHub](https://github.com/apache/phoenix-queryserver).
 
@@ -185,69 +185,69 @@ following configuration options exposed via `hbase-site.xml`.
 
 ### Server Instantiation
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `phoenix.queryserver.http.port` | Port the server listens on. | `8765` |
-| `phoenix.queryserver.metafactory.class` | Avatica `Meta.Factory` implementation class. | `org.apache.phoenix.queryserver.server.PhoenixMetaFactoryImpl` |
-| `phoenix.queryserver.serialization` | Transport/serialization format (`PROTOBUF` or `JSON`). | `PROTOBUF` |
+| Property                                | Description                                            | Default                                                        |
+| --------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------- |
+| `phoenix.queryserver.http.port`         | Port the server listens on.                            | `8765`                                                         |
+| `phoenix.queryserver.metafactory.class` | Avatica `Meta.Factory` implementation class.           | `org.apache.phoenix.queryserver.server.PhoenixMetaFactoryImpl` |
+| `phoenix.queryserver.serialization`     | Transport/serialization format (`PROTOBUF` or `JSON`). | `PROTOBUF`                                                     |
 
 ### HTTPS
 
 HTTPS support is only available in unbundled `phoenix-queryserver` versions.
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `phoenix.queryserver.tls.enabled` | Enables HTTPS transport. When enabled, keystore/truststore files and passwords are also required. | `false` |
-| `phoenix.queryserver.tls.keystore` | Keystore file containing the HTTPS private key. | _unset_ |
-| `phoenix.queryserver.tls.keystore.password` | Password for HTTPS keystore. | _empty string_ |
-| `phoenix.queryserver.tls.truststore` | Keystore file containing the HTTPS certificate. | _unset_ |
-| `phoenix.queryserver.tls.truststore.password` | Password for HTTPS truststore. | _empty string_ |
+| Property                                      | Description                                                                                       | Default        |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------- |
+| `phoenix.queryserver.tls.enabled`             | Enables HTTPS transport. When enabled, keystore/truststore files and passwords are also required. | `false`        |
+| `phoenix.queryserver.tls.keystore`            | Keystore file containing the HTTPS private key.                                                   | _unset_        |
+| `phoenix.queryserver.tls.keystore.password`   | Password for HTTPS keystore.                                                                      | _empty string_ |
+| `phoenix.queryserver.tls.truststore`          | Keystore file containing the HTTPS certificate.                                                   | _unset_        |
+| `phoenix.queryserver.tls.truststore.password` | Password for HTTPS truststore.                                                                    | _empty string_ |
 
 ### Secure Cluster Connection
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `hbase.security.authentication` | When set to `kerberos`, server logs in before initiating Phoenix connections. | _specified in `hbase-default.xml`_ |
-| `phoenix.queryserver.keytab.file` | Key for keytab file lookup. | _unset_ |
-| `phoenix.queryserver.kerberos.principal` | Kerberos principal for authentication; also used for SPNEGO if HTTP principal is not configured. | _unset_ |
-| `phoenix.queryserver.http.keytab.file` | Keytab for SPNEGO auth; required if `phoenix.queryserver.kerberos.http.principal` is set; falls back to `phoenix.queryserver.keytab.file`. | _unset_ |
-| `phoenix.queryserver.http.kerberos.principal` | Kerberos principal for SPNEGO auth; falls back to `phoenix.queryserver.kerberos.principal`. | _unset_ |
-| `phoenix.queryserver.kerberos.http.principal` | Deprecated; use `phoenix.queryserver.http.kerberos.principal`. | _unset_ |
-| `phoenix.queryserver.kerberos.allowed.realms` | Additional Kerberos realms allowed for SPNEGO auth. | _unset_ |
-| `phoenix.queryserver.dns.nameserver` | DNS hostname. | `default` |
-| `phoenix.queryserver.dns.interface` | Network interface name for DNS queries. | `default` |
+| Property                                      | Description                                                                                                                                | Default                            |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| `hbase.security.authentication`               | When set to `kerberos`, server logs in before initiating Phoenix connections.                                                              | _specified in `hbase-default.xml`_ |
+| `phoenix.queryserver.keytab.file`             | Key for keytab file lookup.                                                                                                                | _unset_                            |
+| `phoenix.queryserver.kerberos.principal`      | Kerberos principal for authentication; also used for SPNEGO if HTTP principal is not configured.                                           | _unset_                            |
+| `phoenix.queryserver.http.keytab.file`        | Keytab for SPNEGO auth; required if `phoenix.queryserver.kerberos.http.principal` is set; falls back to `phoenix.queryserver.keytab.file`. | _unset_                            |
+| `phoenix.queryserver.http.kerberos.principal` | Kerberos principal for SPNEGO auth; falls back to `phoenix.queryserver.kerberos.principal`.                                                | _unset_                            |
+| `phoenix.queryserver.kerberos.http.principal` | Deprecated; use `phoenix.queryserver.http.kerberos.principal`.                                                                             | _unset_                            |
+| `phoenix.queryserver.kerberos.allowed.realms` | Additional Kerberos realms allowed for SPNEGO auth.                                                                                        | _unset_                            |
+| `phoenix.queryserver.dns.nameserver`          | DNS hostname.                                                                                                                              | `default`                          |
+| `phoenix.queryserver.dns.interface`           | Network interface name for DNS queries.                                                                                                    | `default`                          |
 
 ### Server Connection Cache
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `avatica.connectioncache.concurrency` | Connection cache concurrency level. | `10` |
-| `avatica.connectioncache.initialcapacity` | Connection cache initial capacity. | `100` |
-| `avatica.connectioncache.maxcapacity` | Connection cache maximum capacity; LRU eviction begins near this point. | `1000` |
-| `avatica.connectioncache.expiryduration` | Connection cache expiration duration. | `10` |
-| `avatica.connectioncache.expiryunit` | Time unit for `avatica.connectioncache.expiryduration`. | `MINUTES` |
+| Property                                  | Description                                                             | Default   |
+| ----------------------------------------- | ----------------------------------------------------------------------- | --------- |
+| `avatica.connectioncache.concurrency`     | Connection cache concurrency level.                                     | `10`      |
+| `avatica.connectioncache.initialcapacity` | Connection cache initial capacity.                                      | `100`     |
+| `avatica.connectioncache.maxcapacity`     | Connection cache maximum capacity; LRU eviction begins near this point. | `1000`    |
+| `avatica.connectioncache.expiryduration`  | Connection cache expiration duration.                                   | `10`      |
+| `avatica.connectioncache.expiryunit`      | Time unit for `avatica.connectioncache.expiryduration`.                 | `MINUTES` |
 
 ### Server Statement Cache
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `avatica.statementcache.concurrency` | Statement cache concurrency level. | `100` |
-| `avatica.statementcache.initialcapacity` | Statement cache initial capacity. | `1000` |
-| `avatica.statementcache.maxcapacity` | Statement cache maximum capacity; LRU eviction begins near this point. | `10000` |
-| `avatica.statementcache.expiryduration` | Statement cache expiration duration. | `5` |
-| `avatica.statementcache.expiryunit` | Time unit for `avatica.statementcache.expiryduration`. | `MINUTES` |
+| Property                                 | Description                                                            | Default   |
+| ---------------------------------------- | ---------------------------------------------------------------------- | --------- |
+| `avatica.statementcache.concurrency`     | Statement cache concurrency level.                                     | `100`     |
+| `avatica.statementcache.initialcapacity` | Statement cache initial capacity.                                      | `1000`    |
+| `avatica.statementcache.maxcapacity`     | Statement cache maximum capacity; LRU eviction begins near this point. | `10000`   |
+| `avatica.statementcache.expiryduration`  | Statement cache expiration duration.                                   | `5`       |
+| `avatica.statementcache.expiryunit`      | Time unit for `avatica.statementcache.expiryduration`.                 | `MINUTES` |
 
 ### Impersonation
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `phoenix.queryserver.withRemoteUserExtractor` | If true, extracts impersonated user from request param instead of authenticated HTTP user. | `false` |
-| `phoenix.queryserver.remoteUserExtractor.param` | HTTP request parameter name for impersonated user. | `doAs` |
+| Property                                        | Description                                                                                | Default |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------ | ------- |
+| `phoenix.queryserver.withRemoteUserExtractor`   | If true, extracts impersonated user from request param instead of authenticated HTTP user. | `false` |
+| `phoenix.queryserver.remoteUserExtractor.param` | HTTP request parameter name for impersonated user.                                         | `doAs`  |
 
 ### Metrics
 
-| Property | Description | Default |
-| --- | --- | --- |
+| Property                     | Description                                                                                     | Default      |
+| ---------------------------- | ----------------------------------------------------------------------------------------------- | ------------ |
 | `phoenix.client.metrics.tag` | Tag for filtering Phoenix global client metrics emitted by PQS in `hadoop-metrics2.properties`. | `FAT_CLIENT` |
 
 ## Query Server Additions
@@ -267,15 +267,15 @@ The ZooKeeper-based load balancer functions by automatically registering PQS ins
 ZooKeeper and then allows clients to query the list of available servers. This implementation, unlike
 the others mentioned above, requires that client use the advertised information to make a routing decision.
 In this regard, this ZooKeeper-based approach is more akin to a service-discovery layer than a traditional
-load balancer. This load balancer implementation does *not* support SASL-based (Kerberos) ACLs in
+load balancer. This load balancer implementation does _not_ support SASL-based (Kerberos) ACLs in
 ZooKeeper (see [PHOENIX-4085](https://issues.apache.org/jira/browse/PHOENIX-4085)).
 
 The following properties configure this load balancer:
 
-| Property | Description | Default |
-| --- | --- | --- |
-| `phoenix.queryserver.loadbalancer.enabled` | If true, PQS registers itself in ZooKeeper for load balancing. | `false` |
-| `phoenix.queryserver.base.path` | Root znode where PQS instances register themselves. | `/phoenix` |
-| `phoenix.queryserver.service.name` | Unique name to identify this PQS instance. | `queryserver` |
-| `phoenix.queryserver.zookeeper.acl.username` | Username for optional DIGEST ZooKeeper ACL. | `phoenix` |
-| `phoenix.queryserver.zookeeper.acl.password` | Password for optional DIGEST ZooKeeper ACL. | `phoenix` |
+| Property                                     | Description                                                    | Default       |
+| -------------------------------------------- | -------------------------------------------------------------- | ------------- |
+| `phoenix.queryserver.loadbalancer.enabled`   | If true, PQS registers itself in ZooKeeper for load balancing. | `false`       |
+| `phoenix.queryserver.base.path`              | Root znode where PQS instances register themselves.            | `/phoenix`    |
+| `phoenix.queryserver.service.name`           | Unique name to identify this PQS instance.                     | `queryserver` |
+| `phoenix.queryserver.zookeeper.acl.username` | Username for optional DIGEST ZooKeeper ACL.                    | `phoenix`     |
+| `phoenix.queryserver.zookeeper.acl.password` | Password for optional DIGEST ZooKeeper ACL.                    | `phoenix`     |

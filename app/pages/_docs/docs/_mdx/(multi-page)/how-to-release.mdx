@@ -37,7 +37,7 @@ The script will ask a number of questions. Some of them will have intelligent de
   Output directory already exists. Overwrite and continue? [y/n] y
   ========================
   === Gathering release details.
-  
+
   PROJECT [phoenix]:
   GIT_BRANCH []: master
   Current branch VERSION is 5.1.0-SNAPSHOT.
@@ -65,13 +65,13 @@ The script will ask a number of questions. Some of them will have intelligent de
 ```
 
 - PROJECT: the repo to release (default specified by -p on the command line)
-- GIT\_BRANCH: the git branch to use for release. This can be master, or a pre-created release branch.
-- RC\_COUNT: the RC number, starting from 0
-- RELEASE\_TAG: the git tag the script will tag the RC commit with.
+- GIT_BRANCH: the git branch to use for release. This can be master, or a pre-created release branch.
+- RC_COUNT: the RC number, starting from 0
+- RELEASE_TAG: the git tag the script will tag the RC commit with.
 - ASF_USERNAME: your ASF username, for publishing the release artifacts.
-- ASF\_PASSWORD: your ASF password, only for non-dry runs
-- GIT\_NAME/GIT\_EMAIL: will be used for the RC commit
-- GPG\_KEY: ID for your GPG key. The script will offer a GPG secret key from your key ring, double-check that it is your code-signing key, and correct it if it is not.
+- ASF_PASSWORD: your ASF password, only for non-dry runs
+- GIT_NAME/GIT_EMAIL: will be used for the RC commit
+- GPG_KEY: ID for your GPG key. The script will offer a GPG secret key from your key ring, double-check that it is your code-signing key, and correct it if it is not.
 
 The dry-run will generate the signed release files into `<workdir>/output` directory.
 The Maven artifacts will be in `<workdir>/output/phoenix-repo-XXXX` local Maven repo, in the usual structure.
@@ -91,7 +91,7 @@ Check that these are present.
 The published staging repository is in the "open" state. Open staging repositories
 are aggressively cleaned up, and may be removed by the time the vote passes.
 To avoid this, [close](https://central.sonatype.org/publish/release/#locate-and-examine-your-staging-repository)
-(but DO NOT release) the staging repository immediately after deployment. 
+(but DO NOT release) the staging repository immediately after deployment.
 
 ## Voting
 
@@ -100,32 +100,32 @@ To avoid this, [close](https://central.sonatype.org/publish/release/#locate-and-
 
 ## Release
 
-1. Once voting is successful (say for RC1), copy artifacts to `https://dist.apache.org/repos/dist/release/phoenix`: 
+1. Once voting is successful (say for RC1), copy artifacts to `https://dist.apache.org/repos/dist/release/phoenix`:
 
    ```shell
    svn mv https://dist.apache.org/repos/dist/dev/phoenix/apache-phoenix-4.15.0-HBase-1.3-rc1 \
           https://dist.apache.org/repos/dist/release/phoenix/apache-phoenix-4.15.0-HBase-1.3
    ```
 
-2. Set release tag and commit: 
+2. Set release tag and commit:
 
    ```shell
    git tag -a v4.15.0-HBase-1.3 v4.15.0-HBase-1.3-rc1 -m "Phoenix v4.15.0-HBase-1.3 release"
    ```
-    
+
 3. Remove any obsolete releases on `https://dist.apache.org/repos/dist/release/phoenix` given the current release.
 4. Go to `https://repository.apache.org/#stagingRepositories` and `release` the staged artifacts (this takes a while so you may need to `refresh` multiple times).
-7. Create new branch based on current release if needed, for ex: 4.15 branches in this case.
-8. Set version to the upcoming SNAPSHOT and commit: 
+5. Create new branch based on current release if needed, for ex: 4.15 branches in this case.
+6. Set version to the upcoming SNAPSHOT and commit:
 
    ```shell
    mvn versions:set -DnewVersion=4.16.0-HBase-1.3-SNAPSHOT -DgenerateBackupPoms=false
    ```
 
-9. If releasing Phoenix (core) Create a JIRA to update PHOENIX_MAJOR_VERSION, PHOENIX_MINOR_VERSION and PHOENIX_PATCH_NUMBER in MetaDataProtocol.java appropriately to next version (4, 16, 0 respectively in this case) and compatible_client_versions.json file with the client versions that are compatible against the next version ( In this case 4.14.3 and 4.15.0 would be the backward compatible clients for 4.16.0 ). This Jira should be committed/marked with fixVersion of the next release candidate.
-10. Add documentation of released version to the [downloads page](/downloads) and [wiki](https://en.wikipedia.org/wiki/Apache_Phoenix).
-11. Update the [Apache Committee Report Helper DB](https://reporter.apache.org/addrelease.html?phoenix)
-12. Send out an announcement email. See example [here](https://www.mail-archive.com/dev@phoenix.apache.org/msg54764.html).
-13. Bulk close JIRAs that were marked for the release fixVersion.  
+7. If releasing Phoenix (core) Create a JIRA to update PHOENIX_MAJOR_VERSION, PHOENIX_MINOR_VERSION and PHOENIX_PATCH_NUMBER in MetaDataProtocol.java appropriately to next version (4, 16, 0 respectively in this case) and compatible_client_versions.json file with the client versions that are compatible against the next version ( In this case 4.14.3 and 4.15.0 would be the backward compatible clients for 4.16.0 ). This Jira should be committed/marked with fixVersion of the next release candidate.
+8. Add documentation of released version to the [downloads page](/downloads) and [wiki](https://en.wikipedia.org/wiki/Apache_Phoenix).
+9. Update the [Apache Committee Report Helper DB](https://reporter.apache.org/addrelease.html?phoenix)
+10. Send out an announcement email. See example [here](https://www.mail-archive.com/dev@phoenix.apache.org/msg54764.html).
+11. Bulk close JIRAs that were marked for the release fixVersion.
 
 **Congratulations!**

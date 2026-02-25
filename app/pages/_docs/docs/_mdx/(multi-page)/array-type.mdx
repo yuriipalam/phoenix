@@ -65,7 +65,7 @@ SELECT ARRAY_LENGTH(zips) FROM regions;
 
 Attempts to access an array element beyond the current length will evaluate to `null`.
 
-For searching in an array, built-in functions like ANY and ALL are provided.  For example,
+For searching in an array, built-in functions like ANY and ALL are provided. For example,
 
 ```sql
 SELECT region_name FROM regions WHERE '94030' = ANY(zips);
@@ -85,8 +85,9 @@ SELECT region_name FROM regions WHERE zips[1] = '94030' AND zips[2] = '94030' AN
 ```
 
 ## Limitations [#array-type-limitations]
-* Only one-dimensional arrays are currently supported.
-* For an array of fixed width types, null elements occurring in the middle of an array are not tracked.
-* The declaration of an array length at DDL time is not enforced currently, but maybe in the future. Note that it is persisted with the table metadata.
-* An array may only be used as the last column in a primary key constraint.
-* Partial update of an array is currently not possible. Instead, the array may be manipulated on the client-side and then upserted back in its entirety.
+
+- Only one-dimensional arrays are currently supported.
+- For an array of fixed width types, null elements occurring in the middle of an array are not tracked.
+- The declaration of an array length at DDL time is not enforced currently, but maybe in the future. Note that it is persisted with the table metadata.
+- An array may only be used as the last column in a primary key constraint.
+- Partial update of an array is currently not possible. Instead, the array may be manipulated on the client-side and then upserted back in its entirety.

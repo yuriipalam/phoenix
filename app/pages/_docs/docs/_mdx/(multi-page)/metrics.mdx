@@ -13,11 +13,13 @@ Request level metrics are helpful for figuring out at a more granular level abou
 ## Request-level metrics
 
 ### Mutation metrics
+
 - `MUTATION_BATCH_SIZE` - Batch sizes of mutations
 - `MUTATION_BYTES` - Size of mutations in bytes
 - `MUTATION_COMMIT_TIME` - Time it took to commit mutations
 
 ### Scan task metrics
+
 - `NUM_PARALLEL_SCANS` - Number of scans executed in parallel
 - `SCAN_BYTES` - Number of bytes read by scans
 - `MEMORY_CHUNK_BYTES` - Number of bytes allocated by the memory manager
@@ -32,15 +34,15 @@ Request level metrics are helpful for figuring out at a more granular level abou
 - `TASK_REJECTED_COUNTER` - Counter for number of tasks that were rejected by the thread pool executor
 
 ### Overall query metrics
+
 - `QUERY_TIMEOUT_COUNTER` - Number of times query timed out
 - `QUERY_FAILED_COUNTER` - Number of times query failed
 - `WALL_CLOCK_TIME_MS` - Wall clock time elapsed for the overall query execution
 - `RESULT_SET_TIME_MS` - Wall clock time elapsed for reading all records using `resultSet.next()`
 
-  
-
 ## How to use SQL statement-level metrics
-- Log and report query execution details which could be later used for analysis. 
+
+- Log and report query execution details which could be later used for analysis.
 - Report top SQL queries by duration. Metric to use: `WALL_CLOCK_TIME_MS`.
 - Check if the query is failing because it is timing out. Metric to use: `QUERY_TIMEOUT_COUNTER > 0`.
 - Monitor the amount of bytes being written to or read from HBase for a SQL statement. Metrics to use: `MUTATION_BYTES` and `SCAN_BYTES`.
@@ -48,6 +50,7 @@ Request level metrics are helpful for figuring out at a more granular level abou
 - Check if a successful query is facing thread starvation, i.e., number of threads in the thread pool likely needs to be increased. This is characterized by a relatively large difference between `TASK_EXECUTION_TIME` and `TASK_END_TO_END_TIME`.
 
 Request level metrics can be turned on/off for every Phoenix JDBC connection. Below is an example of how you can do that:
+
 ```java
 Properties props = new Properties();
 props.setProperty(QueryServices.COLLECT_REQUEST_LEVEL_METRICS, "true");
@@ -55,6 +58,7 @@ try (Connection conn = DriverManager.getConnection(getUrl(), props)) {
     // ...
 }
 ```
+
 A typical pattern for how one could get hold of read metrics for queries:
 
 ```java

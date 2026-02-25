@@ -31,7 +31,6 @@ export function Hero() {
             height={120.4}
             className="px-4 sm:px-0 dark:hidden"
           />
-          {/* TODO: dark theme logo */}
           <img
             src="/images/dark-theme-logo.svg"
             alt="Apache Phoenix logo"

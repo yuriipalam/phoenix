@@ -26,12 +26,13 @@ WHERE metric_type = 'm';
 ```
 
 In this case, the same underlying physical HBase table (i.e. PRODUCT_METRICS) stores all of the data.
-Notice that unlike with standard SQL views, you may define additional columns for your view. The view inherits all of the columns from its base table, in addition to being able to optionally add new KeyValue columns. You may also add these columns after-the-fact with an ALTER VIEW statement. 
+Notice that unlike with standard SQL views, you may define additional columns for your view. The view inherits all of the columns from its base table, in addition to being able to optionally add new KeyValue columns. You may also add these columns after-the-fact with an ALTER VIEW statement.
 
 **NOTE**: Phoenix 4.15.0 onwards contains [PHOENIX-4810](https://issues.apache.org/jira/browse/PHOENIX-4810) which introduces a new endpoint coprocessor on the SYSTEM.CHILD_LINK table for adding parent->child links, whenever a view is created. Thus, when namespace mapping is enabled, users that wish to create views will need to be granted EXEC permissions on SYSTEM.CHILD_LINK in order to be able to invoke this coprocessor.
 
 ## Updatable Views
-If your view uses only simple equality expressions in the WHERE clause, you are also allowed to issue DML against the view. These views are termed *updatable views*. For example, in this case you could issue the following UPSERT statement:
+
+If your view uses only simple equality expressions in the WHERE clause, you are also allowed to issue DML against the view. These views are termed _updatable views_. For example, in this case you could issue the following UPSERT statement:
 
 ```sql
 UPSERT INTO mobile_product_metrics(created_by, created_date, metric_id, carrier, dropped_calls)
@@ -49,16 +50,19 @@ SELECT SUM(dropped_calls) FROM mobile_product_metrics WHERE carrier = 'Verizon';
 This would sum all the dropped_calls across all product_metrics with a metric_type of 'm' and a carrier of 'Verizon'.
 
 ## Read-only Views
-Views may also be defined with more complex WHERE clauses, but in that case you cannot issue DML against them as you'll get a ReadOnlyException. You are still allowed to query through them and their WHERE clauses will be in effect as with standard SQL views. 
+
+Views may also be defined with more complex WHERE clauses, but in that case you cannot issue DML against them as you'll get a ReadOnlyException. You are still allowed to query through them and their WHERE clauses will be in effect as with standard SQL views.
 
 As expected, you may create a VIEW on another VIEW as well to further filter the data set. The same rules as above apply: if only simple equality expressions are used in the VIEW and its parent VIEW(s), the new view is updatable as well, otherwise it's read-only.
 
 Note that the previous support for creating a read-only VIEW directly over an HBase table is still supported.
 
 ## Indexes on Views
+
 In addition, you may create an INDEX over a VIEW, just as with a TABLE. This is particularly useful to improve query performance over newly added columns on a VIEW, since it provides a way of doing point lookups based on these column values. Note that until [PHOENIX-1499](https://issues.apache.org/jira/browse/PHOENIX-1499) gets implemented, an INDEX over a VIEW is only maintained if the updates are made through the VIEW (as opposed to through the underlying TABLE).
 
 ## Limitations [#views-limitations]
+
 Views have the following restrictions:
 
 1. An INDEX over a VIEW is only maintained if the updates are made through the VIEW. Updates made through the underlying TABLE or the parent VIEW will not be reflected in the index ([PHOENIX-1499](https://issues.apache.org/jira/browse/PHOENIX-1499)).

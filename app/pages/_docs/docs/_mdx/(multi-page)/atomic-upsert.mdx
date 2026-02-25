@@ -14,9 +14,9 @@ clause is used, there will be a performance penalty (much like there is for an H
 In the presence of the ON DUPLICATE KEY clause, if the row already exists, the VALUES specified will
 be ignored and instead either:
 
-* the row will not be updated if ON DUPLICATE KEY IGNORE is specified or
-* the row will be updated (under lock) by executing the expressions following the ON DUPLICATE KEY UPDATE 
-clause.
+- the row will not be updated if ON DUPLICATE KEY IGNORE is specified or
+- the row will be updated (under lock) by executing the expressions following the ON DUPLICATE KEY UPDATE
+  clause.
 
 Multiple UPSERT statements for the same row in the same commit batch will be processed in the order of their
 execution. Thus the same result will be produced when auto commit is on or off.
@@ -52,13 +52,13 @@ ON DUPLICATE KEY UPDATE
 
 The following limitations are enforced for the ON DUPLICATE KEY clause usage:
 
-* Primary key columns may not be updated, since this would essentially be creating a *new* row.
-* Transactional tables may not use this clause as atomic upserts are already possible through
+- Primary key columns may not be updated, since this would essentially be creating a _new_ row.
+- Transactional tables may not use this clause as atomic upserts are already possible through
   exception handling when a conflict occurs.
-* Immutable tables may not use this clause as by definition there should be no updates to
+- Immutable tables may not use this clause as by definition there should be no updates to
   existing rows.
-* The CURRENT_SCN property may not be set on connection when this clause is used as HBase
+- The CURRENT_SCN property may not be set on connection when this clause is used as HBase
   does not handle atomicity unless the latest value is being updated.
-* The same column should not be updated more than once in the same statement.
-* No aggregation or references to sequences are allowed within the clause.
-* Global indexes on columns being atomically updated are not supported, as potentially a separate RPC across the wire would be made while the row is under lock to maintain the secondary index.
+- The same column should not be updated more than once in the same statement.
+- No aggregation or references to sequences are allowed within the clause.
+- Global indexes on columns being atomically updated are not supported, as potentially a separate RPC across the wire would be made while the row is under lock to maintain the secondary index.

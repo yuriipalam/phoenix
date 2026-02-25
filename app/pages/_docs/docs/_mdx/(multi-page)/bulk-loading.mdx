@@ -5,8 +5,8 @@ description: "Load Phoenix tables with PSQL and MapReduce-based CSV/JSON bulk lo
 
 Phoenix provides two methods for bulk loading data into Phoenix tables:
 
-* Single-threaded client loading tool for CSV-formatted data via the [psql](/docs/download#Loading-Data) command
-* MapReduce-based bulk load tool for CSV and JSON-formatted data
+- Single-threaded client loading tool for CSV-formatted data via the [psql](/docs/download#Loading-Data) command
+- MapReduce-based bulk load tool for CSV and JSON-formatted data
 
 The `psql` tool is typically appropriate for tens of megabytes, while the MapReduce-based loader is typically better for larger load volumes.
 
@@ -42,15 +42,15 @@ bin/psql.py -t EXAMPLE localhost data.csv
 
 The following parameters can be used for loading data with `psql`:
 
-| Parameter | Description |
-| --- | --- |
-| `-t` | Provide the target table name. By default, the table name is taken from the CSV file name. This parameter is case-sensitive. |
-| `-h` | Override the column names to which CSV data maps (case-sensitive). A special value of `in-line` indicates that the first line of the CSV file determines column mapping. |
-| `-s` | Run in strict mode, throwing an error on CSV parsing errors. |
-| `-d` | Supply one or more custom delimiters for CSV parsing. |
-| `-q` | Supply a custom phrase delimiter (defaults to the double quote character). |
-| `-e` | Supply a custom escape character (default is backslash). |
-| `-a` | Supply an array delimiter (explained in more detail below). |
+| Parameter | Description                                                                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `-t`      | Provide the target table name. By default, the table name is taken from the CSV file name. This parameter is case-sensitive.                                             |
+| `-h`      | Override the column names to which CSV data maps (case-sensitive). A special value of `in-line` indicates that the first line of the CSV file determines column mapping. |
+| `-s`      | Run in strict mode, throwing an error on CSV parsing errors.                                                                                                             |
+| `-d`      | Supply one or more custom delimiters for CSV parsing.                                                                                                                    |
+| `-q`      | Supply a custom phrase delimiter (defaults to the double quote character).                                                                                               |
+| `-e`      | Supply a custom escape character (default is backslash).                                                                                                                 |
+| `-a`      | Supply an array delimiter (explained in more detail below).                                                                                                              |
 
 ## Loading via MapReduce
 
@@ -84,18 +84,18 @@ The input file must be present on HDFS (not the local filesystem where the comma
 
 The following parameters can be used with the MapReduce loader:
 
-| Parameter | Description |
-| --- | --- |
-| `-i,--input` | Input CSV path (mandatory) |
-| `-t,--table` | Phoenix table name (mandatory) |
-| `-a,--array-delimiter` | Array element delimiter (optional) |
-| `-c,--import-columns` | Comma-separated list of columns to import |
-| `-d,--delimiter` | Input delimiter (defaults to comma) |
-| `-g,--ignore-errors` | Ignore input errors |
-| `-o,--output` | Output path for temporary HFiles (optional) |
-| `-s,--schema` | Phoenix schema name (optional) |
-| `-z,--zookeeper` | ZooKeeper quorum to connect to (optional) |
-| `-it,--index-table` | Index table name to load (optional) |
+| Parameter              | Description                                 |
+| ---------------------- | ------------------------------------------- |
+| `-i,--input`           | Input CSV path (mandatory)                  |
+| `-t,--table`           | Phoenix table name (mandatory)              |
+| `-a,--array-delimiter` | Array element delimiter (optional)          |
+| `-c,--import-columns`  | Comma-separated list of columns to import   |
+| `-d,--delimiter`       | Input delimiter (defaults to comma)         |
+| `-g,--ignore-errors`   | Ignore input errors                         |
+| `-o,--output`          | Output path for temporary HFiles (optional) |
+| `-s,--schema`          | Phoenix schema name (optional)              |
+| `-z,--zookeeper`       | ZooKeeper quorum to connect to (optional)   |
+| `-it,--index-table`    | Index table name to load (optional)         |
 
 ### Notes on the MapReduce importer
 
@@ -107,8 +107,8 @@ There can be issues due to file permissions on created HFiles in the final stage
 
 Two common workarounds are:
 
-* Run the bulk load process as the `hbase` user.
-* Create output files readable/writable for all users.
+- Run the bulk load process as the `hbase` user.
+- Create output files readable/writable for all users.
 
 The first option can be done by running:
 
