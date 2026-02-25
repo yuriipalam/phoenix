@@ -143,9 +143,12 @@ describe("syntaxToSvg — Terminal rendering", () => {
     expect(texts).toContain("SELECT FROM");
   });
 
-  it("renders a single-quoted literal as a Terminal", () => {
+  it("renders a single-quoted literal as a Terminal (quotes stripped)", () => {
+    // Single-quoted tokens in the CSV grammar are used to escape bracket
+    // characters (e.g. '[', ']') — the parser intentionally renders them
+    // without the surrounding quotes.
     const texts = svgTexts(syntaxToSvg("'value'", NO_ANCHORS));
-    expect(texts).toContain("'value'");
+    expect(texts).toContain("value");
   });
 
   it("renders = as a Terminal", () => {

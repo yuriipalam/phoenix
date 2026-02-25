@@ -26,15 +26,15 @@ describe("HomePage", () => {
     renderWithProviders(<HomePage />);
 
     const heading = screen.getByRole("heading", {
-      name: /The Hadoop Database/i
+      name: /We Put SQL Back in NoSQL/i
     });
     expect(heading).toBeInTheDocument();
   });
 
-  it("displays the Apache HBase logo", () => {
+  it("displays the Apache Phoenix logo", () => {
     renderWithProviders(<HomePage />);
 
-    const logos = screen.getAllByAltText(/Apache HBase logo/i);
+    const logos = screen.getAllByAltText(/Apache Phoenix logo/i);
     expect(logos.length).toBeGreaterThan(0);
   });
 
@@ -42,16 +42,16 @@ describe("HomePage", () => {
     renderWithProviders(<HomePage />);
 
     const description = screen.getByText(
-      /A distributed, scalable, big data store/i
+      /Query HBase with standard SQL and JDBC/i
     );
     expect(description).toBeInTheDocument();
   });
 
-  it("displays Download HBase button", () => {
+  it("displays Download Phoenix button", () => {
     renderWithProviders(<HomePage />);
 
     const downloadButton = screen.getByRole("link", {
-      name: /Download HBase/i
+      name: /Download Phoenix/i
     });
     expect(downloadButton).toBeInTheDocument();
     expect(downloadButton).toHaveAttribute("href", "/downloads");
@@ -70,8 +70,8 @@ describe("HomePage", () => {
     renderWithProviders(<HomePage />);
 
     // Check for key feature headings
-    expect(screen.getByText("Billions of Rows")).toBeInTheDocument();
-    expect(screen.getByText("Real-time Access")).toBeInTheDocument();
+    expect(screen.getByText("Standard SQL & JDBC")).toBeInTheDocument();
+    expect(screen.getByText("Millisecond Performance")).toBeInTheDocument();
   });
 
   it("renders use cases section", () => {

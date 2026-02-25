@@ -32,15 +32,17 @@ describe("SiteNavbar", () => {
   it("renders the navbar with logo", () => {
     renderWithProviders(<SiteNavbar />);
 
-    const logo = screen.getByAltText(/Apache HBase logo/i);
-    expect(logo).toBeInTheDocument();
+    // Two images are rendered: one for light theme, one for dark theme
+    const logos = screen.getAllByAltText(/Apache Phoenix logo/i);
+    expect(logos.length).toBeGreaterThan(0);
   });
 
   it("logo links to home", () => {
     renderWithProviders(<SiteNavbar />);
 
-    const logo = screen.getByAltText(/Apache HBase logo/i);
-    const logoLink = logo.closest("a");
+    // Two images are rendered (light/dark theme) — check either one's parent link
+    const logos = screen.getAllByAltText(/Apache Phoenix logo/i);
+    const logoLink = logos[0].closest("a");
     expect(logoLink).toHaveAttribute("href", "/");
   });
 
@@ -49,7 +51,7 @@ describe("SiteNavbar", () => {
 
     // There are multiple buttons (JS and no-JS), so use getAllByRole
     const projectMenus = screen.getAllByRole("button", {
-      name: /Apache HBase Project/i
+      name: /Apache Phoenix Project/i
     });
     expect(projectMenus.length).toBeGreaterThan(0);
   });
@@ -78,7 +80,7 @@ describe("SiteNavbar", () => {
 
     // Get the first project menu button (for desktop JS version)
     const projectMenus = screen.getAllByRole("button", {
-      name: /Apache HBase Project/i
+      name: /Apache Phoenix Project/i
     });
     await user.click(projectMenus[0]);
 
