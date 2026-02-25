@@ -177,9 +177,7 @@ test("export documentation pdfs", async ({ browser, browserName }) => {
 
     const startPage = await page.evaluate(() => {
       const a4HeightPx = (297 / 25.4) * 96;
-      const toc = document.querySelector(
-        'nav[aria-label="Table of contents"]'
-      );
+      const toc = document.querySelector('nav[aria-label="Table of contents"]');
       if (!toc) return 0;
       const rect = toc.getBoundingClientRect();
       return Math.ceil((rect.top + rect.height) / a4HeightPx) + 1;

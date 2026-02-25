@@ -89,11 +89,9 @@ The configuration parameters controlling statistics collection include:
     - A server-side parameter that determines the frequency in milliseconds for which statistics
       will be refreshed from the statistics table and subsequently used by the client.
     - The default value is 900000 (15 mins).
-3.  `phoenix.stats.minUpdateFrequency`
-    - A client-side parameter that determines the minimum amount of time in milliseconds that
-      must pass before statistics may again be manually collected through another `UPDATE
-STATISTICS` call.
-    - The default value is `phoenix.stats.updateFrequency` divided by two (7.5 mins).
+3.  `phoenix.stats.minUpdateFrequency` - A client-side parameter that determines the minimum amount of time in milliseconds that
+    must pass before statistics may again be manually collected through another `UPDATE
+STATISTICS` call. - The default value is `phoenix.stats.updateFrequency` divided by two (7.5 mins).
 4.  `phoenix.stats.useCurrentTime`
     - An advanced server-side parameter that, if true, causes the current time on the server-side
       to be used as the timestamp of rows in the statistics table when background tasks such as
