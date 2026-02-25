@@ -62,7 +62,7 @@ import { Card, Cards } from "fumadocs-ui/components/card";
   [X/Twitter](https://twitter.com/ApachePhoenix).
 </Callout>
 
-## Overview
+## Overview [#index-overview]
 
 Apache Phoenix enables OLTP and operational analytics in Hadoop for low-latency applications by combining:
 
@@ -201,9 +201,9 @@ Another caveat: bytes serialized in HBase must match Phoenix serialization expec
 
 Composite row keys are formed by concatenating values, with a zero byte separator after variable-length types. For more on type system details, see [Data Types](/docs/datatypes).
 
-#### Salting
+#### Salting [#index-salting]
 
-Tables can be declared salted to avoid HBase region hotspotting. Declare a salt bucket count and Phoenix manages salting transparently. See details [here](/docs/salted-tables), and write-throughput comparison [here](/docs/performance#salting).
+Tables can be declared salted to avoid HBase region hotspotting. Declare a salt bucket count and Phoenix manages salting transparently. See details [here](/docs/salted-tables), and write-throughput comparison [here](/docs/performance#performance-salting).
 
 #### APIs
 

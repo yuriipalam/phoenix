@@ -33,6 +33,7 @@ import { useEffect } from "react";
 import { getPageTreePeers } from "fumadocs-core/page-tree";
 import { Card, Cards } from "fumadocs-ui/components/card";
 import { Step, Steps } from "fumadocs-ui/components/steps";
+import { RailroadDiagram } from "@/components/docs/language/railroad-diagram";
 import { Link } from "@/components/link";
 import type { MDXComponents } from "mdx/types";
 import type { TOCItemType } from "fumadocs-core/toc";
@@ -44,7 +45,8 @@ const baseMdxComponents: MDXComponents = {
   p: (props) => <p className="wrap-anywhere" {...props} />,
   h1: (props) => <h1 className="font-bold" {...props} />,
   Step,
-  Steps
+  Steps,
+  RailroadDiagram
 };
 
 export function baseOptions(): BaseLayoutProps {

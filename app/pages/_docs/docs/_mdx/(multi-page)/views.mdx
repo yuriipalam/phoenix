@@ -58,7 +58,7 @@ Note that the previous support for creating a read-only VIEW directly over an HB
 ## Indexes on Views
 In addition, you may create an INDEX over a VIEW, just as with a TABLE. This is particularly useful to improve query performance over newly added columns on a VIEW, since it provides a way of doing point lookups based on these column values. Note that until [PHOENIX-1499](https://issues.apache.org/jira/browse/PHOENIX-1499) gets implemented, an INDEX over a VIEW is only maintained if the updates are made through the VIEW (as opposed to through the underlying TABLE).
 
-## Limitations
+## Limitations [#views-limitations]
 Views have the following restrictions:
 
 1. An INDEX over a VIEW is only maintained if the updates are made through the VIEW. Updates made through the underlying TABLE or the parent VIEW will not be reflected in the index ([PHOENIX-1499](https://issues.apache.org/jira/browse/PHOENIX-1499)).

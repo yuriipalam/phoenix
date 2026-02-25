@@ -208,11 +208,9 @@ describe("buildMdx", () => {
     expect(mdx).toMatch(/^---\ntitle: "My Title"\ndescription: "My desc"\n---/);
   });
 
-  it("imports RailroadDiagram component", () => {
+  it("does not import RailroadDiagram (it is provided globally via baseMdxComponents)", () => {
     const mdx = buildMdx("T", "D", [], topicIndex);
-    expect(mdx).toContain(
-      `import { RailroadDiagram } from "@/components/docs/language/railroad-diagram"`
-    );
+    expect(mdx).not.toContain(`import { RailroadDiagram }`);
   });
 
   it("exports topicIndex as a JS object literal", () => {

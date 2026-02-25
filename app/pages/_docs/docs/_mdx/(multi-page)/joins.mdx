@@ -196,7 +196,7 @@ The above statement will do a skip-scan over the "Employee" table and will use b
 
 However, there are times when foreign key values from the child table account for the complete primary key space in the parent table, so skip scans may be slower. You can turn off this optimization with hint `NO_CHILD_PARENT_OPTIMIZATION`. Table statistics are expected to help make smarter choices between these schemes.
 
-## Configuration
+## Configuration [#joins-configuration]
 
 As mentioned earlier, if we decide to use the hash join approach for our join queries, the prerequisite is that either of the relations can be small enough to fit into memory in order to be broadcast over all servers that have the data of concern from the other relation. And aside from making sure that the region server heap size is big enough to hold the smaller relation, we might also need to pay a attention to a few configuration parameters that are crucial to running hash joins.
 
@@ -274,7 +274,7 @@ The join order will be:
 
 It is also worth mentioning that not the entire dataset of the table should be counted into the memory consumption. Instead, only those columns used by the query, and of only the records that satisfy the predicates will be built into the server hash table.
 
-## Limitations
+## Limitations [#joins-limitations]
 
 In our Phoenix 3.3.0 and 4.3.0 releases, joins have the following restrictions and improvements to be made:
 

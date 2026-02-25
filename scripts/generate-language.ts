@@ -54,6 +54,7 @@ interface FileDef {
   file: string;
   title: string;
   description: string;
+  varName: string;
   sectionFilter: (name: string) => boolean;
 }
 
@@ -163,6 +164,7 @@ const FILE_DEFS: FileDef[] = [
     title: "SQL Grammar",
     description:
       "SQL command and grammar reference for Apache Phoenix — SELECT, UPSERT, CREATE TABLE, indexes, and more.",
+    varName: "grammarTopicIndex",
     sectionFilter: (name) => name === "Commands" || name === "Other Grammar"
   },
   {
@@ -170,12 +172,14 @@ const FILE_DEFS: FileDef[] = [
     title: "SQL Functions",
     description:
       "Built-in SQL function reference for Apache Phoenix — aggregate, string, numeric, array, date/time, and general functions.",
+    varName: "functionsTopicIndex",
     sectionFilter: (name) => name.startsWith("Functions")
   },
   {
     file: "datatypes.mdx",
     title: "Data Types",
     description: "SQL data type reference for Apache Phoenix.",
+    varName: "datatypesTopicIndex",
     sectionFilter: (name) => name === "Data Types"
   }
 ];
@@ -184,7 +188,8 @@ export function buildMdx(
   title: string,
   description: string,
   sections: Section[],
-  topicIndex: Record<string, string>
+  topicIndex: Record<string, string>,
+  varName = "topicIndex"
 ): string {
   // Serialise topicIndex as a compact JS object literal for the MDX export
   const topicIndexLiteral =
@@ -200,9 +205,7 @@ export function buildMdx(
     `description: "${description}"`,
     "---",
     "",
-    `import { RailroadDiagram } from "@/components/docs/language/railroad-diagram"`,
-    "",
-    `export const topicIndex = ${topicIndexLiteral}`,
+    `export const ${varName} = ${topicIndexLiteral}`,
     ""
   ];
 
@@ -215,7 +218,7 @@ export function buildMdx(
       out.push(
         "<RailroadDiagram",
         `  syntax={\`${escapeTemplateLiteral(entry.syntax)}\`}`,
-        "  anchors={topicIndex}",
+        `  anchors={${varName}}`,
         "/>",
         ""
       );
@@ -283,7 +286,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     const count = fileSections.reduce((n, s) => n + s.items.length, 0);
     writeFileSync(
       join(multiPageDir, def.file),
-      buildMdx(def.title, def.description, fileSections, topicIndex)
+      buildMdx(
+        def.title,
+        def.description,
+        fileSections,
+        topicIndex,
+        def.varName
+      )
     );
     console.log(`✓ ${def.file} — ${count} entries`);
   }

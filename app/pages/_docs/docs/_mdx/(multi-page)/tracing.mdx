@@ -9,7 +9,7 @@ Phoenix leverages Cloudera's [HTrace](https://github.com/cloudera/htrace) librar
 
 Writing traces to a Phoenix table is not supported on Hadoop 1.
 
-## Configuration
+## Configuration [#tracing-configuration]
 
 There are two key configuration files that you will need to update.
 
@@ -65,7 +65,7 @@ You can disable tracing for client requests by creating a new connection without
 
 However, on the server side, once the metrics sink is enabled you cannot turn off trace collection and writing unless you **remove the Phoenix Metrics2 configuration and restart the region server**. This is enforced by the Metrics2 framework, which assumes server metrics should always be collected.
 
-## Usage
+## Usage [#tracing-usage]
 
 There are only a couple small things you need to do to enable tracing a given request with Phoenix.
 

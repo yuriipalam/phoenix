@@ -182,7 +182,7 @@ See also: [Hint](/docs/grammar#hint).
 
 An `EXPLAIN` plan tells you a lot about how a query will be run. To generate an explain plan run [this](/docs/grammar#explain) query and to interpret the plan, see [this](/docs/explain-plan) reference.
 
-### Parallelization
+### Parallelization [#tuning-guide-parallelization]
 
 You can improve parallelization with the [UPDATE STATISTICS](/docs/statistics-collection) command. This command subdivides each region by determining keys called _guideposts_ that are equidistant from each other, then uses these guideposts to break up queries into multiple parallel scans.
 Statistics are turned on by default. With Phoenix 4.9, the user can set guidepost width for each table. Optimal guidepost width depends on a number of factors such as cluster size, cluster usage, number of cores per node, table size, and disk I/O.

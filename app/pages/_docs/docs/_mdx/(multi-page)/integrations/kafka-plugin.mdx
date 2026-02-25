@@ -13,12 +13,12 @@ At a high level, producers send messages over the network to the Kafka cluster, 
 
 Phoenix provides **PhoenixConsumer** to receive messages from Kafka producers.
 
-## Prerequisites
+## Prerequisites [#kafka-plugin-prerequisites]
 
 - Phoenix 4.10.0+
 - Kafka 0.9.0.0+
 
-## Installation and Setup
+## Installation and Setup [#kafka-plugin-installation-and-setup]
 
 Use our binary artifacts for Phoenix 4.10.0+ directly or download and build Phoenix yourself (see
 instructions [here](/docs/building)).
@@ -78,7 +78,7 @@ HADOOP_CLASSPATH=$(hbase classpath):/path/to/hbase/conf hadoop jar phoenix-kafka
 
 The input file must be present on HDFS (not the local filesystem where the command is being run).
 
-## Configuration
+## Configuration [#kafka-plugin-configuration]
 
 | Property Name           | Default | Description                                                                                                                                                                                  |
 | ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

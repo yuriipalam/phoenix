@@ -6,7 +6,7 @@ description: "Use Apache Spark with Phoenix to read and write DataFrames."
 The phoenix-spark plugin extends Phoenix's MapReduce support to allow Spark to load Phoenix tables
 as DataFrames, and enables persisting them back to Phoenix.
 
-## Prerequisites
+## Prerequisites [#spark-integration-prerequisites]
 
 - Phoenix 4.4.0+
 - Spark 1.3.1+ (prebuilt with Hadoop 2.4 recommended)
@@ -350,7 +350,7 @@ df.write \
   .save()
 ```
 
-## Notes
+## Notes [#spark-integration-notes]
 
 - If you want to use DataSourceV1, you can use source type `"org.apache.phoenix.spark"`
   instead of `"phoenix"`, however this is deprecated as of `connectors-1.0.0`.
@@ -376,7 +376,7 @@ This list of properties is parsed and populated into a properties map which is p
 Note that the same property values will be used for both the driver and all executors and
 these configurations are used each time a connection is made (both on the driver and executors).
 
-## Limitations
+## Limitations [#spark-integration-limitations]
 
 - Basic support for column and predicate pushdown using the Data Source API
 - The Data Source API does not support passing custom Phoenix settings in configuration, you must

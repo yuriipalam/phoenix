@@ -110,7 +110,7 @@ An external Tephra transaction that has already been started can be used with Ph
 setTransactionContext(TransactionContext txContext)
 ```
 
-## Limitations
+## Limitations [#transactions-limitations]
 
 1. Starting a transaction on a connection with an SCN set is not allowed.
 2. Setting the maximum number of versions property while creating a transactional table limits the number of snapshots available for concurrent transactions.

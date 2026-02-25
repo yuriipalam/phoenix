@@ -21,7 +21,7 @@ clause.
 Multiple UPSERT statements for the same row in the same commit batch will be processed in the order of their
 execution. Thus the same result will be produced when auto commit is on or off.
 
-## Examples
+## Examples [#atomic-upsert-examples]
 
 For example, to atomically increment two counter columns, you would execute the following command:
 
@@ -48,7 +48,7 @@ ON DUPLICATE KEY UPDATE
     ELSE 'VP APPROVAL' END;
 ```
 
-## Limitations
+## Limitations [#atomic-upsert-limitations]
 
 The following limitations are enforced for the ON DUPLICATE KEY clause usage:
 

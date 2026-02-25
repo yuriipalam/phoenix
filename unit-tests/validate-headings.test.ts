@@ -18,7 +18,19 @@
 
 import { describe, it, expect } from "vitest";
 import { source } from "@/lib/source";
+import { isValidElement } from "react";
 import type { ReactNode } from "react";
+
+function reactNodeToString(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(reactNodeToString).join("");
+  if (isValidElement(node)) {
+    const { children } = node.props as { children?: ReactNode };
+    return reactNodeToString(children);
+  }
+  return "";
+}
 
 interface TOCItem {
   title: ReactNode;
@@ -55,11 +67,7 @@ describe("MDX Heading ID Uniqueness Validation", () => {
           idToPages.set(id, []);
         }
 
-        // Convert ReactNode title to string
-        const titleString =
-          typeof heading.title === "string"
-            ? heading.title
-            : String(heading.title);
+        const titleString = reactNodeToString(heading.title);
 
         idToPages.get(id)!.push({
           url: page.url,

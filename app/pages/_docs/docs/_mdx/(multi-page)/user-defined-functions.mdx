@@ -6,7 +6,7 @@ description: "Create, deploy, and manage custom Phoenix UDFs with configuration,
 As of Phoenix 4.4.0 we have added the ability to allow users to create and deploy
 their own custom or domain-specific UDFs to the cluster.
 
-## Overview
+## Overview [#user-defined-functions-overview]
 
 Users can create temporary or permanent user-defined (domain-specific) scalar functions.
 UDFs can be used like built-in functions in queries such as `SELECT`, `UPSERT`, `DELETE`, and when creating functional indexes.
@@ -17,7 +17,7 @@ Only global tenant (no-tenant) functions are visible to all connections.
 
 Phoenix leverages the HBase dynamic class loader to load UDF JARs from HDFS at the Phoenix client and region server without restarting services.
 
-## Configuration
+## Configuration [#user-defined-functions-configuration]
 
 Add the following parameters to `hbase-site.xml` on the Phoenix client:
 
@@ -158,7 +158,7 @@ Below are additional optimization-related steps.
   }
   ```
 
-## Limitations
+## Limitations [#user-defined-functions-limitations]
 
 - The JAR containing UDFs must be manually added to and deleted from HDFS. There is ongoing work to add SQL statements for JAR add/remove ([PHOENIX-1890](https://issues.apache.org/jira/browse/PHOENIX-1890)).
 - The dynamic class loader copies UDF JARs to `{hbase.local.dir}/jars` at the Phoenix client and region server when a UDF is used in queries. These JARs must be deleted manually when a function is deleted.

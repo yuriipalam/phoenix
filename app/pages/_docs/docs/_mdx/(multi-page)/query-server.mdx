@@ -6,7 +6,7 @@ description: "Deploy and use Phoenix Query Server (PQS), including client access
 The Phoenix Query Server provides an alternative means for interaction with
 Phoenix and HBase. 
 
-## Overview
+## Overview [#query-server-overview]
 
 Phoenix 4.4 introduces a stand-alone server that exposes Phoenix to "thin"
 clients. It is based on the [Avatica](https://calcite.apache.org/avatica) component of
@@ -38,7 +38,7 @@ can also be used.
 
 Proprietary ODBC drivers are also available for Windows and Linux.
 
-## Installation
+## Installation [#query-server-installation]
 
 In the 4.4-4.14 and 5.0 releases the query server and its JDBC client are part of the standard Phoenix
 distribution. They require no additional dependencies or installation.
@@ -54,7 +54,7 @@ or check out the development version from
 Either unpack the binary distribution, or build it from source. See BUILDING.md
 in the source distribution on how to build.
 
-## Usage
+## Usage [#query-server-usage]
 
 ### Server
 
@@ -168,7 +168,7 @@ The list of metrics are available [here](/docs/metrics).
 
 PQS Metrics use [Hadoop Metrics 2](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/Metrics.html) internally for metrics publishing. Hence it publishes various JVM related metrics. Metrics can be filtered based on certain tags, which can be configured by the property specified in hbase-site.xml on the classpath. Further details are provided in Configuration section.
 
-## Configuration
+## Configuration [#query-server-configuration]
 
 Server components are spread across a number of java packages, so effective
 logging configuration requires updating multiple packages. The default server

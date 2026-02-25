@@ -27,8 +27,8 @@ Pre-splitting also ensures that entries in each region start with the same salt 
 
 This row-key ordered scan can be enabled by setting `phoenix.query.rowKeyOrderSaltedTable=true` in `hbase-site.xml`. When enabled, user-specified split points on salted tables are disallowed to ensure each bucket contains only entries with the same salt byte. With this property enabled, a salted table behaves more like a normal table for scans and returns items in row-key order.
 
-## Performance
+## Performance [#salted-tables-performance]
 
-Using salted tables with pre-splitting helps distribute write workload uniformly across region servers, which improves write performance. Our [performance evaluation](/docs/performance#salting) shows that salted tables can achieve up to 80% higher write throughput than non-salted tables.
+Using salted tables with pre-splitting helps distribute write workload uniformly across region servers, which improves write performance. Our [performance evaluation](/docs/performance#performance-salting) shows that salted tables can achieve up to 80% higher write throughput than non-salted tables.
 
-Reads from salted tables can also benefit from more uniform data distribution. Our [performance evaluation](/docs/performance#salting) shows improved read performance for queries focused on subsets of data.
+Reads from salted tables can also benefit from more uniform data distribution. Our [performance evaluation](/docs/performance#performance-salting) shows improved read performance for queries focused on subsets of data.

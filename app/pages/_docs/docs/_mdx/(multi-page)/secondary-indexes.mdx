@@ -215,7 +215,7 @@ The implementation uses a shadow column to track the status of index rows:
   2. Delete the data table rows
   3. Delete index table rows
 
-See [resources](/docs/secondary-indexes#resources) for more in-depth information.
+See [resources](/docs/secondary-indexes#secondary-indexes-resources) for more in-depth information.
 
 All newly created tables use the new indexing algorithm.
 
@@ -392,7 +392,7 @@ Command to run offline upgrade using `psql`:
 psql [zookeeper] -l
 ```
 
-## Tuning
+## Tuning [#secondary-indexes-tuning]
 
 Out the box, indexing is pretty fast. However, to optimize for your particular environment and workload, there are several properties you can tune.
 
@@ -438,7 +438,7 @@ All the following parameters must be set in `hbase-site.xml` - they are true for
     - Though the actual number of threads is dictated by the Max(number of call queues, handler count), where the number of call queues is determined by standard HBase configuration. To further tune the queues, you can adjust the standard rpc queue length parameters (currently, there are no special knobs for the index queues), specifically `ipc.server.max.callqueue.length` and `ipc.server.callqueue.handler.factor`. See the [HBase Reference Guide](http://hbase.apache.org/book.html) for more details.
     - **Default: 30**
 
-## Performance
+## Performance [#secondary-indexes-performance]
 
 We track secondary index performance via our [performance framework](http://phoenix-bin.github.io/client/performance/latest.htm). This is a generic test of performance based on defaults - your results will vary based on hardware specs as well as you individual configuration.
 
@@ -479,7 +479,7 @@ The following parameters can be used with the Index Scrutiny Tool:
 | -t,--time           | Timestamp in millis at which to run the scrutiny. This is important so that incoming writes don't throw off the scrutiny. Defaults to current time minus 60 seconds |
 | -b,--batch-size     | Number of rows to compare at a time                                                                                                                                 |
 
-### Limitations
+### Limitations [#secondary-indexes-limitations]
 
 - If rows are actively being updated or deleted while the scrutiny is running, the tool may give you false positives for inconsistencies ([PHOENIX-4277](https://issues.apache.org/jira/browse/PHOENIX-4277)).
 - Snapshot reads are not supported by the scrutiny tool ([PHOENIX-4270](https://issues.apache.org/jira/browse/PHOENIX-4270)).
@@ -512,7 +512,7 @@ Depending on whether index is mutable, it will remove _Indexer_ coprocessor from
 
 IndexUpgradeTool doesn't make any distinction between view-index and table-index. When a table is passed, it will perform the upgrade-operation on all the 'children' indexes of the given table.
 
-## Resources
+## Resources [#secondary-indexes-resources]
 
 There have been several presentations given on how secondary indexing works in Phoenix that have a more in-depth look at how indexing works (with pretty pictures!):
 

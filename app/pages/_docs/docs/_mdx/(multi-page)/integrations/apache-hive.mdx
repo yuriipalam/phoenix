@@ -5,7 +5,7 @@ description: "Configure and use the Phoenix Storage Handler with Apache Hive."
 
 The Apache Phoenix Storage Handler is a plugin that enables Apache Hive access to Phoenix tables from the Apache Hive command line using HiveQL.
 
-## Prerequisites
+## Prerequisites [#apache-hive-prerequisites]
 
 This document describes the plugin available in the `phoenix-connectors` source repo, as of December 2023.
 
@@ -134,7 +134,7 @@ TBLPROPERTIES (
    - The list of columns to be the primary key in a Phoenix table
    - Required
 6. phoenix.column.mapping
-   - Mappings between column names for Hive and Phoenix. See [Limitations](#limitations) for details.
+   - Mappings between column names for Hive and Phoenix. See [Limitations](#apache-hive-limitations) for details.
 
 The `phoenix.zookeeper.*` properties are optional. If they are not specified, values from `hbase-site.xml` will be used.
 
@@ -157,7 +157,7 @@ upsert into table T values (.....);
 
 Phoenix CSV BulkLoad tools can also be used.
 
-All delete and update operations should be performed on the Phoenix side. See [Limitations](#limitations) for more details.
+All delete and update operations should be performed on the Phoenix side. See [Limitations](#apache-hive-limitations) for more details.
 
 ## Additional Configuration Options
 
@@ -182,16 +182,16 @@ You can use HiveQL for querying data in a Phoenix table. A Hive query on a singl
 | hbase.scan.cache                | 100           | Read row size for a unit request                                                                          |
 | hbase.scan.cacheblock           | false         | Whether or not cache block                                                                                |
 | split.by.stats                  | false         | If true, mappers use table statistics. One mapper per guide post.                                         |
-| [hive-table-name].reducer.count | 1             | Number of reducers. In Tez mode, this affects only single-table queries. See [Limitations](#limitations). |
+| [hive-table-name].reducer.count | 1             | Number of reducers. In Tez mode, this affects only single-table queries. See [Limitations](#apache-hive-limitations). |
 | [phoenix-table-name].query.hint |               | Hint for Phoenix query (for example, `NO_INDEX`)                                                          |
 
-## Limitations
+## Limitations [#apache-hive-limitations]
 
-- Hive update and delete operations require transaction manager support on both Hive and Phoenix sides. Related Hive and Phoenix JIRAs are listed in the [Resources](#resources) section.
+- Hive update and delete operations require transaction manager support on both Hive and Phoenix sides. Related Hive and Phoenix JIRAs are listed in the [Resources](#apache-hive-resources) section.
 - Column mapping does not work correctly with mapping row key columns.
 - MapReduce and Tez jobs always have a single reducer.
 
-## Resources
+## Resources [#apache-hive-resources]
 
 - [PHOENIX-2743](https://issues.apache.org/jira/browse/PHOENIX-2743): Implementation accepted by the Apache Phoenix community. Original pull request contains modifications for Hive classes.
 - [PHOENIX-331](https://issues.apache.org/jira/browse/PHOENIX-331): An outdated implementation with support for Hive 0.98.

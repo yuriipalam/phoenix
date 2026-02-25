@@ -54,7 +54,7 @@ SELECT * FROM base.event
 WHERE event_type = 'L';
 ```
 
-The `tenant_id` column is neither visible nor accessible from a tenant-specific view. Any reference to it causes a `ColumnNotFoundException`. As with any Phoenix view, whether the view is updatable follows the rules described [here](/docs/views#updatable-views). In addition, indexes may be added to tenant-specific views just like regular tables and views (with [these](/docs/views#limitations) limitations).
+The `tenant_id` column is neither visible nor accessible from a tenant-specific view. Any reference to it causes a `ColumnNotFoundException`. As with any Phoenix view, whether the view is updatable follows the rules described [here](/docs/views#updatable-views). In addition, indexes may be added to tenant-specific views just like regular tables and views (with [these](/docs/views#views-limitations) limitations).
 
 ## Tenant data isolation
 

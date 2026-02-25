@@ -71,7 +71,7 @@ The following chart shows in-memory query performance of the query above with 10
 
 ![SkipScan](/images/perf-skipscan.png)
 
-### Salting
+### Salting [#performance-salting]
 
 Salting in Phoenix 1.2 improves both read and write performance by adding an extra hash byte at the start of the key and pre-splitting data into regions. This reduces hotspotting on one or a few region servers. Read more about this feature [here](/docs/salted-tables).
 

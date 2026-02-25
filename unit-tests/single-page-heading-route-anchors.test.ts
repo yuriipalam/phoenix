@@ -120,8 +120,9 @@ describe("Single-page heading anchors", () => {
     const headingMatches = collectHeadingMatches(mdx);
 
     const mismatches = headingMatches.flatMap((heading) => {
-      if (heading.title === "Preface") {
-        // Preface is intentionally exempt from this strict mapping rule.
+      if (heading.title === "Overview") {
+        // Overview (index.mdx) is intentionally exempt from this strict mapping rule
+        // because its include path resolves to the slug "(multi-page)", not "overview".
         return [];
       }
 

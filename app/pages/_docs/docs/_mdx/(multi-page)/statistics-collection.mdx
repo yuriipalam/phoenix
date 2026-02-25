@@ -12,7 +12,7 @@ target region.
 Statistics are also automatically collected during major compactions and region splits so
 manually running this command may not be necessary.
 
-## Parallelization
+## Parallelization [#statistics-collection-parallelization]
 Phoenix breaks up queries into multiple scans and runs them in parallel to reduce latency.
 Parallelization in Phoenix is driven by statistics-related configuration parameters.
 Each chunk of data between guideposts will be run in parallel in a separate scan to improve
@@ -26,7 +26,7 @@ the client-side `phoenix.query.threadPoolSize` and `phoenix.query.queueSize` par
 and the server-side `hbase.regionserver.handler.count` parameter have an impact on the amount
 of parallelization.
 
-## Examples
+## Examples [#statistics-collection-examples]
 
 To update the statistics for a given table `my_table`, execute the following command:
 
@@ -75,7 +75,7 @@ This may happen for tables with several regions where guideposts were not genera
 In that case, parallel scans for those regions may start with the latest guidepost instead of the region start key.
 This was **fixed in 4.12** as part of [PHOENIX-4007](https://issues.apache.org/jira/browse/PHOENIX-4007).
 
-## Configuration
+## Configuration [#statistics-collection-configuration]
 
 The configuration parameters controlling statistics collection include:
 

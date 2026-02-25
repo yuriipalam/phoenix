@@ -84,7 +84,7 @@ The built-in function `ALL` checks if all array elements satisfy the condition a
 SELECT region_name FROM regions WHERE zips[1] = '94030' AND zips[2] = '94030' AND zips[3] = '94030';
 ```
 
-## Limitations
+## Limitations [#array-type-limitations]
 * Only one-dimensional arrays are currently supported.
 * For an array of fixed width types, null elements occurring in the middle of an array are not tracked.
 * The declaration of an array length at DDL time is not enforced currently, but maybe in the future. Note that it is persisted with the table metadata.
