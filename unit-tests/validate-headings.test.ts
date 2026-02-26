@@ -150,9 +150,9 @@ describe("MDX Heading ID Uniqueness Validation", () => {
 
     const singlePageIds = parseSinglePageIds();
 
-    const pages = source.getPages().filter(
-      (p) => !p.url.includes("single-page")
-    );
+    const pages = source
+      .getPages()
+      .filter((p) => !p.url.includes("single-page"));
 
     interface Conflict {
       singlePageId: string;
@@ -184,11 +184,14 @@ describe("MDX Heading ID Uniqueness Validation", () => {
       );
 
       conflicts.forEach(
-        ({ singlePageId, singlePageHeading, multiPageUrl, multiPageHeadingTitle }) => {
+        ({
+          singlePageId,
+          singlePageHeading,
+          multiPageUrl,
+          multiPageHeadingTitle
+        }) => {
           console.error(`  ID: #${singlePageId}`);
-          console.error(
-            `    single-page/index.mdx: "${singlePageHeading}"`
-          );
+          console.error(`    single-page/index.mdx: "${singlePageHeading}"`);
           console.error(
             `    conflicts with "${multiPageHeadingTitle}" in ${multiPageUrl}`
           );
@@ -198,7 +201,7 @@ describe("MDX Heading ID Uniqueness Validation", () => {
 
       console.error(
         "💡 To fix: Add a page-specific prefix to the conflicting multi-page\n" +
-          '   headings, e.g.  ## Overview  →  ## Overview [#pagename-overview]\n' +
+          "   headings, e.g.  ## Overview  →  ## Overview [#pagename-overview]\n" +
           "   then update all /docs/pagename#old-id links to use #new-id.\n"
       );
     }
