@@ -179,7 +179,7 @@ See the example [here](/docs/bulk-loading)
 
 #### CSV
 
-CSV data can be bulk loaded with built in utility named psql. Typical upsert rates are 20K - 50K rows per second (depends on how wide are the rows).
+CSV data can be bulk loaded with built in utility named `psql`. Typical upsert rates are 20K - 50K rows per second (depends on how wide are the rows).
 
 Usage example:
 
@@ -197,9 +197,9 @@ Usage example:
 
 ### How I map Phoenix table to an existing HBase table?
 
-You can create both a Phoenix table or view through the CREATE TABLE/CREATE VIEW DDL statement on a pre-existing HBase table. In both cases, we'll leave the HBase metadata as-is. For CREATE TABLE, we'll create any metadata (table, column families) that doesn't already exist. We'll also add an empty key value for each row so that queries behave as expected (without requiring all columns to be projected during scans).
+You can create both a Phoenix table or view through the `CREATE TABLE`/`CREATE VIEW` DDL statement on a pre-existing HBase table. In both cases, we'll leave the HBase metadata as-is. For `CREATE TABLE`, we'll create any metadata (table, column families) that doesn't already exist. We'll also add an empty key value for each row so that queries behave as expected (without requiring all columns to be projected during scans).
 
-The other caveat is that the way the bytes were serialized must match the way the bytes are serialized by Phoenix. For VARCHAR,CHAR, and UNSIGNED\_\* types, we use the HBase Bytes methods. The CHAR type expects only single-byte characters and the UNSIGNED types expect values greater than or equal to zero. For signed types(TINYINT, SMALLINT, INTEGER and BIGINT), Phoenix will flip the first bit so that negative values will sort before positive values. Because HBase sorts row keys in lexicographical order and negative value's first bit is 1 while positive 0 so that negative value is 'greater than' positive value if we don't flip the first bit. So if you stored integers by HBase native API and want to access them by Phoenix, make sure that all your data types are UNSIGNED types.
+The other caveat is that the way the bytes were serialized must match the way the bytes are serialized by Phoenix. For `VARCHAR`, `CHAR`, and `UNSIGNED_*` types, we use the HBase `Bytes` methods. The `CHAR` type expects only single-byte characters and the `UNSIGNED` types expect values greater than or equal to zero. For signed types (`TINYINT`, `SMALLINT`, `INTEGER` and `BIGINT`), Phoenix will flip the first bit so that negative values will sort before positive values. Because HBase sorts row keys in lexicographical order and negative value's first bit is 1 while positive 0 so that negative value is 'greater than' positive value if we don't flip the first bit. So if you stored integers by HBase native API and want to access them by Phoenix, make sure that all your data types are `UNSIGNED` types.
 
 Our composite row keys are formed by simply concatenating the values together, with a zero byte character used as a separator after a variable length type.
 
@@ -209,7 +209,7 @@ If you create an HBase table like this:
 create 't1', {NAME => 'f1', VERSIONS => 5}
 ```
 
-then you have an HBase table with a name of 't1' and a column family with a name of 'f1'. Remember, in HBase, you don't model the possible KeyValues or the structure of the row key. This is the information you specify in Phoenix above and beyond the table and column family.
+then you have an HBase table with a name of `t1` and a column family with a name of `f1`. Remember, in HBase, you don't model the possible `KeyValue`s or the structure of the row key. This is the information you specify in Phoenix above and beyond the table and column family.
 
 So in Phoenix, you'd create a view like this:
 
@@ -217,7 +217,7 @@ So in Phoenix, you'd create a view like this:
 CREATE VIEW "t1" ( pk VARCHAR PRIMARY KEY, "f1".val VARCHAR )
 ```
 
-The "pk" column declares that your row key is a VARCHAR (i.e. a string) while the "f1".val column declares that your HBase table will contain KeyValues with a column family and column qualifier of "f1":VAL and that their value will be a VARCHAR.
+The `pk` column declares that your row key is a `VARCHAR` (i.e. a string) while the `"f1".val` column declares that your HBase table will contain `KeyValue`s with a column family and column qualifier of `"f1":VAL` and that their value will be a `VARCHAR`.
 
 Note that you don't need the double quotes if you create your HBase table with all caps names (since this is how Phoenix normalizes strings, by upper casing them). For example, with:
 
@@ -308,7 +308,7 @@ Example: DDL `create table usertable (id varchar primary key, firstname varchar,
 
 Query: DDL `select id, firstname, lastname from usertable where firstname = 'foo';`
 
-Index would not be used in this case as lastname is not part of indexed or covered column. This can be verified by looking at the explain plan. To fix this create index that has either lastname part of index or covered column. Example: `create idx_name on usertable (firstname) include (lastname);`
+Index would not be used in this case as `lastname` is not part of indexed or covered column. This can be verified by looking at the explain plan. To fix this create index that has either `lastname` part of index or covered column. Example: `create idx_name on usertable (firstname) include (lastname);`
 
 You can force Phoenix to use secondary for uncovered columns by specifying an [index hint](/docs/secondary-indexes)
 
@@ -332,7 +332,7 @@ Phoenix 4.x supports HBase 1.x running on Hadoop 2
 
 Phoenix 5.x supports HBase 2.x running on Hadoop 3
 
-See the release notes and BULDING.md in recent releases for the exact versions supported,
+See the release notes and [BUILDING](/docs/building) in recent releases for the exact versions supported,
 and on how to build Phoenix for specific HBase and Hadoop versions
 
 ### Can phoenix work on tables with arbitrary timestamp as flexible as HBase API?
@@ -354,9 +354,9 @@ The above is equivalent to doing this with the HBase API:
 myTable.put(Bytes.toBytes('a'), ts);
 ```
 
-By specifying a `CurrentSCN`, you're telling Phoenix that you want everything for that connection to be done at that timestamp. Note that this applies to queries done on the connection as well - for example, a query over myTable above would not see the data it just upserted, since it only sees data that was created before its `CurrentSCN` property. This provides a way of doing snapshot, flashback, or point-in-time queries.
+By specifying a `CurrentSCN`, you're telling Phoenix that you want everything for that connection to be done at that timestamp. Note that this applies to queries done on the connection as well - for example, a query over `myTable` above would not see the data it just upserted, since it only sees data that was created before its `CurrentSCN` property. This provides a way of doing snapshot, flashback, or point-in-time queries.
 
-Keep in mind that creating a new connection is _not_ an expensive operation. The same underlying HConnection is used for all connections to the same cluster, so it's more or less like instantiating a few objects.
+Keep in mind that creating a new connection is _not_ an expensive operation. The same underlying `HConnection` is used for all connections to the same cluster, so it's more or less like instantiating a few objects.
 
 ### Why isn't my query doing a RANGE SCAN?
 
@@ -388,10 +388,10 @@ Implementing pooling for Phoenix could be done simply by creating a delegate Con
 
 ### Why does Phoenix add an empty/dummy KeyValue when doing an upsert?
 
-The empty or dummy KeyValue (with a column qualifier of \_0) is needed to ensure that a given column is available
+The empty or dummy `KeyValue` (with a column qualifier of `_0`) is needed to ensure that a given column is available
 for all rows.
 
-As you may know, data is stored in HBase as KeyValues, meaning that
+As you may know, data is stored in HBase as `KeyValue`s, meaning that
 the full row key is stored for each column value. This also implies
 that the row key is not stored at all unless there is at least one
 column stored.
