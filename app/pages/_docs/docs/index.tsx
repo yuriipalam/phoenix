@@ -66,8 +66,7 @@ export function baseOptions(): BaseLayoutProps {
         </div>
       )
     },
-    // TODO: Update it
-    githubUrl: "https://github.com/apache/phoenix/"
+    githubUrl: "https://github.com/apache/phoenix-site"
   };
 }
 
@@ -77,7 +76,6 @@ const renderer = toClientRenderer(
   docs.doc,
   ({ toc, default: Mdx, frontmatter }, { tree }: { tree: PageTree.Root }) => {
     const route = useParams()["*"];
-    // TODO: Change it
     const baseGithubPath = "/app/pages/_docs/docs/_mdx/(multi-page)/";
 
     // Filter TOC: only H1 (depth: 1) for single-page, all headings for other pages
@@ -125,7 +123,7 @@ const renderer = toClientRenderer(
 
     const grouppedRoutes: string[] = [];
     const trimmedRoute = route?.endsWith("/") ? route?.slice(0, -1) : route;
-    const mdxFileRoute = `${isSinglePage ? "" : `${trimmedRoute === "" ? "preface" : trimmedRoute}.mdx`}`;
+    const mdxFileRoute = `${isSinglePage ? "" : `${trimmedRoute === "" ? "index" : trimmedRoute}.mdx`}`;
     const isGrouppedRoute =
       !!trimmedRoute && grouppedRoutes.includes(trimmedRoute);
 
