@@ -46,6 +46,8 @@ const baseMdxComponents: MDXComponents = {
   h1: (props) => <h1 className="font-bold" {...props} />,
   Step,
   Steps,
+  Card,
+  Cards,
   RailroadDiagram
 };
 
