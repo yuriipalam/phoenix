@@ -106,7 +106,7 @@ A Phoenix index is a physical table that stores a pivoted copy of some or all of
 See also:
 [Secondary Indexing](/docs/secondary-indexes)
 
-## Secondary indexes
+## Secondary indexes [#tuning-guide-secondary-indexes]
 
 Secondary indexes can improve read performance by turning what would normally be a full table scan into a point lookup (at the cost of storage space and write speed). Secondary indexes can be added or removed after table creation and don't require changes to existing queries – queries simply run faster. A small number of secondary indexes is often sufficient. Depending on your needs, consider creating _[covered](/docs/secondary-indexes#covered-indexes)_ indexes or _[functional](/docs/secondary-indexes#functional-indexes)_ indexes, or both.
 

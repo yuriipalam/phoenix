@@ -57,7 +57,7 @@ The following chart shows in-memory query performance for the query above with 1
 
 ![Ess. CF](/images/perf-esscf.png)
 
-### Skip Scan
+### Skip Scan [#performance-skip-scan]
 
 Skip Scan Filter leverages HBase filter `SEEK_NEXT_USING_HINT` ([docs](http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/filter/Filter.ReturnCode.html#SEEK_NEXT_USING_HINT)). It significantly improves point queries over key columns.
 

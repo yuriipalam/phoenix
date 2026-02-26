@@ -3,7 +3,7 @@ title: "Skip Scan"
 description: "How Phoenix Skip Scan uses key-range hints to efficiently skip non-matching row-key regions."
 ---
 
-Phoenix uses Skip Scan for intra-row scanning which allows for [significant performance improvement](/docs/performance#skip-scan) over Range Scan when rows are retrieved based on a given set of keys.
+Phoenix uses Skip Scan for intra-row scanning which allows for [significant performance improvement](/docs/performance#performance-skip-scan) over Range Scan when rows are retrieved based on a given set of keys.
 
 Skip Scan leverages `SEEK_NEXT_USING_HINT` in HBase filters. It stores information about which key sets or key ranges are being searched for in each column. During filter evaluation, it checks whether a key is in one of the valid combinations or ranges. If not, it computes the next highest key to jump to.
 

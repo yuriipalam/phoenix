@@ -73,7 +73,7 @@ Who is using Apache Phoenix? Read more [here](/who-is-using).
 
 Become the trusted data platform for OLTP and operational analytics for Hadoop through well-defined, industry-standard APIs.
 
-## Quick Start
+## Quick Start [#index-quick-start]
 
 Tired of reading and just want to get started? Take a look at our [FAQs](/docs/faq), listen to the Apache Phoenix talk from [Hadoop Summit 2015](https://www.youtube.com/watch?v=XGa0SyJMH94), review the [overview presentation](/presentations/OC-HUG-2014-10-4x3.pdf), and jump to our quick start guide [here](/docs/quick-start).
 
@@ -124,7 +124,7 @@ See the relevant [FAQ entry](/docs/faq#what-is-the-phoenix-jdbc-url-syntax) for 
 
 Phoenix also supports [connecting to HBase without ZooKeeper](/docs/client-classpath-and-jdbc-url#the-phoenix-jdbc-url).
 
-## Transactions
+## Transactions [#index-transactions]
 
 To enable full ACID transactions (beta in 4.7.0), set `phoenix.transactions.enabled=true`. In this case, you also need to run the transaction manager included in the distribution. Once enabled, a table may optionally be declared as transactional (see [transactions](/docs/transactions)).
 
@@ -165,11 +165,11 @@ For example, this DDL creates table `FOO` and tells clients to check for updates
 CREATE TABLE FOO (k BIGINT PRIMARY KEY, v VARCHAR) UPDATE_CACHE_FREQUENCY=900000;
 ```
 
-#### Views
+#### Views [#index-views]
 
 Phoenix supports updatable views on top of tables, with the unique capability of adding columns by leveraging HBase schemaless behavior. All views share the same underlying HBase table and may be indexed independently. Read more [here](/docs/views).
 
-#### Multi-tenancy
+#### Multi-tenancy [#index-multi-tenancy]
 
 Built on top of view support, Phoenix also supports [multi-tenancy](/docs/multi-tenancy). As with views, a multi-tenant view can add columns defined solely for that user.
 
