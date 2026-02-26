@@ -1,0 +1,1500 @@
+---
+title: "SQL Functions"
+description: "Built-in SQL function reference for Apache Phoenix — aggregate, string, numeric, array, date/time, and general functions."
+---
+
+export const functionsTopicIndex = {
+  "select": "select",
+  "upsert values": "upsert-values",
+  "upsert select": "upsert-select",
+  "delete": "delete",
+  "declare cursor": "declare-cursor",
+  "open cursor": "open-cursor",
+  "fetch next": "fetch-next",
+  "close": "close",
+  "create table": "create-table",
+  "drop table": "drop-table",
+  "create function": "create-function",
+  "drop function": "drop-function",
+  "create view": "create-view",
+  "drop view": "drop-view",
+  "create sequence": "create-sequence",
+  "drop sequence": "drop-sequence",
+  "alter": "alter",
+  "create index": "create-index",
+  "drop index": "drop-index",
+  "alter index": "alter-index",
+  "explain": "explain",
+  "constraint": "constraint",
+  "update statistics": "update-statistics",
+  "create schema": "create-schema",
+  "use": "use",
+  "drop schema": "drop-schema",
+  "grant": "grant",
+  "revoke": "revoke",
+  "options": "options",
+  "hint": "hint",
+  "scan hint": "scan-hint",
+  "cache hint": "cache-hint",
+  "index hint": "index-hint",
+  "small hint": "small-hint",
+  "seek to column hint": "seek-to-column-hint",
+  "join hint": "join-hint",
+  "serial hint": "serial-hint",
+  "column def": "column-def",
+  "table ref": "table-ref",
+  "sequence ref": "sequence-ref",
+  "column ref": "column-ref",
+  "select expression": "select-expression",
+  "select statement": "select-statement",
+  "split point": "split-point",
+  "table spec": "table-spec",
+  "aliased table ref": "aliased-table-ref",
+  "join type": "join-type",
+  "join": "join-type",
+  "func argument": "func-argument",
+  "class name": "class-name",
+  "jar path": "jar-path",
+  "order": "order",
+  "expression": "expression",
+  "and condition": "and-condition",
+  "boolean condition": "boolean-condition",
+  "condition": "condition",
+  "rhs operand": "rhs-operand",
+  "operand": "operand",
+  "summand": "summand",
+  "factor": "factor",
+  "term": "term",
+  "array constructor": "array-constructor",
+  "sequence": "sequence",
+  "cast": "cast",
+  "row value constructor": "row-value-constructor",
+  "bind parameter": "bind-parameter",
+  "value": "value",
+  "case": "case",
+  "case when": "case-when",
+  "name": "name",
+  "quoted name": "quoted-name",
+  "alias": "alias",
+  "null": "null",
+  "data type": "data-type",
+  "data": "data-type",
+  "sql data type": "sql-data-type",
+  "sql data": "sql-data-type",
+  "hbase data type": "hbase-data-type",
+  "hbase data": "hbase-data-type",
+  "string": "string",
+  "boolean": "boolean-type",
+  "numeric": "numeric",
+  "int": "int",
+  "long": "long",
+  "decimal": "decimal-type",
+  "number": "number",
+  "comments": "comments",
+  "integer type": "integer-type",
+  "integer": "integer-type",
+  "unsigned_int type": "unsigned-int-type",
+  "unsigned_int": "unsigned-int-type",
+  "bigint type": "bigint-type",
+  "bigint": "bigint-type",
+  "unsigned_long type": "unsigned-long-type",
+  "unsigned_long": "unsigned-long-type",
+  "tinyint type": "tinyint-type",
+  "tinyint": "tinyint-type",
+  "unsigned_tinyint type": "unsigned-tinyint-type",
+  "unsigned_tinyint": "unsigned-tinyint-type",
+  "smallint type": "smallint-type",
+  "smallint": "smallint-type",
+  "unsigned_smallint type": "unsigned-smallint-type",
+  "unsigned_smallint": "unsigned-smallint-type",
+  "float type": "float-type",
+  "float": "float-type",
+  "unsigned_float type": "unsigned-float-type",
+  "unsigned_float": "unsigned-float-type",
+  "double type": "double-type",
+  "double": "double-type",
+  "unsigned_double type": "unsigned-double-type",
+  "unsigned_double": "unsigned-double-type",
+  "decimal type": "decimal-type",
+  "boolean type": "boolean-type",
+  "time type": "time-type",
+  "time": "time-type",
+  "date type": "date-type",
+  "date": "date-type",
+  "timestamp type": "timestamp-type",
+  "timestamp": "timestamp-type",
+  "unsigned_time type": "unsigned-time-type",
+  "unsigned_time": "unsigned-time-type",
+  "unsigned_date type": "unsigned-date-type",
+  "unsigned_date": "unsigned-date-type",
+  "unsigned_timestamp type": "unsigned-timestamp-type",
+  "unsigned_timestamp": "unsigned-timestamp-type",
+  "varchar type": "varchar-type",
+  "varchar": "varchar-type",
+  "char type": "char-type",
+  "char": "char-type",
+  "binary type": "binary-type",
+  "binary": "binary-type",
+  "varbinary type": "varbinary-type",
+  "varbinary": "varbinary-type",
+  "array": "array",
+  "avg": "avg",
+  "count": "count",
+  "approx_count_distinct": "approx-count-distinct",
+  "max": "max",
+  "min": "min",
+  "sum": "sum",
+  "percentile_cont": "percentile-cont",
+  "percentile_disc": "percentile-disc",
+  "percent_rank": "percent-rank",
+  "first_value": "first-value",
+  "last_value": "last-value",
+  "first_values": "first-values",
+  "last_values": "last-values",
+  "nth_value": "nth-value",
+  "stddev_pop": "stddev-pop",
+  "stddev_samp": "stddev-samp",
+  "round": "round",
+  "ceil": "ceil",
+  "floor": "floor",
+  "trunc": "trunc",
+  "substr": "substr",
+  "instr": "instr",
+  "trim": "trim",
+  "ltrim": "ltrim",
+  "rtrim": "rtrim",
+  "lpad": "lpad",
+  "array_elem": "array-elem",
+  "array_length": "array-length",
+  "array_append": "array-append",
+  "array_prepend": "array-prepend",
+  "array_cat": "array-cat",
+  "array_fill": "array-fill",
+  "array_to_string": "array-to-string",
+  "any": "any",
+  "all": "all",
+  "length": "length",
+  "regexp_substr": "regexp-substr",
+  "regexp_replace": "regexp-replace",
+  "regexp_split": "regexp-split",
+  "md5": "md5",
+  "invert": "invert",
+  "encode": "encode",
+  "decode": "decode",
+  "to_number": "to-number",
+  "rand": "rand",
+  "upper": "upper",
+  "lower": "lower",
+  "reverse": "reverse",
+  "to_char": "to-char",
+  "to_date": "to-date",
+  "current_date": "current-date",
+  "to_time": "to-time",
+  "to_timestamp": "to-timestamp",
+  "current_time": "current-time",
+  "convert_tz": "convert-tz",
+  "timezone_offset": "timezone-offset",
+  "now": "now",
+  "year": "year",
+  "month": "month",
+  "week": "week",
+  "dayofyear": "dayofyear",
+  "dayofmonth": "dayofmonth",
+  "dayofweek": "dayofweek",
+  "hour": "hour",
+  "minute": "minute",
+  "second": "second",
+  "coalesce": "coalesce",
+  "sign": "sign",
+  "abs": "abs",
+  "sqrt": "sqrt",
+  "cbrt": "cbrt",
+  "exp": "exp",
+  "power": "power",
+  "ln": "ln",
+  "log": "log",
+  "get_bit": "get-bit",
+  "get_byte": "get-byte",
+  "octet_length": "octet-length",
+  "set_bit": "set-bit",
+  "set_byte": "set-byte",
+  "collation_key": "collation-key"
+}
+
+## Functions (Aggregate)
+
+### AVG
+
+<RailroadDiagram
+  syntax={`AVG ( { numericTerm } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The average (mean) value. If no rows are selected, the result is NULL. Aggregates are only allowed in select statements. The returned value is of the same data type as the parameter.
+
+**Example**
+
+```sql
+AVG(X)
+```
+
+### COUNT
+
+<RailroadDiagram
+  syntax={`COUNT( [ DISTINCT ] { * | { term } } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The count of all row, or of the non-null values. This method returns a `long`. When DISTINCT is used, it counts only distinct values. If no rows are selected, the result is 0. Aggregates are only allowed in select statements.
+
+**Example**
+
+```sql
+COUNT(*)
+```
+
+### APPROX_COUNT_DISTINCT
+
+<RailroadDiagram
+  syntax={`APPROX_COUNT_DISTINCT( { * | { term } } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The approximate distinct count of all row, or of the non-null values. The relative error of approximation by default is less than 0.00405 This method returns a `long`. If no rows are selected, the result is 0. Aggregates are only allowed in select statements.
+
+**Example**
+
+```sql
+APPROX_COUNT_DISTINCT(*)
+```
+
+### MAX
+
+<RailroadDiagram
+  syntax={`MAX(term)`}
+  anchors={functionsTopicIndex}
+/>
+
+The highest value. If no rows are selected, the result is NULL. Aggregates are only allowed in select statements. The returned value is of the same data type as the parameter.
+
+**Example**
+
+```sql
+MAX(NAME)
+```
+
+### MIN
+
+<RailroadDiagram
+  syntax={`MIN(term)`}
+  anchors={functionsTopicIndex}
+/>
+
+The lowest value. If no rows are selected, the result is NULL. Aggregates are only allowed in select statements. The returned value is of the same data type as the parameter.
+
+**Example**
+
+```sql
+MIN(NAME)
+```
+
+### SUM
+
+<RailroadDiagram
+  syntax={`SUM( { numericTerm } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The sum of all values. If no rows are selected, the result is NULL. Aggregates are only allowed in select statements. The returned value is of the same data type as the parameter.
+
+**Example**
+
+```sql
+SUM(X)
+```
+
+### PERCENTILE_CONT
+
+<RailroadDiagram
+  syntax={`PERCENTILE_CONT( { numeric } ) WITHIN GROUP (ORDER BY { numericTerm } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The nth percentile of values in the column. The percentile value can be between 0 and 1 inclusive. Aggregates are only allowed in select statements. The returned value is of `decimal` data type.
+
+**Example**
+
+```sql
+PERCENTILE_CONT( 0.9 ) WITHIN GROUP (ORDER BY X ASC)
+```
+
+### PERCENTILE_DISC
+
+<RailroadDiagram
+  syntax={`PERCENTILE_DIST( { numeric } ) WITHIN GROUP (ORDER BY { numericTerm } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+PERCENTILE_DISC is an inverse distribution function that assumes a discrete distribution model. It takes a percentile value and a sort specification and returns an element from the set. Nulls are ignored in the calculation.
+
+**Example**
+
+```sql
+PERCENTILE_DISC( 0.9 ) WITHIN GROUP (ORDER BY X DESC)
+```
+
+### PERCENT_RANK
+
+<RailroadDiagram
+  syntax={`PERCENT_RANK( { numeric } ) WITHIN GROUP (ORDER BY { numericTerm } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The percentile rank for a hypothetical value, if inserted into the column. Aggregates are only allowed in select statements. The returned value is of `decimal` data type.
+
+**Example**
+
+```sql
+PERCENT_RANK( 100 ) WITHIN GROUP (ORDER BY X ASC)
+```
+
+### FIRST_VALUE
+
+<RailroadDiagram
+  syntax={`FIRST_VALUE( { expression } ) WITHIN GROUP (ORDER BY { expression } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The first value in each distinct group ordered according to the ORDER BY specification.
+
+**Example**
+
+```sql
+FIRST_VALUE( name ) WITHIN GROUP (ORDER BY salary DESC)
+```
+
+### LAST_VALUE
+
+<RailroadDiagram
+  syntax={`LAST_VALUE( { expression } ) WITHIN GROUP (ORDER BY { expression } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The last value in each distinct group ordered according to the ORDER BY specification.
+
+**Example**
+
+```sql
+LAST_VALUE( name ) WITHIN GROUP (ORDER BY salary DESC)
+```
+
+### FIRST_VALUES
+
+<RailroadDiagram
+  syntax={`FIRST_VALUES( { expression , numeric } ) WITHIN GROUP (ORDER BY { expression } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns an array of at most the given numeric size of the first values in each distinct group ordered according to the ORDER BY specification.
+
+**Example**
+
+```sql
+FIRST_VALUES( name, 3 ) WITHIN GROUP (ORDER BY salary DESC)
+```
+
+### LAST_VALUES
+
+<RailroadDiagram
+  syntax={`LAST_VALUES( { expression , numeric } ) WITHIN GROUP (ORDER BY { expression } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns an array of at most the given numeric size of the last values in each distinct group ordered according to the ORDER BY specification.
+
+**Example**
+
+```sql
+LAST_VALUES( name, 3 ) WITHIN GROUP (ORDER BY salary DESC)
+```
+
+### NTH_VALUE
+
+<RailroadDiagram
+  syntax={`NTH_VALUE( { expression, nthNumeric } ) WITHIN GROUP (ORDER BY { expression } { ASC | DESC } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The nth value in each distinct group ordered according to the ORDER BY specification.
+
+**Example**
+
+```sql
+NTH_VALUE( name, 2 ) WITHIN GROUP (ORDER BY salary DESC)
+```
+
+### STDDEV_POP
+
+<RailroadDiagram
+  syntax={`STDDEV_POP( { numericTerm } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The population standard deviation of all values. Aggregates are only allowed in select statements. The returned value is of `decimal` data type.
+
+**Example**
+
+```sql
+STDDEV_POP( X )
+```
+
+### STDDEV_SAMP
+
+<RailroadDiagram
+  syntax={`STDDEV_SAMP( { numericTerm } )`}
+  anchors={functionsTopicIndex}
+/>
+
+The sample standard deviation of all values. Aggregates are only allowed in select statements. The returned value is of `decimal` data type.
+
+**Example**
+
+```sql
+STDDEV_SAMP( X )
+```
+
+## Functions (Numeric)
+
+### ROUND
+
+<RailroadDiagram
+  syntax={`ROUND({numericTerm | dateTimeTerm} [, scaleNumber | {'DAY' | 'HOUR' | 'MINUTE' | 'SECOND' | 'MILLISECOND'} [, multiplierNumber]])`}
+  anchors={functionsTopicIndex}
+/>
+
+Rounds the numeric or timestamp expression to the nearest scale or time unit specified. If the expression is a numeric type, then the second argument is the scale to be used for rounding off the number, defaulting to zero. If the expression is a date/time type, then the second argument may be one of the time units listed to determine the remaining precision of the date/time. A default of MILLISECONDS is used if not present. The multiplier is only applicable for a date/time type and is used to round to a multiple of a time unit (i.e. 10 minute) and defaults to 1 if not specified. This method returns the same type as its first argument.
+
+**Example**
+
+```sql
+ROUND(number)
+ROUND(number, 2)
+ROUND(timestamp)
+ROUND(time, 'HOUR')
+ROUND(date, 'MINUTE', 30)
+```
+
+### CEIL
+
+<RailroadDiagram
+  syntax={`CEIL({numericTerm | dateTimeTerm} [, scaleNumber | {'DAY' | 'HOUR' | 'MINUTE' | 'SECOND' | 'MILLISECOND'} [, multiplierInt]])`}
+  anchors={functionsTopicIndex}
+/>
+
+Same as ROUND, except it rounds any fractional value up to the next even multiple.
+
+**Example**
+
+```sql
+CEIL(number, 3)
+CEIL(2.34)
+CEIL(timestamp, 'SECOND', 30)
+CEIL(date, 'DAY', 7)
+```
+
+### FLOOR
+
+<RailroadDiagram
+  syntax={`FLOOR({numericTerm | dateTimeTerm} [, scaleNumber | {'DAY' | 'HOUR' | 'MINUTE' | 'SECOND' | 'MILLISECOND'} [, multiplierInt]])`}
+  anchors={functionsTopicIndex}
+/>
+
+Same as ROUND, except it rounds any fractional value down to the previous even multiple.
+
+**Example**
+
+```sql
+FLOOR(timestamp)
+FLOOR(date, 'DAY', 7)
+```
+
+### TRUNC
+
+<RailroadDiagram
+  syntax={`TRUNC({numericTerm | dateTimeTerm} [, scaleNumber | {'DAY' | 'HOUR' | 'MINUTE' | 'SECOND' | 'MILLISECOND'} [, multiplierInt]])`}
+  anchors={functionsTopicIndex}
+/>
+
+Same as FLOOR
+
+**Example**
+
+```sql
+TRUNC(timestamp, 'SECOND', 30)
+TRUNC(date, 'DAY', 7)
+```
+
+### TO_NUMBER
+
+<RailroadDiagram
+  syntax={`TO_NUMBER( { stringTerm | dateTimeTerm } [, formatString] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Formats a string or date/time type as a number, optionally accepting a format string. For details on the format, see `java.text.DecimalFormat`. For date, time, and timeStamp terms, the result is the time in milliseconds since the epoch. This method returns a `decimal` number.
+
+**Example**
+
+```sql
+TO_NUMBER('$123.33', '\u00A4###.##')
+```
+
+### RAND
+
+<RailroadDiagram
+  syntax={`RAND( [seedNumber] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Function that produces a random, uniformly distributed double value between 0.0 (inclusive) and 1.0 (exclusive). If a seed is provided, then the the returned value is identical across each invocation for the same row. If a seed is not provided, then the returned value is different for each invocation. The seed must be a constant.
+
+**Example**
+
+```sql
+RAND()
+RAND(5)
+```
+
+## Functions (String)
+
+### SUBSTR
+
+<RailroadDiagram
+  syntax={`SUBSTR( stringTerm, startInt [, lengthInt ] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns a substring of a string starting at the one-based position. If zero is used, the position is zero-based. If the start index is negative, then the start index is relative to the end of the string. The length is optional and if not supplied, the rest of the string will be returned.
+
+**Example**
+
+```sql
+SUBSTR('[Hello]', 2, 5)
+SUBSTR('Hello World', -5)
+```
+
+### INSTR
+
+<RailroadDiagram
+  syntax={`INSTR( stringTerm, stringTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the one-based position of the initial occurrence of the second argument in the first argument. If the second argument is not contained in the first argument, then zero is returned.
+
+**Example**
+
+```sql
+INSTR('Hello World', 'World')
+INSTR('Simon says', 'mon')
+INSTR('Peace on earth', 'war')
+```
+
+### TRIM
+
+<RailroadDiagram
+  syntax={`TRIM( stringTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Removes leading and trailing spaces from the input string.
+
+**Example**
+
+```sql
+TRIM('  Hello  ')
+```
+
+### LTRIM
+
+<RailroadDiagram
+  syntax={`LTRIM( stringTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Removes leading spaces from the input string.
+
+**Example**
+
+```sql
+LTRIM('  Hello')
+```
+
+### RTRIM
+
+<RailroadDiagram
+  syntax={`RTRIM( stringTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Removes trailing spaces from the input string.
+
+**Example**
+
+```sql
+RTRIM('Hello   ')
+```
+
+### LPAD
+
+<RailroadDiagram
+  syntax={`LPAD( stringTerm, lengthNumeric, [padString] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Pads the string expression with the specific pad character (space by default) up to the length argument.
+
+**Example**
+
+```sql
+LPAD('John',30)
+```
+
+### LENGTH
+
+<RailroadDiagram
+  syntax={`LENGTH( stringTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the length of the string in characters.
+
+**Example**
+
+```sql
+LENGTH('Hello')
+```
+
+### REGEXP_SUBSTR
+
+<RailroadDiagram
+  syntax={`REGEXP_SUBSTR( stringTerm, patternString [, startInt ] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns a substring of a string by applying a regular expression start from the offset of a one-based position. Just like with SUBSTR, if the start index is negative, then it is relative to the end of the string. If not specified, the start index defaults to 1.
+
+**Example**
+
+```sql
+REGEXP_SUBSTR('na1-appsrv35-sj35', '[^-]+') evaluates to 'na1'
+```
+
+### REGEXP_REPLACE
+
+<RailroadDiagram
+  syntax={`REGEXP_REPLACE( stringTerm, patternString [, replacementString ] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns a string by applying a regular expression and replacing the matches with the replacement string. If the replacement string is not specified, it defaults to an empty string.
+
+**Example**
+
+```sql
+REGEXP_REPLACE('abc123ABC', '[0-9]+', '#') evaluates to 'abc#ABC'
+```
+
+### REGEXP_SPLIT
+
+<RailroadDiagram
+  syntax={`REGEXP_SPLIT( stringTerm, patternTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Splits a string into a `VARCHAR ARRAY` using a regular expression. If characters that have a special meaning in regular expressions are to be used as a regular delimiter in the pattern string, they must be escaped with backslashes.
+
+**Example**
+
+```sql
+REGEXP_SPLIT('ONE,TWO,THREE', ',') evaluates to ARRAY['ONE', 'TWO', 'THREE']
+REGEXP_SPLIT('ONE!#TWO#,!THREE', '[,!#]+') evaluates to ARRAY['ONE', 'TWO', 'THREE']
+```
+
+### UPPER
+
+<RailroadDiagram
+  syntax={`UPPER( stringTerm [, localeString ] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns upper case string of the string argument. If localeString (available in Phoenix 4.14) is provided, it identifies the locale whose rules are used for the conversion. If localeString is not provided, the default locale is used. The localeString must be of the form returned by the Java 6 implementation of `java.util.Locale.toString()` e.g. 'zh_TW_STROKE' or 'en_US' or 'fr_FR'.
+
+**Example**
+
+```sql
+UPPER('Hello')
+UPPER('Hello', 'tr_TR')
+```
+
+### LOWER
+
+<RailroadDiagram
+  syntax={`LOWER( stringTerm [, localeString ] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns lower case string of the string argument. If localeString (available in Phoenix 4.14) is provided, it identifies the locale whose rules are used for the conversion. If localeString is not provided, the default locale is used. The localeString must be of the form returned by the Java 6 implementation of `java.util.Locale.toString()` e.g. 'zh_TW_STROKE' or 'en_US' or 'fr_FR'.
+
+**Example**
+
+```sql
+LOWER('HELLO')
+LOWER('HELLO', 'en_US')
+```
+
+### REVERSE
+
+<RailroadDiagram
+  syntax={`REVERSE( stringTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns reversed string of the string argument.
+
+**Example**
+
+```sql
+REVERSE('Hello')
+```
+
+### TO_CHAR
+
+<RailroadDiagram
+  syntax={`TO_CHAR( { timestampTerm | numberTerm } [, formatString] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Formats a date, time, timestamp, or number as a string. The default date format is "yyyy-MM-dd HH:mm:ss" and the default number format is "#,##0.###". For details, see `java.text.SimpleDateFormat` for date/time values and `java.text.DecimalFormat` for numbers. This method returns a string.
+
+**Example**
+
+```sql
+TO_CHAR(myDate, '2001-02-03 04:05:06')
+TO_CHAR(myDecimal, '#,##0.###')
+```
+
+### COLLATION_KEY
+
+<RailroadDiagram
+  syntax={`COLLATION_KEY( stringTerm, localeString [, upperCaseBoolean [, strengthInt [, decompositionInt ] ] ] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Calculates a collation key that can be used to sort strings in a natural-language-aware way. The localeString must be of the form returned by the Java 6 implementation of `java.util.Locale.toString()` e.g. 'zh_TW_STROKE' or 'en_US' or 'fr_FR'. The third, fourth and fifth arguments are optional and determine respectively whether to use a special upper-case collator, the strength value of the collator, and the decomposition value of the collator. (See `java.text.Collator` to learn about strength and decomposition).
+
+**Example**
+
+```sql
+SELECT NAME FROM EMPLOYEE ORDER BY COLLATION_KEY(NAME, 'zh_TW')
+```
+
+## Functions (Array)
+
+### ARRAY_ELEM
+
+<RailroadDiagram
+  syntax={`ARRAY_ELEM( arrayTerm, numericTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Alternative to using array subscript notation to access an array element. Returns the element in the array at the given position. The position is one-based.
+
+**Example**
+
+```sql
+ARRAY_ELEM(my_array_col, 5)
+ARRAY_ELEM(ARRAY[1,2,3], 1)
+```
+
+### ARRAY_LENGTH
+
+<RailroadDiagram
+  syntax={`ARRAY_LENGTH( arrayTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the current length of the array.
+
+**Example**
+
+```sql
+ARRAY_LENGTH(my_array_col)
+ARRAY_LENGTH(ARRAY[1,2,3])
+```
+
+### ARRAY_APPEND
+
+<RailroadDiagram
+  syntax={`ARRAY_APPEND( arrayTerm, elementTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Appends the given element to the end of the array.
+
+**Example**
+
+```sql
+ARRAY_APPEND(my_array_col, my_element_col)
+ARRAY_APPEND(ARRAY[1,2,3], 4) evaluates to ARRAY[1,2,3,4]
+```
+
+### ARRAY_PREPEND
+
+<RailroadDiagram
+  syntax={`ARRAY_PREPEND(elementTerm, arrayTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Appends the given element to the beginning of the array.
+
+**Example**
+
+```sql
+ARRAY_PREPEND(my_element_col, my_array_col)
+ARRAY_PREPEND(0, ARRAY[1,2,3]) evaluates to ARRAY[0,1,2,3]
+```
+
+### ARRAY_CAT
+
+<RailroadDiagram
+  syntax={`ARRAY_CAT(arrayTerm, arrayTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Concatenates the input arrays and returns the result.
+
+**Example**
+
+```sql
+ARRAY_CAT(my_array_col1, my_array_col2)
+ARRAY_CAT(ARRAY[1,2], ARRAY[3,4]) evaluates to ARRAY[1,2,3,4]
+```
+
+### ARRAY_FILL
+
+<RailroadDiagram
+  syntax={`ARRAY_FILL(arrayTerm, lengthNumeric)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns an array initialized with supplied value and length.
+
+**Example**
+
+```sql
+ARRAY_FILL(my_element_col, my_length_col)
+ARRAY_FILL(1, 3) evaluates to ARRAY[1,1,1]
+```
+
+### ARRAY_TO_STRING
+
+<RailroadDiagram
+  syntax={`ARRAY_TO_STRING(arrayTerm, delimiterString [, nullString])`}
+  anchors={functionsTopicIndex}
+/>
+
+Concatenates array elements using supplied delimiter and optional null string and returns the resulting string. If the nullString parameter is omitted or NULL, any null elements in the array are simply skipped and not represented in the output string.
+
+**Example**
+
+```sql
+ARRAY_TO_STRING(my_array_col, my_delimiter_col, my_null_string_col)
+ARRAY_TO_STRING(ARRAY['a','b','c'], ',') evaluates to 'a,b,c'
+ARRAY_TO_STRING(ARRAY['a','b',null,'c'], ',') evaluates to 'a,b,c'
+ARRAY_TO_STRING(ARRAY['a','b',null,'c'], ',', 'NULL') evaluates to 'a,b,NULL,c'
+```
+
+### ANY
+
+<RailroadDiagram
+  syntax={`ANY( arrayTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Used on the right-hand side of a comparison expression to test that any array element satisfies the comparison expression against the left-hand side.
+
+**Example**
+
+```sql
+1 = ANY(my_array)
+10 > ANY(my_array)
+```
+
+### ALL
+
+<RailroadDiagram
+  syntax={`ALL( arrayTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Used on the right-hand side of a comparison expression to test that all array elements satisfy the comparison expression against the left-hand side. of the array.
+
+**Example**
+
+```sql
+1 = ALL(my_array)
+10 > ALL(my_array)
+```
+
+## Functions (General)
+
+### MD5
+
+<RailroadDiagram
+  syntax={`MD5( term )`}
+  anchors={functionsTopicIndex}
+/>
+
+Computes the MD5 hash of the argument, returning the result as a `BINARY(16)`.
+
+**Example**
+
+```sql
+MD5(my_column)
+```
+
+### INVERT
+
+<RailroadDiagram
+  syntax={`INVERT( term )`}
+  anchors={functionsTopicIndex}
+/>
+
+Inverts the bits of the argument. The return type will be the same as the argument.
+
+**Example**
+
+```sql
+INVERT(my_column)
+```
+
+### ENCODE
+
+<RailroadDiagram
+  syntax={`ENCODE( expression, 'BASE62' )`}
+  anchors={functionsTopicIndex}
+/>
+
+Encodes the expression according to the encoding format provided and returns the resulting string. For 'BASE62', converts the given base 10 number to a base 62 number and returns a string representing the number.
+
+**Example**
+
+```sql
+ENCODE(myNumber, 'BASE62')
+```
+
+### DECODE
+
+<RailroadDiagram
+  syntax={`DECODE( expression, 'HEX' )`}
+  anchors={functionsTopicIndex}
+/>
+
+Decodes the expression according to the encoding format provided and returns the resulting value as a `VARBINARY`. For 'HEX', converts the hex string expression to its binary representation, providing a mechanism for inputting binary data through the console.
+
+**Example**
+
+```sql
+DECODE('000000008512af277ffffff8', 'HEX')
+```
+
+### COALESCE
+
+<RailroadDiagram
+  syntax={`COALESCE( firstTerm, secondTerm )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the value of the first argument if not null and the second argument otherwise. Useful to guarantee that a column in an `UPSERT SELECT` command will evaluate to a non null value.
+
+**Example**
+
+```sql
+COALESCE(last_update_date, CURRENT_DATE())
+```
+
+### GET_BIT
+
+<RailroadDiagram
+  syntax={`GET_BIT( binaryValue, offsetInt )`}
+  anchors={functionsTopicIndex}
+/>
+
+Retrieves the bit at the given index in the given binary value.
+
+**Example**
+
+```sql
+GET_BIT(CAST('FFFF' as BINARY), 1)
+```
+
+### GET_BYTE
+
+<RailroadDiagram
+  syntax={`GET_BYTE( binaryValue, offsetInt )`}
+  anchors={functionsTopicIndex}
+/>
+
+Retrieves the byte at the given index in the given binary value.
+
+**Example**
+
+```sql
+GET_BYTE(CAST('FFFF' as BINARY), 1)
+```
+
+### OCTET_LENGTH
+
+<RailroadDiagram
+  syntax={`OCTET_LENGTH( binaryValue )`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the number of bytes in a binary value.
+
+**Example**
+
+```sql
+OCTET_LENGTH(NAME)
+```
+
+### SET_BIT
+
+<RailroadDiagram
+  syntax={`SET_BIT( binaryValue, offsetInt, newValue )`}
+  anchors={functionsTopicIndex}
+/>
+
+Replaces the bit at the given index in the binary value with the provided newValue.
+
+**Example**
+
+```sql
+SET_BIT(CAST('FFFF' as BINARY), 1, 61)
+```
+
+### SET_BYTE
+
+<RailroadDiagram
+  syntax={`SET_BYTE( binaryValue, offsetInt, newValue )`}
+  anchors={functionsTopicIndex}
+/>
+
+Replaces the byte at the given index in the binary value with the provided newValue.
+
+**Example**
+
+```sql
+SET_BYTE(CAST('FFFF' as BINARY), 1, 61)
+```
+
+## Functions (Time and Date)
+
+### TO_DATE
+
+<RailroadDiagram
+  syntax={`TO_DATE( stringTerm [, formatString [, timeZoneIdString]] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Parses a string and returns a date. Note that the returned date is internally represented as the number of milliseconds since the java epoch. The most important format characters are: y year, M month, d day, H hour, m minute, s second. The default format string is "yyyy-MM-dd HH:mm:ss". For details of the format, see `java.text.SimpleDateFormat`. By default, GMT will be used as the time zone when parsing the date. However, a time zone id can also be supplied. This is a time zone id such as 'GMT+1'. If 'local' is provided as the time zone id, the local time zone will be used for parsing. The configuration setting "phoenix.query.dateFormatTimeZone" can also be set to a time zone id, which will cause the default of GMT to be overridden with the configured time zone id. Please see the Data Type reference guide about how Apache Phoenix presently defines the DATE datatype. Additionally, Phoenix supports the ANSI SQL "date" literal which acts similarly to the single-argument "TO_DATE" function.
+
+**Example**
+
+```sql
+TO_DATE('Sat, 3 Feb 2001 03:05:06 GMT', 'EEE, d MMM yyyy HH:mm:ss z')
+TO_DATE('1970-01-01', 'yyyy-MM-dd', 'GMT+1')
+date '1970-01-01 12:30:00'
+```
+
+### CURRENT_DATE
+
+<RailroadDiagram
+  syntax={`CURRENT_DATE()`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the current server-side date, bound at the start of the execution of a query based on the current time on the region server owning the metadata of the table being queried. Please see the Data Type reference guide about how Apache Phoenix presently defines the DATE datatype.
+
+**Example**
+
+```sql
+CURRENT_DATE()
+```
+
+### TO_TIME
+
+<RailroadDiagram
+  syntax={`TO_TIME( string [, formatString [, timeZoneIdString]] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Converts the given string into a TIME instance. When a date format is not provided it defaults to "yyyy-MM-dd HH:mm:ss.SSS" or whatever is defined by the configuration property `phoenix.query.dateFormat`. The configuration setting `phoenix.query.dateFormatTimeZone` can also be set to a time zone id, which will cause the default of GMT to be overridden with the configured time zone id. Additionally, Phoenix supports the ANSI SQL "time" literal which acts similarly to the single-argument "TO_TIME" function.
+
+**Example**
+
+```sql
+TO_TIME('2005-10-01 14:03:22.559')
+TO_TIME('1970-01-01', 'yyyy-MM-dd', 'GMT+1')
+time '2005-10-01 14:03:22.559'
+```
+
+### TO_TIMESTAMP
+
+<RailroadDiagram
+  syntax={`TO_TIMESTAMP( string [, formatString [, timeZoneIdString]] )`}
+  anchors={functionsTopicIndex}
+/>
+
+Converts the given string into a TIMESTAMP instance. When a date format is not provided it defaults to "yyyy-MM-dd HH:mm:ss.SSS" or whatever is defined by the configuration property `phoenix.query.dateFormat`. The configuration setting `phoenix.query.dateFormatTimeZone` can also be set to a time zone id, which will cause the default of GMT to be overridden with the configured time zone id. Additionally, Phoenix supports the ANSI SQL "timestamp" literal which acts similarly to the single-argument "TO_TIMESTAMP" function.
+
+**Example**
+
+```sql
+TO_TIMESTAMP('2005-10-01 14:03:22.559')
+TO_TIMESTAMP('1970-01-01', 'yyyy-MM-dd', 'GMT+1')
+timestamp '2005-10-01 14:03:22.559'
+```
+
+### CURRENT_TIME
+
+<RailroadDiagram
+  syntax={`CURRENT_TIME()`}
+  anchors={functionsTopicIndex}
+/>
+
+Same as CURRENT_DATE(), except returns a value of type TIME. In either case, the underlying representation is the epoch time as a long value. Please see the Data Type reference guide about how Apache Phoenix presently defines the TIME datatype.
+
+**Example**
+
+```sql
+CURRENT_TIME()
+```
+
+### CONVERT_TZ
+
+<RailroadDiagram
+  syntax={`CONVERT_TZ(dateTerm|timeTerm|timestampTerm, fromTimeZoneString, toTimeZoneString)`}
+  anchors={functionsTopicIndex}
+/>
+
+Converts date/time from one time zone to another returning the shifted date/time value.
+
+**Example**
+
+```sql
+CONVERT_TZ(myDate, 'UTC', 'Europe/Prague')
+```
+
+### TIMEZONE_OFFSET
+
+<RailroadDiagram
+  syntax={`TIMEZONE_OFFSET(timeZoneString, dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns offset (shift in minutes) of a time zone at particular date/time in minutes.
+
+**Example**
+
+```sql
+TIMEZONE_OFFSET('Indian/Cocos', myDate)
+```
+
+### NOW
+
+<RailroadDiagram
+  syntax={`NOW()`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the current date, bound at the start of the execution of a query based on the current time on the region server owning the metadata of the table being queried.
+
+**Example**
+
+```sql
+NOW()
+```
+
+### YEAR
+
+<RailroadDiagram
+  syntax={`YEAR(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the year of the specified date.
+
+**Example**
+
+```sql
+YEAR(TO_DATE('2015-6-05'))
+```
+
+### MONTH
+
+<RailroadDiagram
+  syntax={`MONTH(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the month of the specified date.
+
+**Example**
+
+```sql
+MONTH(TO_TIMESTAMP('2015-6-05'))
+```
+
+### WEEK
+
+<RailroadDiagram
+  syntax={`WEEK(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the week of the specified date.
+
+**Example**
+
+```sql
+WEEK(TO_TIME('2010-6-15'))
+```
+
+### DAYOFYEAR
+
+<RailroadDiagram
+  syntax={`DAYOFYEAR(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the day of the year of the specified date.
+
+**Example**
+
+```sql
+DAYOFYEAR(TO_DATE('2004-01-18 10:00:10'))
+```
+
+### DAYOFMONTH
+
+<RailroadDiagram
+  syntax={`DAYOFMONTH(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the day of the month of the specified date.
+
+**Example**
+
+```sql
+DAYOFMONTH(TO_DATE('2004-01-18 10:00:10'))
+```
+
+### DAYOFWEEK
+
+<RailroadDiagram
+  syntax={`DAYOFWEEK(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the day of the week of the specified date.
+
+**Example**
+
+```sql
+DAYOFWEEK(TO_DATE('2004-01-18 10:00:10'))
+```
+
+### HOUR
+
+<RailroadDiagram
+  syntax={`HOUR(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the hour of the specified date.
+
+**Example**
+
+```sql
+HOUR(TO_TIMESTAMP('2015-6-05'))
+```
+
+### MINUTE
+
+<RailroadDiagram
+  syntax={`MINUTE(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the minute of the specified date.
+
+**Example**
+
+```sql
+MINUTE(TO_TIME('2015-6-05'))
+```
+
+### SECOND
+
+<RailroadDiagram
+  syntax={`SECOND(dateTerm|timeTerm|timestampTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the second of the specified date.
+
+**Example**
+
+```sql
+SECOND(TO_DATE('2015-6-05'))
+```
+
+## Functions (Math)
+
+### SIGN
+
+<RailroadDiagram
+  syntax={`SIGN(numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the signum function of the given numeric expression as an `INTEGER`. The return value is -1 if the given numeric expression is negative; 0 if the given numeric expression is zero; and 1 if the given numeric expression is positive.
+
+**Example**
+
+```sql
+SIGN(number)
+SIGN(1.1)
+SIGN(-1)
+```
+
+### ABS
+
+<RailroadDiagram
+  syntax={`ABS(numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the absolute value of the given numeric expression maintaining the same type.
+
+**Example**
+
+```sql
+ABS(number)
+ABS(1.1)
+ABS(-1)
+```
+
+### SQRT
+
+<RailroadDiagram
+  syntax={`SQRT(numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the correctly rounded square root of the given non-negative numeric expression as a `DOUBLE`.
+
+**Example**
+
+```sql
+SQRT(number)
+SQRT(1.1)
+```
+
+### CBRT
+
+<RailroadDiagram
+  syntax={`CBRT(numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the cube root of the given numeric expression as a `DOUBLE`.
+
+**Example**
+
+```sql
+CBRT(number)
+CBRT(1.1)
+CBRT(-1)
+```
+
+### EXP
+
+<RailroadDiagram
+  syntax={`EXP(numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns Euler's number e raised to the power of the given numeric value as a `DOUBLE`.
+
+**Example**
+
+```sql
+EXP(number)
+EXP(1.1)
+EXP(-1)
+```
+
+### POWER
+
+<RailroadDiagram
+  syntax={`POWER(numericTerm, numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the value of the first argument raised to the power of the second argument as a `DOUBLE`.
+
+**Example**
+
+```sql
+POWER(number, number)
+POWER(3, 2)
+POWER(2, 3)
+```
+
+### LN
+
+<RailroadDiagram
+  syntax={`LN(numericTerm)`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the natural logarithm (base e) of the given positive expression as a `DOUBLE`.
+
+**Example**
+
+```sql
+LN(number)
+LN(3)
+LN(2)
+```
+
+### LOG
+
+<RailroadDiagram
+  syntax={`LOG(numericTerm[, numericTerm])`}
+  anchors={functionsTopicIndex}
+/>
+
+Returns the logarithm of the first argument computed at the base of the second argument as a `DOUBLE`. If omitted, a base of 10 will be used for the second argument.
+
+**Example**
+
+```sql
+LOG(3, 2)
+LOG(2, 3)
+LOG(2)
+```

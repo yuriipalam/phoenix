@@ -1,0 +1,616 @@
+---
+title: "Data Types"
+description: "SQL data type reference for Apache Phoenix."
+---
+
+export const datatypesTopicIndex = {
+  "select": "select",
+  "upsert values": "upsert-values",
+  "upsert select": "upsert-select",
+  "delete": "delete",
+  "declare cursor": "declare-cursor",
+  "open cursor": "open-cursor",
+  "fetch next": "fetch-next",
+  "close": "close",
+  "create table": "create-table",
+  "drop table": "drop-table",
+  "create function": "create-function",
+  "drop function": "drop-function",
+  "create view": "create-view",
+  "drop view": "drop-view",
+  "create sequence": "create-sequence",
+  "drop sequence": "drop-sequence",
+  "alter": "alter",
+  "create index": "create-index",
+  "drop index": "drop-index",
+  "alter index": "alter-index",
+  "explain": "explain",
+  "constraint": "constraint",
+  "update statistics": "update-statistics",
+  "create schema": "create-schema",
+  "use": "use",
+  "drop schema": "drop-schema",
+  "grant": "grant",
+  "revoke": "revoke",
+  "options": "options",
+  "hint": "hint",
+  "scan hint": "scan-hint",
+  "cache hint": "cache-hint",
+  "index hint": "index-hint",
+  "small hint": "small-hint",
+  "seek to column hint": "seek-to-column-hint",
+  "join hint": "join-hint",
+  "serial hint": "serial-hint",
+  "column def": "column-def",
+  "table ref": "table-ref",
+  "sequence ref": "sequence-ref",
+  "column ref": "column-ref",
+  "select expression": "select-expression",
+  "select statement": "select-statement",
+  "split point": "split-point",
+  "table spec": "table-spec",
+  "aliased table ref": "aliased-table-ref",
+  "join type": "join-type",
+  "join": "join-type",
+  "func argument": "func-argument",
+  "class name": "class-name",
+  "jar path": "jar-path",
+  "order": "order",
+  "expression": "expression",
+  "and condition": "and-condition",
+  "boolean condition": "boolean-condition",
+  "condition": "condition",
+  "rhs operand": "rhs-operand",
+  "operand": "operand",
+  "summand": "summand",
+  "factor": "factor",
+  "term": "term",
+  "array constructor": "array-constructor",
+  "sequence": "sequence",
+  "cast": "cast",
+  "row value constructor": "row-value-constructor",
+  "bind parameter": "bind-parameter",
+  "value": "value",
+  "case": "case",
+  "case when": "case-when",
+  "name": "name",
+  "quoted name": "quoted-name",
+  "alias": "alias",
+  "null": "null",
+  "data type": "data-type",
+  "data": "data-type",
+  "sql data type": "sql-data-type",
+  "sql data": "sql-data-type",
+  "hbase data type": "hbase-data-type",
+  "hbase data": "hbase-data-type",
+  "string": "string",
+  "boolean": "boolean-type",
+  "numeric": "numeric",
+  "int": "int",
+  "long": "long",
+  "decimal": "decimal-type",
+  "number": "number",
+  "comments": "comments",
+  "integer type": "integer-type",
+  "integer": "integer-type",
+  "unsigned_int type": "unsigned-int-type",
+  "unsigned_int": "unsigned-int-type",
+  "bigint type": "bigint-type",
+  "bigint": "bigint-type",
+  "unsigned_long type": "unsigned-long-type",
+  "unsigned_long": "unsigned-long-type",
+  "tinyint type": "tinyint-type",
+  "tinyint": "tinyint-type",
+  "unsigned_tinyint type": "unsigned-tinyint-type",
+  "unsigned_tinyint": "unsigned-tinyint-type",
+  "smallint type": "smallint-type",
+  "smallint": "smallint-type",
+  "unsigned_smallint type": "unsigned-smallint-type",
+  "unsigned_smallint": "unsigned-smallint-type",
+  "float type": "float-type",
+  "float": "float-type",
+  "unsigned_float type": "unsigned-float-type",
+  "unsigned_float": "unsigned-float-type",
+  "double type": "double-type",
+  "double": "double-type",
+  "unsigned_double type": "unsigned-double-type",
+  "unsigned_double": "unsigned-double-type",
+  "decimal type": "decimal-type",
+  "boolean type": "boolean-type",
+  "time type": "time-type",
+  "time": "time-type",
+  "date type": "date-type",
+  "date": "date-type",
+  "timestamp type": "timestamp-type",
+  "timestamp": "timestamp-type",
+  "unsigned_time type": "unsigned-time-type",
+  "unsigned_time": "unsigned-time-type",
+  "unsigned_date type": "unsigned-date-type",
+  "unsigned_date": "unsigned-date-type",
+  "unsigned_timestamp type": "unsigned-timestamp-type",
+  "unsigned_timestamp": "unsigned-timestamp-type",
+  "varchar type": "varchar-type",
+  "varchar": "varchar-type",
+  "char type": "char-type",
+  "char": "char-type",
+  "binary type": "binary-type",
+  "binary": "binary-type",
+  "varbinary type": "varbinary-type",
+  "varbinary": "varbinary-type",
+  "array": "array",
+  "avg": "avg",
+  "count": "count",
+  "approx_count_distinct": "approx-count-distinct",
+  "max": "max",
+  "min": "min",
+  "sum": "sum",
+  "percentile_cont": "percentile-cont",
+  "percentile_disc": "percentile-disc",
+  "percent_rank": "percent-rank",
+  "first_value": "first-value",
+  "last_value": "last-value",
+  "first_values": "first-values",
+  "last_values": "last-values",
+  "nth_value": "nth-value",
+  "stddev_pop": "stddev-pop",
+  "stddev_samp": "stddev-samp",
+  "round": "round",
+  "ceil": "ceil",
+  "floor": "floor",
+  "trunc": "trunc",
+  "substr": "substr",
+  "instr": "instr",
+  "trim": "trim",
+  "ltrim": "ltrim",
+  "rtrim": "rtrim",
+  "lpad": "lpad",
+  "array_elem": "array-elem",
+  "array_length": "array-length",
+  "array_append": "array-append",
+  "array_prepend": "array-prepend",
+  "array_cat": "array-cat",
+  "array_fill": "array-fill",
+  "array_to_string": "array-to-string",
+  "any": "any",
+  "all": "all",
+  "length": "length",
+  "regexp_substr": "regexp-substr",
+  "regexp_replace": "regexp-replace",
+  "regexp_split": "regexp-split",
+  "md5": "md5",
+  "invert": "invert",
+  "encode": "encode",
+  "decode": "decode",
+  "to_number": "to-number",
+  "rand": "rand",
+  "upper": "upper",
+  "lower": "lower",
+  "reverse": "reverse",
+  "to_char": "to-char",
+  "to_date": "to-date",
+  "current_date": "current-date",
+  "to_time": "to-time",
+  "to_timestamp": "to-timestamp",
+  "current_time": "current-time",
+  "convert_tz": "convert-tz",
+  "timezone_offset": "timezone-offset",
+  "now": "now",
+  "year": "year",
+  "month": "month",
+  "week": "week",
+  "dayofyear": "dayofyear",
+  "dayofmonth": "dayofmonth",
+  "dayofweek": "dayofweek",
+  "hour": "hour",
+  "minute": "minute",
+  "second": "second",
+  "coalesce": "coalesce",
+  "sign": "sign",
+  "abs": "abs",
+  "sqrt": "sqrt",
+  "cbrt": "cbrt",
+  "exp": "exp",
+  "power": "power",
+  "ln": "ln",
+  "log": "log",
+  "get_bit": "get-bit",
+  "get_byte": "get-byte",
+  "octet_length": "octet-length",
+  "set_bit": "set-bit",
+  "set_byte": "set-byte",
+  "collation_key": "collation-key"
+}
+
+## Data Types
+
+### INTEGER Type
+
+<RailroadDiagram
+  syntax={`INTEGER`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: -2147483648 to 2147483647.
+
+Mapped to `java.lang.Integer`. The binary representation is a 4 byte integer with the sign bit flipped (so that negative values sorts before positive values).
+
+**Example**
+
+```sql
+INTEGER
+```
+
+### UNSIGNED_INT Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_INT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: 0 to 2147483647. Mapped to `java.lang.Integer`. The binary representation is a 4 byte integer, matching the `Bytes.toBytes(int)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_INT
+```
+
+### BIGINT Type
+
+<RailroadDiagram
+  syntax={`BIGINT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: -9223372036854775808 to 9223372036854775807. Mapped to `java.lang.Long`. The binary representation is an 8 byte long with the sign bit flipped (so that negative values sorts before positive values).
+
+**Example**
+
+```sql
+BIGINT
+```
+
+### UNSIGNED_LONG Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_LONG`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: 0 to 9223372036854775807. Mapped to `java.lang.Long`. The binary representation is an 8 byte integer, matching the `Bytes.toBytes(long)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_LONG
+```
+
+### TINYINT Type
+
+<RailroadDiagram
+  syntax={`TINYINT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: -128 to 127. Mapped to `java.lang.Byte`. The binary representation is a single byte, with the sign bit flipped (so that negative values sorts before positive values).
+
+**Example**
+
+```sql
+TINYINT
+```
+
+### UNSIGNED_TINYINT Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_TINYINT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: 0 to 127. Mapped to `java.lang.Byte`. The binary representation is a single byte, matching the `Bytes.toBytes(byte)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_TINYINT
+```
+
+### SMALLINT Type
+
+<RailroadDiagram
+  syntax={`SMALLINT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: -32768 to 32767. Mapped to `java.lang.Short`. The binary representation is a 2 byte short with the sign bit flipped (so that negative values sort before positive values).
+
+**Example**
+
+```sql
+SMALLINT
+```
+
+### UNSIGNED_SMALLINT Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_SMALLINT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: 0 to 32767. Mapped to `java.lang.Short`. The binary representation is an 2 byte integer, matching the `Bytes.toBytes(short)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_SMALLINT
+```
+
+### FLOAT Type
+
+<RailroadDiagram
+  syntax={`FLOAT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: -3.402823466 E + 38 to 3.402823466 E + 38. Mapped to `java.lang.Float`. The binary representation is an 4 byte float with the sign bit flipped (so that negative values sort before positive values).
+
+**Example**
+
+```sql
+FLOAT
+```
+
+### UNSIGNED_FLOAT Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_FLOAT`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: 0 to 3.402823466 E + 38. Mapped to `java.lang.Float`. The binary representation is an 4 byte float matching the `Bytes.toBytes(float)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_FLOAT
+```
+
+### DOUBLE Type
+
+<RailroadDiagram
+  syntax={`DOUBLE`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: -1.7976931348623158 E + 308 to 1.7976931348623158 E + 308. Mapped to `java.lang.Double`. The binary representation is an 8 byte double with the sign bit flipped (so that negative values sort before positive value).
+
+**Example**
+
+```sql
+DOUBLE
+```
+
+### UNSIGNED_DOUBLE Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_DOUBLE`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: 0 to  1.7976931348623158 E + 308. Mapped to `java.lang.Double`. The binary representation is an 8 byte double matching the `Bytes.toBytes(double)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_DOUBLE
+```
+
+### DECIMAL Type
+
+<RailroadDiagram
+  syntax={`DECIMAL [ (precisionInt, scaleInt) ]`}
+  anchors={datatypesTopicIndex}
+/>
+
+Data type with fixed precision and scale. A user can specify precision and scale by expression `DECIMAL(precision,scale)` in a DDL statement, for example, DECIMAL(10,2). The maximum precision is 38 digits. Mapped to `java.math.BigDecimal`. The binary representation is binary comparable, variable length format. When used in a row key, it is terminated with a null byte unless it is the last column.
+
+**Example**
+
+```sql
+DECIMAL
+DECIMAL(10,2)
+```
+
+### BOOLEAN Type
+
+<RailroadDiagram
+  syntax={`BOOLEAN`}
+  anchors={datatypesTopicIndex}
+/>
+
+Possible values: `TRUE` and `FALSE`.
+
+Mapped to `java.lang.Boolean`. The binary representation is a single byte with `0` for false and `1` for true
+
+**Example**
+
+```sql
+BOOLEAN
+```
+
+### TIME Type
+
+<RailroadDiagram
+  syntax={`TIME`}
+  anchors={datatypesTopicIndex}
+/>
+
+The time data type. The format is yyyy-MM-dd hh:mm:ss, with both the date and time parts maintained. Mapped to `java.sql.Time`. The binary representation is an 8 byte long (the number of milliseconds from the epoch), making it possible (although not necessarily recommended) to store more information within a TIME column than what is provided by "java.sql.Time". Note that the internal representation is based on a number of milliseconds since the epoch (which is based on a time in GMT), while "java.sql.Time" will format times based on the client's local time zone. Please note that this TIME type is different than the TIME type as defined by the SQL 92 standard in that it includes year, month, and day components. As such, it is not in compliance with the JDBC APIs. As the underlying data is still stored as a long, only the presentation of the value is incorrect.
+
+**Example**
+
+```sql
+TIME
+```
+
+### DATE Type
+
+<RailroadDiagram
+  syntax={`DATE`}
+  anchors={datatypesTopicIndex}
+/>
+
+The date data type. The format is yyyy-MM-dd hh:mm:ss, with both the date and time parts maintained to a millisecond accuracy. Mapped to `java.sql.Date`. The binary representation is an 8 byte long (the number of milliseconds from the epoch), making it possible (although not necessarily recommended) to store more information within a DATE column than what is provided by "java.sql.Date". Note that the internal representation is based on a number of milliseconds since the epoch (which is based on a time in GMT), while "java.sql.Date" will format dates based on the client's local time zone. Please note that this DATE type is different than the DATE type as defined by the SQL 92 standard in that it includes a time component. As such, it is not in compliance with the JDBC APIs. As the underlying data is still stored as a long, only the presentation of the value is incorrect.
+
+**Example**
+
+```sql
+DATE
+```
+
+### TIMESTAMP Type
+
+<RailroadDiagram
+  syntax={`TIMESTAMP`}
+  anchors={datatypesTopicIndex}
+/>
+
+The timestamp data type. The format is yyyy-MM-dd hh:mm:ss[.nnnnnnnnn]. Mapped to `java.sql.Timestamp` with an internal representation of the number of nanos from the epoch. The binary representation is 12 bytes: an 8 byte long for the epoch time plus a 4 byte integer for the nanos. Note that the internal representation is based on a number of milliseconds since the epoch (which is based on a time in GMT), while "java.sql.Timestamp" will format timestamps based on the client's local time zone.
+
+**Example**
+
+```sql
+TIMESTAMP
+```
+
+### UNSIGNED_TIME Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_TIME`}
+  anchors={datatypesTopicIndex}
+/>
+
+The unsigned time data type. The format is yyyy-MM-dd hh:mm:ss, with both the date and time parts maintained to the millisecond accuracy. Mapped to `java.sql.Time`. The binary representation is an 8 byte long (the number of milliseconds from the epoch) matching the `HBase.toBytes(long)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_TIME
+```
+
+### UNSIGNED_DATE Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_DATE`}
+  anchors={datatypesTopicIndex}
+/>
+
+The unsigned date data type. The format is yyyy-MM-dd hh:mm:ss, with both the date and time parts maintained to a millisecond accuracy. Mapped to `java.sql.Date`. The binary representation is an 8 byte long (the number of milliseconds from the epoch) matching the `HBase.toBytes(long)` method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_DATE
+```
+
+### UNSIGNED_TIMESTAMP Type
+
+<RailroadDiagram
+  syntax={`UNSIGNED_TIMESTAMP`}
+  anchors={datatypesTopicIndex}
+/>
+
+The timestamp data type. The format is yyyy-MM-dd hh:mm:ss[.nnnnnnnnn]. Mapped to `java.sql.Timestamp` with an internal representation of the number of nanos from the epoch. The binary representation is 12 bytes: an 8 byte long for the epoch time plus a 4 byte integer for the nanos with the long serialized through the HBase.toBytes(long) method. The purpose of this type is to map to existing HBase data that was serialized using this HBase utility method. If that is not the case, use the regular signed type instead.
+
+**Example**
+
+```sql
+UNSIGNED_TIMESTAMP
+```
+
+### VARCHAR Type
+
+<RailroadDiagram
+  syntax={`VARCHAR  [ ( precisionInt ) ]`}
+  anchors={datatypesTopicIndex}
+/>
+
+A variable length String with an optional max byte length. The binary representation is UTF8 matching the `Bytes.toBytes(String)` method. When used in a row key, it is terminated with a null byte unless it is the last column.
+
+Mapped to `java.lang.String`.
+
+**Example**
+
+```sql
+VARCHAR
+VARCHAR(255)
+```
+
+### CHAR Type
+
+<RailroadDiagram
+  syntax={`CHAR ( precisionInt )`}
+  anchors={datatypesTopicIndex}
+/>
+
+A fixed length String with single-byte characters. The binary representation is UTF8 matching the `Bytes.toBytes(String)` method.
+
+Mapped to `java.lang.String`.
+
+**Example**
+
+```sql
+CHAR(10)
+```
+
+### BINARY Type
+
+<RailroadDiagram
+  syntax={`BINARY ( precisionInt )`}
+  anchors={datatypesTopicIndex}
+/>
+
+Raw fixed length byte array.
+
+Mapped to `byte[]`.
+
+**Example**
+
+```sql
+BINARY
+```
+
+### VARBINARY Type
+
+<RailroadDiagram
+  syntax={`VARBINARY`}
+  anchors={datatypesTopicIndex}
+/>
+
+Raw variable length byte array.
+
+Mapped to `byte[]`.
+
+**Example**
+
+```sql
+VARBINARY
+```
+
+### ARRAY
+
+<RailroadDiagram
+  syntax={`ARRAY [ '[' [ dimensionInt ] ']' ]`}
+  anchors={datatypesTopicIndex}
+/>
+
+Mapped to `java.sql.Array`. Every primitive type except for `VARBINARY` may be declared as an `ARRAY`. Only single dimensional arrays are supported.
+
+**Example**
+
+```sql
+VARCHAR ARRAY
+CHAR(10) ARRAY [5]
+INTEGER []
+INTEGER [100]
+```
