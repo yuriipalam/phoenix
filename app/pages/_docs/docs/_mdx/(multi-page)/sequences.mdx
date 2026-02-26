@@ -34,9 +34,9 @@ UPSERT INTO my_table(id, col1, col2)
 VALUES (NEXT VALUE FOR my_schema.my_sequence, 'foo', 'bar');
 ```
 
-This will allocate a BIGINT based on the next value from the sequence (beginning with the START WITH value and incrementing from there based on the INCREMENT BY amount).
+This will allocate a `BIGINT` based on the next value from the sequence (beginning with the `START WITH` value and incrementing from there based on the `INCREMENT BY` amount).
 
-When used in an UPSERT SELECT or SELECT statement, each row returned by the statement would have a unique value associated with it. For example:
+When used in an `UPSERT SELECT` or `SELECT` statement, each row returned by the statement would have a unique value associated with it. For example:
 
 ```sql
 UPSERT INTO my_table(id, col1, col2)
@@ -50,15 +50,15 @@ UPSERT INTO my_table(col1, col2)
 VALUES (NEXT VALUE FOR my_schema.my_sequence, NEXT VALUE FOR my_schema.my_sequence);
 ```
 
-You may also access the last sequence value allocated using a CURRENT VALUE FOR expression as shown below:
+You may also access the last sequence value allocated using a `CURRENT VALUE FOR` expression as shown below:
 
 ```sql
 SELECT CURRENT VALUE FOR my_schema.my_sequence, col1, col2 FROM my_table;
 ```
 
-This would evaluate to the last sequence value allocated from the previous NEXT VALUE FOR expression for your session (i.e. all connections on the same JVM for the same client machine). If no NEXT VALUE FOR expression had been previously called, this would produce an exception. If in a given statement a CURRENT VALUE FOR expression is used together with a NEXT VALUE FOR expression for the same sequence, then both would evaluate to the value produced by the NEXT VALUE FOR expression.
+This would evaluate to the last sequence value allocated from the previous `NEXT VALUE FOR` expression for your session (i.e. all connections on the same JVM for the same client machine). If no `NEXT VALUE FOR` expression had been previously called, this would produce an exception. If in a given statement a `CURRENT VALUE FOR` expression is used together with a `NEXT VALUE FOR` expression for the same sequence, then both would evaluate to the value produced by the `NEXT VALUE FOR` expression.
 
-The NEXT VALUE FOR and CURRENT VALUE FOR expressions may only be used as SELECT expressions or in the UPSERT VALUES statement. Use in WHERE, GROUP BY, HAVING, or ORDER BY will produce an exception. In addition, they cannot be used as the argument to an aggregate function.
+The `NEXT VALUE FOR` and `CURRENT VALUE FOR` expressions may only be used as `SELECT` expressions or in the `UPSERT VALUES` statement. Use in `WHERE`, `GROUP BY`, `HAVING`, or `ORDER BY` will produce an exception. In addition, they cannot be used as the argument to an aggregate function.
 
 To drop a sequence, issue the following command:
 
@@ -66,10 +66,10 @@ To drop a sequence, issue the following command:
 DROP SEQUENCE my_schema.my_sequence;
 ```
 
-To discover all sequences that have been created, you may query the SYSTEM.SEQUENCE table as shown here:
+To discover all sequences that have been created, you may query the `SYSTEM.SEQUENCE` table as shown here:
 
 ```sql
 SELECT sequence_schema, sequence_name, start_with, increment_by, cache_size FROM SYSTEM."SEQUENCE";
 ```
 
-Note that only read-only access to the SYSTEM.SEQUENCE table is supported.
+Note that only read-only access to the `SYSTEM.SEQUENCE` table is supported.

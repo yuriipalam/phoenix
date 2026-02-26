@@ -54,7 +54,7 @@ Local indexing targets _write heavy_, _space constrained_ use cases. Just like w
 
 ## Index Population
 
-By default, when an index is created, it is populated synchronously during the CREATE INDEX call. This may not be feasible depending on the current size of the data table. As of 4.5, initially population of an index may be done asynchronously by including the ASYNC keyword in the index creation DDL statement:
+By default, when an index is created, it is populated synchronously during the CREATE INDEX call. This may not be feasible depending on the current size of the data table. As of 4.5, initially population of an index may be done asynchronously by including the `ASYNC` keyword in the index creation DDL statement:
 
 ```sql
 CREATE INDEX async_index ON my_schema.my_table (v) ASYNC
@@ -70,7 +70,7 @@ ${HBASE_HOME}/bin/hbase org.apache.phoenix.mapreduce.index.IndexTool
 
 Only when the map reduce job is complete will the index be activated and start to be used in queries. The job is resilient to the client being exited. The output-path option is used to specify a HDFS directory that is used for writing HFiles to.
 
-You can also start index population for all indexes in BUILDING("b") state with the following HBase command line:
+You can also start index population for all indexes in `BUILDING` ("b") state with the following HBase command line:
 
 ```bash
 ${HBASE_HOME}/bin/hbase org.apache.phoenix.mapreduce.index.automation.PhoenixMRJobSubmitter
@@ -78,11 +78,11 @@ ${HBASE_HOME}/bin/hbase org.apache.phoenix.mapreduce.index.automation.PhoenixMRJ
 
 #### ASYNC Index threshold
 
-As of 4.16 (and 5.1), setting the phoenix.index.async.threshold property to a positive number will disallow synchronous index creation if the estimated indexed data size exceeds phoenix.index.async.threshold (in bytes).
+As of 4.16 (and 5.1), setting the `phoenix.index.async.threshold` property to a positive number will disallow synchronous index creation if the estimated indexed data size exceeds `phoenix.index.async.threshold` (in bytes).
 
 ## Index Usage
 
-Indexes are automatically used by Phoenix to service a query when it's determined more efficient to do so. However, a global index will not be used unless all of the columns referenced in the query are contained in the index. For example, the following query would not use the index, because v2 is referenced in the query but not included in the index:
+Indexes are automatically used by Phoenix to service a query when it's determined more efficient to do so. However, a global index will not be used unless all of the columns referenced in the query are contained in the index. For example, the following query would not use the index, because `v2` is referenced in the query but not included in the index:
 
 ```sql
 SELECT v2 FROM my_table WHERE v1 = 'foo'
@@ -90,7 +90,7 @@ SELECT v2 FROM my_table WHERE v1 = 'foo'
 
 There are two means of getting an index to be used in this case:
 
-1. Create a _covered_ index by including v2 in the index:
+1. Create a _covered_ index by including `v2` in the index:
 
    ```sql
    CREATE INDEX my_index ON my_table (v1) INCLUDE (v2)
@@ -125,7 +125,7 @@ CREATE INDEX my_index ON my_table (v2 DESC, v1) INCLUDE (v3)
 SALT_BUCKETS=10, DATA_BLOCK_ENCODING='NONE'
 ```
 
-Note that if the primary table is salted, then the index is automatically salted in the same way for global indexes. In addition, the MAX_FILESIZE for the index is adjusted down, relative to the size of the primary versus index table. For more on salting see [here](/docs/salted-tables). With local indexes, on the other hand, specifying SALT_BUCKETS is not allowed.
+Note that if the primary table is salted, then the index is automatically salted in the same way for global indexes. In addition, the MAX_FILESIZE for the index is adjusted down, relative to the size of the primary versus index table. For more on salting see [here](/docs/salted-tables). With local indexes, on the other hand, specifying `SALT_BUCKETS` is not allowed.
 
 ## Consistency Guarantees
 
@@ -251,7 +251,7 @@ Once the WAL is written, we ensure that the index and primary table data will be
 - If the server _does_ crash, we then replay the index updates with the usual WAL replay mechanism
 - If the server does _not_ crash, we just insert the index updates to their respective tables.
   - If the index updates fail, the various means of maintaining consistency are outlined below.
-  - If the Phoenix system catalog table cannot be reached when a failure occurs, we force the server to be immediately aborted and failing this, call System.exit on the JVM, forcing the server to die. By killing the server, we ensure that the WAL will be replayed on recovery, replaying the index updates to their appropriate tables. This ensures that a secondary index is not continued to be used when it's in a know, invalid state.
+  - If the Phoenix system catalog table cannot be reached when a failure occurs, we force the server to be immediately aborted and failing this, call `System.exit` on the JVM, forcing the server to die. By killing the server, we ensure that the WAL will be replayed on recovery, replaying the index updates to their appropriate tables. This ensures that a secondary index is not continued to be used when it's in a know, invalid state.
 
 **Disallow table writes until mutable index is consistent**
 
@@ -299,7 +299,7 @@ The following server-side configurations control this behavior:
 
 #### BulkLoad Tool Limitation
 
-The BulkLoadTools (e.g. CSVBulkLoadTool and JSONBulkLoadTool) cannot presently generate correct updates to mutable
+The `BulkLoadTools` (e.g. `CSVBulkLoadTool` and `JSONBulkLoadTool`) cannot presently generate correct updates to mutable
 secondary indexes when pre-existing records are being updated. In the normal mutable secondary index write path, we can
 safely calculate a Delete (for the old record) and a Put (for the new record) for each secondary index while holding a
 row-lock to prevent concurrent updates. In the context of a MapReduce job, we cannot effectively execute this same logic
@@ -309,7 +309,7 @@ to the same record in the table are not deleted. This net-effect of this limitat
 the same records to an index table, that index table will have duplicate records in it which will result in incorrect
 query results from that index table.
 
-To perform incremental loads of data using the BulkLoadTools which may update existing records, you must
+To perform incremental loads of data using the `BulkLoadTools` which may update existing records, you must
 drop and re-create all index tables after the data table is loaded. Re-creating the index with the `ASYNC` option and
 using `IndexTool` to populate and enable that index is likely a must for tables of non-trivial size.
 
@@ -378,7 +378,7 @@ The above properties are required to use local indexing.
 
 ### Upgrading Local Indexes created before 4.8.0
 
-While upgrading the Phoenix to 4.8.0+ version at server remove above three local indexing related configurations from `hbase-site.xml` if present. From client we are supporting both online(while initializing the connection from phoenix client of 4.8.0+ versions) and offline(using psql tool) upgrade of local indexes created before 4.8.0. As part of upgrade we recreate the local indexes in ASYNC mode. After upgrade user need to build the indexes using [IndexTool](/docs/secondary-indexes#index-population)
+While upgrading the Phoenix to 4.8.0+ version at server remove above three local indexing related configurations from `hbase-site.xml` if present. From client we are supporting both online(while initializing the connection from phoenix client of 4.8.0+ versions) and offline(using `psql` tool) upgrade of local indexes created before 4.8.0. As part of upgrade we recreate the local indexes in ASYNC mode. After upgrade user need to build the indexes using [IndexTool](/docs/secondary-indexes#index-population)
 
 Following client side configuration used in the upgrade.
 
@@ -398,42 +398,42 @@ Out the box, indexing is pretty fast. However, to optimize for your particular e
 
 All the following parameters must be set in `hbase-site.xml` - they are true for the entire cluster and all index tables, as well as across all regions on the same server (so, for instance, a single server would not write to too many different index tables at once).
 
-1. index.builder.threads.max
+1. `index.builder.threads.max`
    - Number of threads to used to build the index update from the primary table update
    - Increasing this value overcomes the bottleneck of reading the current row state from the underlying HRegion. Tuning this value too high will just bottleneck at the HRegion as it will not be able to handle too many concurrent scan requests as well as general thread-swapping concerns.
    - **Default: 10**
-2. index.builder.threads.keepalivetime
+2. `index.builder.threads.keepalivetime`
    - Amount of time in seconds after we expire threads in the builder thread pool.
    - Unused threads are immediately released after this amount of time and not core threads are retained (though this last is a small concern as tables are expected to sustain a fairly constant write load), but simultaneously allows us to drop threads if we are not seeing the expected load.
    - **Default: 60**
-3. index.writer.threads.max
+3. `index.writer.threads.max`
    - Number of threads to use when writing to the target index tables.
    - The first level of parallelization, on a per-table basis - it should roughly correspond to the number of index tables
    - **Default: 10**
-4. index.writer.threads.keepalivetime
+4. `index.writer.threads.keepalivetime`
    - Amount of time in seconds after we expire threads in the writer thread pool.
    - Unused threads are immediately released after this amount of time and not core threads are retained (though this last is a small concern as tables are expected to sustain a fairly constant write load), but simultaneously allows us to drop threads if we are not seeing the expected load.
    - **Default: 60**
-5. hbase.htable.threads.max
-   - Number of threads each index HTable can use for writes.
+5. `hbase.htable.threads.max`
+   - Number of threads each index `HTable` can use for writes.
    - Increasing this allows more concurrent index updates (for instance across batches), leading to high overall throughput.
    - **Default: 2,147,483,647**
-6. hbase.htable.threads.keepalivetime
-   - Amount of time in seconds after we expire threads in the HTable's thread pool.
-   - Using the "direct handoff" approach, new threads will only be created if it is necessary and will grow unbounded. This could be bad but HTables only create as many Runnables as there are region servers; therefore, it also scales when new region servers are added.
+6. `hbase.htable.threads.keepalivetime`
+   - Amount of time in seconds after we expire threads in the `HTable`'s thread pool.
+   - Using the "direct handoff" approach, new threads will only be created if it is necessary and will grow unbounded. This could be bad but `HTable`s only create as many `Runnable`s as there are region servers; therefore, it also scales when new region servers are added.
    - **Default: 60**
-7. index.tablefactory.cache.size
-   - Number of index HTables we should keep in cache.
-   - Increasing this number ensures that we do not need to recreate an HTable for each attempt to write to an index table. Conversely, you could see memory pressure if this value is set too high.
+7. `index.tablefactory.cache.size`
+   - Number of index `HTable`s we should keep in cache.
+   - Increasing this number ensures that we do not need to recreate an `HTable` for each attempt to write to an index table. Conversely, you could see memory pressure if this value is set too high.
    - **Default: 10**
-8. org.apache.phoenix.regionserver.index.priority.min
+8. `org.apache.phoenix.regionserver.index.priority.min`
    - Value to specify to bottom (inclusive) of the range in which index priority may lie.
    - **Default: 1000**
-9. org.apache.phoenix.regionserver.index.priority.max
+9. `org.apache.phoenix.regionserver.index.priority.max`
    - Value to specify to top (exclusive) of the range in which index priority may lie.
    - Higher priorites within the index min/max range do not means updates are processed sooner.
    - **Default: 1050**
-10. org.apache.phoenix.regionserver.index.handler.count
+10. `org.apache.phoenix.regionserver.index.handler.count`
     - Number of threads to use when serving index write requests for global index maintenance.
     - Though the actual number of threads is dictated by the Max(number of call queues, handler count), where the number of call queues is determined by standard HBase configuration. To further tune the queues, you can adjust the standard rpc queue length parameters (currently, there are no special knobs for the index queues), specifically `ipc.server.max.callqueue.length` and `ipc.server.callqueue.handler.factor`. See the [HBase Reference Guide](http://hbase.apache.org/book.html) for more details.
     - **Default: 30**
@@ -446,9 +446,9 @@ That said, we have seen secondary indexing (both immutable and mutable) go as qu
 
 ## Index Scrutiny Tool
 
-With Phoenix 4.12, there is now a tool to run a MapReduce job to verify that an index table is valid against its data table. The only way to find orphaned rows in either table is to scan over all rows in the table and do a lookup in the other table for the corresponding row. For that reason, the tool can run with either the data or index table as the "source" table, and the other as the "target" table. The tool writes all invalid rows it finds either to file or to an output table PHOENIX_INDEX_SCRUTINY. An invalid row is a source row that either has no corresponding row in the target table, or has an incorrect value in the target table (i.e. covered column value).
+With Phoenix 4.12, there is now a tool to run a MapReduce job to verify that an index table is valid against its data table. The only way to find orphaned rows in either table is to scan over all rows in the table and do a lookup in the other table for the corresponding row. For that reason, the tool can run with either the data or index table as the "source" table, and the other as the "target" table. The tool writes all invalid rows it finds either to file or to an output table `PHOENIX_INDEX_SCRUTINY`. An invalid row is a source row that either has no corresponding row in the target table, or has an incorrect value in the target table (i.e. covered column value).
 
-The tool has job counters that track its status. `VALID_ROW_COUNT`, `INVALID_ROW_COUNT`, `BAD_COVERED_COL_VAL_COUNT`. Note that invalid rows - bad col val rows = number of orphaned rows. These counters are written to the table PHOENIX_INDEX_SCRUTINY_METADATA, along with other job metadata.
+The tool has job counters that track its status. `VALID_ROW_COUNT`, `INVALID_ROW_COUNT`, `BAD_COVERED_COL_VAL_COUNT`. Note that invalid rows - bad col val rows = number of orphaned rows. These counters are written to the table `PHOENIX_INDEX_SCRUTINY_METADATA`, along with other job metadata.
 
 The Index Scrutiny Tool can be launched via the `hbase` command (in `hbase/bin`) as follows:
 
@@ -486,7 +486,7 @@ The following parameters can be used with the Index Scrutiny Tool:
 
 ## Index Upgrade Tool
 
-IndexUpgradeTool updates global indexes created by Phoenix 4.14 and earlier (or 5.0) to use the new Strongly Consistent Global Indexes implementation.
+`IndexUpgradeTool` updates global indexes created by Phoenix 4.14 and earlier (or 5.0) to use the new Strongly Consistent Global Indexes implementation.
 
 It accepts following parameters:
 
@@ -510,7 +510,7 @@ For 4.16+/5.1+ either specifying the -rb option, or manually rebuilding the inde
 
 Depending on whether index is mutable, it will remove _Indexer_ coprocessor from a data table and load new coprocessor _IndexRegionObserver_. For both immutable and mutable, it will load _GlobalIndexChecker_ coprocessor on Index table. During this process, data table and index table are _disabled-loaded/unloaded with coproc-enabled_ within short time span. At the end, it does an asynchronous index rebuilds. Index reads are not blocked while index-rebuild is still ongoing, however, they may be a bit slower for rows written prior to upgrade.
 
-IndexUpgradeTool doesn't make any distinction between view-index and table-index. When a table is passed, it will perform the upgrade-operation on all the 'children' indexes of the given table.
+`IndexUpgradeTool` doesn't make any distinction between view-index and table-index. When a table is passed, it will perform the upgrade-operation on all the 'children' indexes of the given table.
 
 ## Resources [#secondary-indexes-resources]
 

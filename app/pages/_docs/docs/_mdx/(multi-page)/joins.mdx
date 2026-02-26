@@ -87,7 +87,7 @@ The results will be like:
 | MU3508   | 14400      |
 | XT2217   | 46436      |
 
-The execution plan for this query (by running "EXPLAIN _query_") will be:
+The execution plan for this query (by running `EXPLAIN <query>`) will be:
 
 ```text
 CLIENT PARALLEL 32-WAY FULL SCAN OVER iItems
@@ -97,7 +97,7 @@ CLIENT MERGE SORT
         CLIENT PARALLEL 32-WAY RANGE SCAN OVER i2Orders ['C002'] - [*]
 ```
 
-In this case, the index table "iItems" is used in place of the data table "Items" since the index table "iItems" is indexed on column "ItemName" and will hence benefit the GROUP-BY clause in this query. Meanwhile, the index table "i2Orders" is favored over the data table "Orders" and another index table "iOrders" because a range scan instead of a full scan can be applied as a result of the WHERE clause.
+In this case, the index table `iItems` is used in place of the data table `Items` since the index table `iItems` is indexed on column `ItemName` and will hence benefit the `GROUP BY` clause in this query. Meanwhile, the index table `i2Orders` is favored over the data table `Orders` and another index table `iOrders` because a range scan instead of a full scan can be applied as a result of the `WHERE` clause.
 
 ## Grouped Joins and Derived Tables
 
@@ -202,17 +202,17 @@ As mentioned earlier, if we decide to use the hash join approach for our join qu
 
 The server-side caches hold the hash table built on the smaller relation. Cache size and lifetime are controlled by the following parameters. A relation may be a physical table, a view, a subquery, or a joined result of other relations in a multi-join query.
 
-1. phoenix.query.maxServerCacheBytes
+1. `phoenix.query.maxServerCacheBytes`
    - Maximum size (in bytes) of the raw results of a relation before being compressed and sent over to the region servers.
-   - Attempting to serializing the raw results of a relation with a size bigger than this setting will result in a MaxServerCacheSizeExceededException.
+   - Attempting to serializing the raw results of a relation with a size bigger than this setting will result in a `MaxServerCacheSizeExceededException`.
    - **Default: 104,857,600**
-2. phoenix.query.maxGlobalMemoryPercentage
-   - Percentage of total heap memory (i.e. Runtime.getRuntime().maxMemory()) that all threads may use.
-   - The summed size of all living caches must be smaller than this global memory pool size. Otherwise, you would get an InsufficientMemoryException.
+2. `phoenix.query.maxGlobalMemoryPercentage`
+   - Percentage of total heap memory (i.e. `Runtime.getRuntime().maxMemory()`) that all threads may use.
+   - The summed size of all living caches must be smaller than this global memory pool size. Otherwise, you would get an `InsufficientMemoryException`.
    - **Default: 15**
-3. phoenix.coprocessor.maxServerCacheTimeToLiveMs
+3. `phoenix.coprocessor.maxServerCacheTimeToLiveMs`
    - Maximum living time (in milliseconds) of server caches. A cache entry expires after this amount of time has passed since last access.
-   - Consider adjusting this parameter when a server-side IOException("_Could not find hash cache for joinId_") happens. Getting warnings like "_Earlier hash cache(s) might have expired on servers_" might also be a sign that this number should be increased.
+   - Consider adjusting this parameter when a server-side `IOException` ("_Could not find hash cache for joinId_") happens. Getting warnings like "_Earlier hash cache(s) might have expired on servers_" might also be a sign that this number should be increased.
    - **Default: 30,000**
 
 See our [Configuration and Tuning Guide](/docs/configuration) for more details.
