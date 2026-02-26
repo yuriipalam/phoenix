@@ -17,9 +17,20 @@
 //
 
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "fs";
+import { resolve, dirname } from "path";
+import { fileURLToPath } from "url";
 import { source } from "@/lib/source";
 import { isValidElement } from "react";
 import type { ReactNode } from "react";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const SINGLE_PAGE_MDX = resolve(
+  __dirname,
+  "../app/pages/_docs/docs/_mdx/single-page/index.mdx"
+);
 
 function reactNodeToString(node: ReactNode): string {
   if (node == null || typeof node === "boolean") return "";
@@ -41,6 +52,21 @@ interface TOCItem {
 interface PageOccurrence {
   url: string;
   headingTitle: string;
+}
+
+/** Extract all [#id] custom heading IDs from single-page/index.mdx */
+function parseSinglePageIds(): Map<string, string> {
+  const content = readFileSync(SINGLE_PAGE_MDX, "utf-8");
+  // Matches lines like:  # Section Title [#some-id]
+  const re = /^#{1,6}\s+.*?\[#([^\]]+)\]/gm;
+  const ids = new Map<string, string>(); // id -> full heading text
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(content)) !== null) {
+    const id = m[1];
+    const line = m[0].trim();
+    ids.set(id, line);
+  }
+  return ids;
 }
 
 describe("MDX Heading ID Uniqueness Validation", () => {
@@ -115,5 +141,68 @@ describe("MDX Heading ID Uniqueness Validation", () => {
     }
 
     expect(duplicates.length).toBe(0);
+  });
+
+  it("should not have multi-page heading IDs that conflict with single-page custom heading IDs", () => {
+    // The single-page document (single-page/index.mdx) includes all multi-page
+    // files under explicit [#id] anchors. Any multi-page heading that generates
+    // the same ID would produce a duplicate anchor in the combined page.
+
+    const singlePageIds = parseSinglePageIds();
+
+    const pages = source.getPages().filter(
+      (p) => !p.url.includes("single-page")
+    );
+
+    interface Conflict {
+      singlePageId: string;
+      singlePageHeading: string;
+      multiPageUrl: string;
+      multiPageHeadingTitle: string;
+    }
+
+    const conflicts: Conflict[] = [];
+
+    for (const page of pages) {
+      const toc = (page.data.toc || []) as TOCItem[];
+      for (const heading of toc) {
+        const id = heading.url.replace("#", "");
+        if (singlePageIds.has(id)) {
+          conflicts.push({
+            singlePageId: id,
+            singlePageHeading: singlePageIds.get(id)!,
+            multiPageUrl: page.url,
+            multiPageHeadingTitle: reactNodeToString(heading.title)
+          });
+        }
+      }
+    }
+
+    if (conflicts.length > 0) {
+      console.error(
+        "\n❌ Heading ID conflicts between single-page and multi-page docs:\n"
+      );
+
+      conflicts.forEach(
+        ({ singlePageId, singlePageHeading, multiPageUrl, multiPageHeadingTitle }) => {
+          console.error(`  ID: #${singlePageId}`);
+          console.error(
+            `    single-page/index.mdx: "${singlePageHeading}"`
+          );
+          console.error(
+            `    conflicts with "${multiPageHeadingTitle}" in ${multiPageUrl}`
+          );
+          console.error();
+        }
+      );
+
+      console.error(
+        "💡 To fix: Add a page-specific prefix to the conflicting multi-page\n" +
+          '   headings, e.g.  ## Overview  →  ## Overview [#pagename-overview]\n' +
+          "   then update all /docs/pagename#old-id links to use #new-id.\n"
+      );
+    }
+
+    expect(conflicts.length).toBe(0);
   });
 });
