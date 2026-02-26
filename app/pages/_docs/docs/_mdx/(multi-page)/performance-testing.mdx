@@ -57,35 +57,35 @@ mvn clean package -DskipTests
 Review [test_scenario.xml](https://git-wip-us.apache.org/repos/asf?p=phoenix.git;a=blob;f=phoenix-pherf/src/test/resources/scenario/test_scenario.xml)
 for syntax examples.
 
-- Rules are defined as `` `<columns />` `` and are applied in the order they appear in file.
-- Rules of the same type override the values of a prior rule of the same type. If `` `<userDefined>true</userDefined>` `` is
+- Rules are defined as `<columns />` and are applied in the order they appear in file.
+- Rules of the same type override the values of a prior rule of the same type. If `<userDefined>true</userDefined>` is
   set, rule will only
   apply override when type and name match the column name in Phoenix.
-- `` `<prefix>` `` tag is set at the column level. It can be used to define a constant string appended to the beginning of
-  CHAR and VARCHAR data type values.
-- **Required field** Supported Phoenix types: VARCHAR, CHAR, DATE, DECIMAL, INTEGER
-  - denoted by the `` `<type>` `` tag
+- `<prefix>` tag is set at the column level. It can be used to define a constant string appended to the beginning of
+  `CHAR` and `VARCHAR` data type values.
+- **Required field** Supported Phoenix types: `VARCHAR`, `CHAR`, `DATE`, `DECIMAL`, `INTEGER`
+  - denoted by the `<type>` tag
 - User defined true changes rule matching to use both name and type fields to determine equivalence.
   - Default is false if not specified and equivalence will be determined by type only. **An important note here is that you can still override rules without the user defined flag, but they will change the rule globally and not just for a specified column.**
 - **Required field** Supported Data Sequences
-  - RANDOM: Random value which can be bound by other fields such as length.
-  - SEQUENTIAL: Monotonically increasing long prepended to random strings.
-    - Only supported on VARCHAR and CHAR types
-  - LIST: Means pick values from predefined list of values
-- **Required field** Length defines boundary for random values for CHAR and VARCHAR types.
-  - denoted by the `` `<length>` `` tag
-- Column level Min/Max value defines boundaries for numerical values. For DATES, these values supply a range between
+  - `RANDOM`: Random value which can be bound by other fields such as length.
+  - `SEQUENTIAL`: Monotonically increasing long prepended to random strings.
+    - Only supported on `VARCHAR` and `CHAR` types
+  - `LIST`: Means pick values from predefined list of values
+- **Required field** Length defines boundary for random values for `CHAR` and `VARCHAR` types.
+  - denoted by the `<length>` tag
+- Column level Min/Max value defines boundaries for numerical values. For `DATE`s, these values supply a range between
   which values are generated. At the column level the granularity is a year. At a specific data value level, the
   granularity is down to the Ms.
-  - denoted by the `` `<minValue>` `` tag
-  - denoted by the `` `<maxValue>` `` tag
+  - denoted by the `<minValue>` tag
+  - denoted by the `<maxValue>` tag
 - Null chance denotes the probability of generating a null value. From \[0-100\]. The higher the number, the more likely
-  the value will be null. Denoted by `` `<nullChance>` ``.
+  the value will be null. Denoted by `<nullChance>`.
 - Name can either be any text or the actual column name in the Phoenix table.
-  - denoted by the `` `<name>` ``
-- Value List is used in conjunction with LIST data sequences. Each entry is a DataValue with a specified value to be
+  - denoted by the `<name>` tag
+- Value List is used in conjunction with `LIST` data sequences. Each entry is a `DataValue` with a specified value to be
   used when generating data.
-  - Denoted by the `` `<valueList><datavalue><value/></datavalue></valueList>` `` tags
+  - Denoted by the `<valueList><datavalue><value/></datavalue></valueList>` tags
   - If the distribution attribute on the datavalue is set, values will be created according to
     that probability.
   - When distribution is used, values must add up to 100%.
@@ -137,7 +137,7 @@ additional information, such as the execution time of queries, whether queries t
 ### CSV results
 
 Each row in a CSV result file represents a single execution of a query and provides details about a query execution's
-runtime, timeout status, result row count, and more. The header file format can be found in Header.java.
+runtime, timeout status, result row count, and more. The header file format can be found in `Header.java`.
 
 ## Testing
 
