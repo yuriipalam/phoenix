@@ -25,7 +25,7 @@
     "generate-language": "tsx scripts/generate-language.ts",
     "fumadocs-init": "fumadocs-mdx",
     "ci": "npm run generate-language && npm run fumadocs-init && npm run lint && npm run typecheck && npm run test:unit:run && npx playwright install && npm run test:e2e && npm run build",
-    "cd": "npm run generate-language && npm run fumadocs-init && npm run export-pdf && npm run build"
+    "cd": "npm run generate-language && npm run fumadocs-init && npx playwright install && npm run export-pdf && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
