@@ -2,7 +2,7 @@
 
 The below table lists mirrored release artifacts and their associated hashes and signatures available ONLY at apache.org.
 The keys used to sign releases can be found in our published [KEYS](https://www.apache.org/dist/phoenix/KEYS) file.
-See our installation instructions [here](/installation), our release notes [here](/release-notes),
+See our installation instructions [here](/docs/installation), our release notes [here](/release-notes),
 and a list of fixes and new features [here](https://issues.apache.org/jira/secure/ReleaseNote.jspa?version=12334393&projectId=12315120).
 Follow [Verify the Integrity of the Files](https://www.apache.org/dyn/closer.cgi#verify) for how to verify your mirrored downloads.
 

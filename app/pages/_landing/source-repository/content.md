@@ -46,7 +46,7 @@ and so on.
 
 ---
 
-Related: [Using > Building](building.html)
+Related: [Building](/docs/building)
 
 ### Site source access
 

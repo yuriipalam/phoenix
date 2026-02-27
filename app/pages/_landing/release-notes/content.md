@@ -46,7 +46,7 @@ As part of [PHOENIX-1734](https://issues.apache.org/jira/browse/PHOENIX-1734) we
 the local index implementation to store index data in the separate column families in the same
 data table. So while upgrading the phoenix at server we need to remove below local index
 related configurations from `hbase-site.xml` and run upgrade steps mentioned
-[here](/secondary-indexing#Upgrading_Local_Indexes_created_before_4.8.0)
+[here](/docs/secondary-indexes#upgrading-local-indexes-created-before-480)
 
 ```xml
 <property>

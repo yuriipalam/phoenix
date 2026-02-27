@@ -3,14 +3,14 @@
     "date": "June 7, 2021",
     "title": "Phoenix 5.1.2 released",
     "location": "",
-    "url": "/download",
+    "url": "/downloads",
     "registrationOpen": false
   },
   {
     "date": "May 21, 2021",
     "title": "Phoenix 4.16.1 released",
     "location": "",
-    "url": "/download",
+    "url": "/downloads",
     "registrationOpen": false
   },
   {
@@ -24,21 +24,21 @@
     "date": "March 1, 2021",
     "title": "Phoenix 5.1.1 released",
     "location": "",
-    "url": "/download",
+    "url": "/downloads",
     "registrationOpen": false
   },
   {
     "date": "February 23, 2020",
     "title": "Phoenix 4.16.0 released",
     "location": "",
-    "url": "/download",
+    "url": "/downloads",
     "registrationOpen": false
   },
   {
     "date": "February 10, 2020",
     "title": "Phoenix 5.1.0 released",
     "location": "",
-    "url": "/download",
+    "url": "/downloads",
     "registrationOpen": false
   },
   {
@@ -206,7 +206,7 @@
     "date": "",
     "title": "Download the latest release here",
     "location": "",
-    "url": "/download",
+    "url": "/downloads",
     "registrationOpen": false
   }
 ]
