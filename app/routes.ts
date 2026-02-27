@@ -34,7 +34,6 @@ export default [
     route("who-is-using", "routes/_landing/who-is-using.tsx"),
     route("recent-improvements", "routes/_landing/recent-improvements.tsx"),
     route("roadmap", "routes/_landing/roadmap.tsx"),
-
     route("release-notes", "routes/_landing/release-notes.tsx"),
     route("issues-tracking", "routes/_landing/issues-tracking.tsx"),
     route("source-repository", "routes/_landing/source-repository.tsx"),
