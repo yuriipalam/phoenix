@@ -23,8 +23,12 @@ export const Link = (
   props: ComponentPropsWithoutRef<typeof ReactRouterLink>
 ) => {
   const BASE_URL = "https://phoenix.apache.org";
-  const href = typeof props.to === "string" ? props.to : props.to.pathname;
-  const reloadDocument = href?.startsWith(BASE_URL);
+  const href =
+    typeof props.to === "string"
+      ? props.to
+      : `${props.to.pathname ?? ""}${props.to.search ?? ""}${props.to.hash ?? ""}`;
+  const isStaticFilePath = /^\/[^?#]*\.[^/?#]+(?:[?#].*)?$/i.test(href);
+  const reloadDocument = href?.startsWith(BASE_URL) || isStaticFilePath;
 
   return <ReactRouterLink reloadDocument={reloadDocument} {...props} />;
 };
