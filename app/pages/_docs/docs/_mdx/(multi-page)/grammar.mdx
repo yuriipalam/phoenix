@@ -634,7 +634,7 @@ UPDATE STATISTICS my_table SET phoenix.stats.guidepost.width=50000000
   anchors={grammarTopicIndex}
 />
 
-creates a schema and corresponding name-space in hbase. To enable namespace mapping, see [namespace mapping](/docs/namespace-mapping)
+creates a schema and corresponding name-space in hbase. To enable namespace mapping, see [namespace mapping](/docs/features/namespace-mapping)
 
 User that execute this command should have admin permissions to create namespace in HBase.
 
@@ -670,7 +670,7 @@ USE DEFAULT
   anchors={grammarTopicIndex}
 />
 
-Drops a schema and corresponding name-space from hbase. To enable namespace mapping, see [namespace mapping](/docs/namespace-mapping)
+Drops a schema and corresponding name-space from hbase. To enable namespace mapping, see [namespace mapping](/docs/features/namespace-mapping)
 
 This statement succeed only when schema doesn't hold any tables.
 
@@ -771,19 +771,19 @@ Sets a built-in Phoenix table property or an HBase table or column descriptor me
 
 Built-in Phoenix table options include:
 
-`SALT_BUCKETS` numeric property causes an extra byte to be transparently prepended to every row key to ensure an evenly distributed read and write load across all region servers. This is especially useful when your row key is always monotonically increasing and causing hot spotting on a single region server. However, even if it's not, it often improves performance by ensuring an even distribution of data across your cluster.  The byte is determined by hashing the row key and modding it with the `SALT_BUCKETS` value. The value may be from 0 to 256, with 0 being a special means of turning salting off for an index in which the data table is salted (since by default an index has the same number of salt buckets as its data table). If split points are not defined for the table, the table will automatically be pre-split at each possible salt bucket value. For more information, see [salted tables](/docs/salted-tables)
+`SALT_BUCKETS` numeric property causes an extra byte to be transparently prepended to every row key to ensure an evenly distributed read and write load across all region servers. This is especially useful when your row key is always monotonically increasing and causing hot spotting on a single region server. However, even if it's not, it often improves performance by ensuring an even distribution of data across your cluster.  The byte is determined by hashing the row key and modding it with the `SALT_BUCKETS` value. The value may be from 0 to 256, with 0 being a special means of turning salting off for an index in which the data table is salted (since by default an index has the same number of salt buckets as its data table). If split points are not defined for the table, the table will automatically be pre-split at each possible salt bucket value. For more information, see [salted tables](/docs/features/salted-tables)
 
 `DISABLE_WAL` boolean option when true causes HBase not to write data to the write-ahead-log, thus making updates faster at the expense of potentially losing data in the event of a region server failure. This option is useful when updating a table which is not the source-of-truth and thus making the lose of data acceptable.
 
-`IMMUTABLE_ROWS` boolean option when true declares that your table has rows which are write-once, append-only (i.e. the same row is never updated). With this option set, indexes added to the table are managed completely on the client-side, with no need to perform incremental index maintenance, thus improving performance. Deletes of rows in immutable tables are allowed with some restrictions if there are indexes on the table. Namely, the `WHERE` clause may not filter on columns not contained by every index. Upserts are expected to never update an existing row (failure to follow this will result in invalid indexes). For more information, see [secondary indexing](/docs/secondary-indexes)
+`IMMUTABLE_ROWS` boolean option when true declares that your table has rows which are write-once, append-only (i.e. the same row is never updated). With this option set, indexes added to the table are managed completely on the client-side, with no need to perform incremental index maintenance, thus improving performance. Deletes of rows in immutable tables are allowed with some restrictions if there are indexes on the table. Namely, the `WHERE` clause may not filter on columns not contained by every index. Upserts are expected to never update an existing row (failure to follow this will result in invalid indexes). For more information, see [secondary indexing](/docs/features/secondary-indexes)
 
-`MULTI_TENANT` boolean option when true enables views to be created over the table across different tenants. This option is useful to share the same physical HBase table across many different tenants. For more information, see [multi-tenancy](/docs/multi-tenancy)
+`MULTI_TENANT` boolean option when true enables views to be created over the table across different tenants. This option is useful to share the same physical HBase table across many different tenants. For more information, see [multi-tenancy](/docs/features/multi-tenancy)
 
 `DEFAULT_COLUMN_FAMILY` string option determines the column family used used when none is specified. The value is case sensitive. If this option is not present, a column family name of `'0'` is used.
 
 `STORE_NULLS` boolean option (available as of Phoenix 4.3) determines whether or not null values should be explicitly stored in HBase. This option is generally only useful if a table is configured to store multiple versions in order to facilitate doing flashback queries (i.e. queries to look at the state of a record in the past).
 
-`TRANSACTIONAL` option (available as of Phoenix 4.7) determines whether a table (and its secondary indexes) are tranactional. The default value is `FALSE`, but may be overridden with the `phoenix.table.istransactional.default` property. A table may be altered to become transactional, but it cannot be transitioned back to be non transactional. For more information on transactions, see [transactions](/docs/transactions)
+`TRANSACTIONAL` option (available as of Phoenix 4.7) determines whether a table (and its secondary indexes) are tranactional. The default value is `FALSE`, but may be overridden with the `phoenix.table.istransactional.default` property. A table may be altered to become transactional, but it cannot be transitioned back to be non transactional. For more information on transactions, see [transactions](/docs/features/transactions)
 
 `UPDATE_CACHE_FREQUENCY` option (available as of Phoenix 4.7) determines how often the server will be checked for meta data updates (for example, the addition or removal of a table column or the updates of table statistics). Possible values are `ALWAYS` (the default), `NEVER`, and a millisecond numeric value. An ALWAYS value will cause the client to check with the server each time a statement is executed that references a table (or once per commit for an `UPSERT VALUES` statement).  A millisecond value indicates how long the client will hold on to its cached version of the metadata before checking back with the server for updates.
 

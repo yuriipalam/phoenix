@@ -1,6 +1,7 @@
 ---
 title: "FAQ"
 description: "Frequently asked question about Phoenix"
+icon: CircleQuestionMark
 ---
 
 ## Questions answered in this page:
@@ -120,7 +121,7 @@ World!
 
 #### Thick Driver
 
-**See [Using the Phoenix JDBC Driver](/docs/client-classpath-and-jdbc-url#using-the-phoenix-jdbc-driver) for a more up-to-date description**
+**See [Using the Phoenix JDBC Driver](/docs/fundamentals/client-classpath-and-jdbc-url#using-the-phoenix-jdbc-driver) for a more up-to-date description**
 
 The Phoenix (Thick) Driver JDBC URL syntax is as follows (where elements in square brackets are optional):
 
@@ -169,13 +170,13 @@ jdbc:phoenix:thin:url=http://queryserver.domain:8765;serialization=PROTOBUF;auth
 ```
 
 Please refer to the [Apache Avatica documentation](https://calcite.apache.org/avatica/docs/client_reference.html) for a full list of supported options in the Thin client JDBC URL,
-or see the [Query Server documentation](/docs/query-server)
+or see the [Query Server documentation](/docs/features/query-server)
 
 ### Is there a way to bulk load in Phoenix?
 
 #### Map Reduce
 
-See the example [here](/docs/bulk-loading)
+See the example [here](/docs/features/bulk-loading)
 
 #### CSV
 
@@ -281,7 +282,7 @@ CREATE TABLE t1 ( pk VARCHAR PRIMARY KEY, val VARCHAR )
   See http://hbase.apache.org/book/performance.html
 
 - **Optimize Phoenix** parameters
-  See [Configuration](/docs/configuration)
+  See [Configuration](/docs/fundamentals/configuration)
 
 ### How do I create Secondary Index on a table?
 
@@ -298,7 +299,7 @@ Example:
   `create index idx on test (col1) include (col2)`  
   Upsert rows in this test table and Phoenix query optimizer will choose correct index to use. You can see in [explain plan](/docs/grammar#explain) if Phoenix is using the index table. You can also give a [hint](/docs/grammar#hint) in Phoenix query to use a specific index.
 
-See [Secondary Indexing](/docs/secondary-indexes) for further information
+See [Secondary Indexing](/docs/features/secondary-indexes) for further information
 
 ### Why isn't my secondary index being used?
 
@@ -310,7 +311,7 @@ Query: DDL `select id, firstname, lastname from usertable where firstname = 'foo
 
 Index would not be used in this case as `lastname` is not part of indexed or covered column. This can be verified by looking at the explain plan. To fix this create index that has either `lastname` part of index or covered column. Example: `create idx_name on usertable (firstname) include (lastname);`
 
-You can force Phoenix to use secondary for uncovered columns by specifying an [index hint](/docs/secondary-indexes)
+You can force Phoenix to use secondary for uncovered columns by specifying an [index hint](/docs/features/secondary-indexes)
 
 ### How fast is Phoenix? Why is it so fast?
 
@@ -332,7 +333,7 @@ Phoenix 4.x supports HBase 1.x running on Hadoop 2
 
 Phoenix 5.x supports HBase 2.x running on Hadoop 3
 
-See the release notes and [BUILDING](/docs/building) in recent releases for the exact versions supported,
+See the release notes and [BUILDING](/docs/fundamentals/building) in recent releases for the exact versions supported,
 and on how to build Phoenix for specific HBase and Hadoop versions
 
 ### Can phoenix work on tables with arbitrary timestamp as flexible as HBase API?

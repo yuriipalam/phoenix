@@ -45,6 +45,9 @@ export default [
   layout("./pages/_docs/docs-layout.tsx", [
     route("docs/*", "routes/_docs/docs.tsx")
   ]),
+  // Static Resources
+  route("phoenixcon-2018", "routes/phoenixcon-2018.ts"),
+  route("phoenixcon-archives", "routes/phoenixcon-archives.ts"),
   // API (Rendered at build time)
   route("llms-full.txt", "routes/_api/llms-full.ts"),
   route("api/search", "routes/_api/search.ts")

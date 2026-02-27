@@ -27,7 +27,7 @@ be significantly improved.
 ### Phoenix-4.8.0 Release Notes
 
 [PHOENIX-3164](https://issues.apache.org/jira/browse/PHOENIX-3164) is a relatively serious
-bug that affects the [Phoenix Query Server](/server)
+bug that affects the [Phoenix Query Server](/docs/features/query-server)
 deployed with "security enabled" (Kerberos or Active Directory). Due to another late-game
 change in the 4.8.0 release as well as an issue with the use of Hadoop's UserGroupInformation
 class, every "client session" to the Phoenix Query Server with security enabled will
@@ -46,7 +46,7 @@ As part of [PHOENIX-1734](https://issues.apache.org/jira/browse/PHOENIX-1734) we
 the local index implementation to store index data in the separate column families in the same
 data table. So while upgrading the phoenix at server we need to remove below local index
 related configurations from `hbase-site.xml` and run upgrade steps mentioned
-[here](/docs/secondary-indexes#upgrading-local-indexes-created-before-480)
+[here](/docs/features/secondary-indexes#upgrading-local-indexes-created-before-480)
 
 ```xml
 <property>

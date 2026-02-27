@@ -134,7 +134,7 @@ const renderer = toClientRenderer(
       // Transform internal /docs/ links to single-page anchors when on single-page route
       if (isSinglePage && !href.startsWith("/docs/single-page")) {
         if (href?.startsWith("/docs")) {
-          // Convert /docs/configuration/basic-prerequisites to /docs/single-page#basic-prerequisites
+          // Convert /docs/fundamentals/configuration/basic-prerequisites to /docs/single-page#basic-prerequisites
           // or /docs/architecture/regionserver#bucketcache-example-configuration to /docs/single-page#bucketcache-example-configuration
           let anchor: string;
           if (href.includes("#")) {

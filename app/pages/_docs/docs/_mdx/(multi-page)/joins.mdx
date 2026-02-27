@@ -215,7 +215,7 @@ The server-side caches hold the hash table built on the smaller relation. Cache 
    - Consider adjusting this parameter when a server-side `IOException` ("_Could not find hash cache for joinId_") happens. Getting warnings like "_Earlier hash cache(s) might have expired on servers_" might also be a sign that this number should be increased.
    - **Default: 30,000**
 
-See our [Configuration and Tuning Guide](/docs/configuration) for more details.
+See our [Configuration and Tuning Guide](/docs/fundamentals/configuration) for more details.
 
 Although changing parameters can sometimes be a solution to getting rid of the exceptions mentioned above, it is highly recommended that you first consider optimizing the join queries according to the information provided in the following section.
 

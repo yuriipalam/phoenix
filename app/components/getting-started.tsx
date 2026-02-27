@@ -34,7 +34,7 @@ export function GettingStartedSection() {
     {
       title: "3. Connect a Client",
       desc: "Configure the JDBC client classpath and connection URL.",
-      to: "/docs/client-classpath-and-jdbc-url"
+      to: "/docs/fundamentals/client-classpath-and-jdbc-url"
     }
   ];
   return (

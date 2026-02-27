@@ -20,6 +20,7 @@ import { useTreeContext, useTreePath } from "fumadocs-ui/contexts/tree";
 import { type FC, type ReactNode, useMemo, Fragment } from "react";
 import type * as PageTree from "fumadocs-core/page-tree";
 import type * as Base from "./base";
+import { BookOpen, CircleHelp, Rocket, Wrench } from "lucide-react";
 
 export interface SidebarPageTreeComponents {
   Item: FC<{ item: PageTree.Item }>;
@@ -45,6 +46,27 @@ export function createPageTreeRenderer({
   SidebarSeparator,
   SidebarItem
 }: InternalComponents) {
+  function renderIcon(icon: ReactNode) {
+    if (typeof icon !== "string") return icon;
+
+    switch (icon) {
+      case "Rocket":
+      case "RocketIcon":
+        return <Rocket />;
+      case "CircleQuestionMark":
+      case "CircleQuestionMarkIcon":
+        return <CircleHelp />;
+      case "Wrench":
+      case "WrenchIcon":
+        return <Wrench />;
+      case "BookOpen":
+      case "BookOpenIcon":
+        return <BookOpen />;
+      default:
+        return icon;
+    }
+  }
+
   function PageTreeFolder({
     item,
     children
@@ -64,12 +86,12 @@ export function createPageTreeRenderer({
             href={item.index.url}
             external={item.index.external}
           >
-            {item.icon}
+            {renderIcon(item.icon)}
             {item.name}
           </SidebarFolderLink>
         ) : (
           <SidebarFolderTrigger>
-            {item.icon}
+            {renderIcon(item.icon)}
             {item.name}
           </SidebarFolderTrigger>
         )}
@@ -94,7 +116,7 @@ export function createPageTreeRenderer({
             if (Separator) return <Separator key={i} item={item} />;
             return (
               <SidebarSeparator key={i}>
-                {item.icon}
+                {renderIcon(item.icon)}
                 {item.name}
               </SidebarSeparator>
             );
@@ -114,7 +136,7 @@ export function createPageTreeRenderer({
               key={item.url}
               href={item.url}
               external={item.external}
-              icon={item.icon}
+              icon={renderIcon(item.icon)}
             >
               {item.name}
             </SidebarItem>

@@ -1,6 +1,7 @@
 ---
 title: "Installation"
 description: "Install and configure Apache Phoenix clients and server components."
+icon: Wrench
 ---
 
 ## Installation [#installation-installation]
@@ -50,8 +51,8 @@ $ psql.py localhost ../examples/web_stat.sql ../examples/web_stat.csv ../example
 
 Other alternatives include:
 
-- Using our [map-reduce based CSV loader](/docs/bulk-loading) for bigger data sets
-- [Mapping an existing HBase table to a Phoenix table](/docs/index#mapping) and using the [UPSERT SELECT](/docs/grammar#upsert-select) command to populate a new table.
+- Using our [map-reduce based CSV loader](/docs/features/bulk-loading) for bigger data sets
+- [Mapping an existing HBase table to a Phoenix table](/docs#mapping-to-an-existing-hbase-table) and using the [UPSERT SELECT](/docs/grammar#upsert-select) command to populate a new table.
 - Populating the table through our [UPSERT VALUES](/docs/grammar#upsert-values) command.
 
 #### SQuirreL SQL Client

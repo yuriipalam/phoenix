@@ -1,6 +1,7 @@
 ---
 title: "Overview"
 description: "OLTP and operational analytics for Apache Hadoop."
+icon: BookOpen
 ---
 
 import { Bug, Code2, Download } from "lucide-react";
@@ -79,7 +80,7 @@ Tired of reading and just want to get started? Take a look at our [FAQs](/docs/f
 
 ## SQL Support
 
-Apache Phoenix takes your SQL query, compiles it into a series of HBase scans, and orchestrates those scans to produce regular JDBC result sets. Direct use of the HBase API, along with coprocessors and custom filters, results in [performance](/docs/performance) on the order of milliseconds for small queries, or seconds for tens of millions of rows.
+Apache Phoenix takes your SQL query, compiles it into a series of HBase scans, and orchestrates those scans to produce regular JDBC result sets. Direct use of the HBase API, along with coprocessors and custom filters, results in [performance](/docs/fundamentals/performance) on the order of milliseconds for small queries, or seconds for tens of millions of rows.
 
 To see a complete list of what is supported, go to our [language reference](/docs/grammar). All standard SQL query constructs are supported, including `SELECT`, `FROM`, `WHERE`, `GROUP BY`, `HAVING`, `ORDER BY`, etc. It also supports a full set of DML commands, as well as table creation and versioned incremental alterations through DDL commands.
 
@@ -122,11 +123,11 @@ Connection conn = DriverManager.getConnection("jdbc:phoenix:my_server:shortRunni
 
 See the relevant [FAQ entry](/docs/faq#what-is-the-phoenix-jdbc-url-syntax) for example URLs.
 
-Phoenix also supports [connecting to HBase without ZooKeeper](/docs/client-classpath-and-jdbc-url#the-phoenix-jdbc-url).
+Phoenix also supports [connecting to HBase without ZooKeeper](/docs/fundamentals/client-classpath-and-jdbc-url#the-phoenix-jdbc-url).
 
 ## Transactions [#index-transactions]
 
-To enable full ACID transactions (beta in 4.7.0), set `phoenix.transactions.enabled=true`. In this case, you also need to run the transaction manager included in the distribution. Once enabled, a table may optionally be declared as transactional (see [transactions](/docs/transactions)).
+To enable full ACID transactions (beta in 4.7.0), set `phoenix.transactions.enabled=true`. In this case, you also need to run the transaction manager included in the distribution. Once enabled, a table may optionally be declared as transactional (see [transactions](/docs/features/transactions)).
 
 Commits over transactional tables are all-or-none: either all data is committed (including secondary index updates) or none is committed (and an exception is thrown). Both cross-table and cross-row transactions are supported. Transactional tables also see their own uncommitted data when querying. An optimistic concurrency model is used to detect row-level conflicts with first-commit-wins semantics.
 
@@ -167,15 +168,15 @@ CREATE TABLE FOO (k BIGINT PRIMARY KEY, v VARCHAR) UPDATE_CACHE_FREQUENCY=900000
 
 #### Views [#index-views]
 
-Phoenix supports updatable views on top of tables, with the unique capability of adding columns by leveraging HBase schemaless behavior. All views share the same underlying HBase table and may be indexed independently. Read more [here](/docs/views).
+Phoenix supports updatable views on top of tables, with the unique capability of adding columns by leveraging HBase schemaless behavior. All views share the same underlying HBase table and may be indexed independently. Read more [here](/docs/features/views).
 
 #### Multi-tenancy [#index-multi-tenancy]
 
-Built on top of view support, Phoenix also supports [multi-tenancy](/docs/multi-tenancy). As with views, a multi-tenant view can add columns defined solely for that user.
+Built on top of view support, Phoenix also supports [multi-tenancy](/docs/features/multi-tenancy). As with views, a multi-tenant view can add columns defined solely for that user.
 
 #### Schema at read time
 
-Another schema-related feature allows columns to be defined dynamically at query time. This is useful when not all columns are known at create time. More details [here](/docs/dynamic-columns).
+Another schema-related feature allows columns to be defined dynamically at query time. This is useful when not all columns are known at create time. More details [here](/docs/features/dynamic-columns).
 
 #### Mapping to an Existing HBase Table
 
@@ -199,7 +200,7 @@ Composite row keys are formed by concatenating values, with a zero byte separato
 
 #### Salting [#index-salting]
 
-Tables can be declared salted to avoid HBase region hotspotting. Declare a salt bucket count and Phoenix manages salting transparently. See details [here](/docs/salted-tables), and write-throughput comparison [here](/docs/performance#performance-salting).
+Tables can be declared salted to avoid HBase region hotspotting. Declare a salt bucket count and Phoenix manages salting transparently. See details [here](/docs/features/salted-tables), and write-throughput comparison [here](/docs/fundamentals/performance#performance-salting).
 
 #### APIs
 
