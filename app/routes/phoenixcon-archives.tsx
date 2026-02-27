@@ -16,8 +16,18 @@
 // limitations under the License.
 //
 
-import { redirect } from "react-router";
+import { useEffect } from "react";
+import { Link } from "@/components/link";
 
-export function loader() {
-  return redirect("/phoenixcon-2018/index.html", 302);
+export default function PhoenixconArchivesRedirect() {
+  useEffect(() => {
+    window.location.replace("/phoenixcon-archives.html");
+  }, []);
+
+  return (
+    <p>
+      Redirecting to PhoenixCon archives... If it does not happen automatically,
+      open <Link to="/phoenixcon-archives.html">this page</Link>.
+    </p>
+  );
 }
