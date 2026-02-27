@@ -21,4 +21,3 @@ import { redirect } from "react-router";
 export function loader() {
   return redirect("/phoenixcon-2018/index.html", 302);
 }
-

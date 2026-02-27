@@ -21,4 +21,3 @@ import { redirect } from "react-router";
 export function loader() {
   return redirect("/phoenixcon-archives.html", 302);
 }
-
